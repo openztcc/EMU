@@ -3,7 +3,7 @@
 
 Currently only one function has been interfaced, but project is still early:
 
-<code>addToBudget(, float transaction)</code>
+<code>addToBudget({class pointer}, float transaction)</code>
 
 Current plans are to interface with this function as a VF Table as right now it's isolated from the main class it originates from.
 
