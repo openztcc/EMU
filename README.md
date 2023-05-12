@@ -9,4 +9,6 @@ Current plans are to interface with this function as a VF Table as right now it'
 
 The API is functional on computers with Windows XP and above give that Microsoft Visual C++ 2008 Redistributable is installed.
 
-Instructions to build and use will not be available until the project has reached a level of acceptable maturity. (As of 05/12/2023) Estimated 2-3 months before first usable release that can be extended by others.
+Instructions to build and use will not be available until the project has reached a level of acceptable maturity. 
+
+(As of 05/12/2023) Estimated 2-3 months before first early release that can be extended by others.
