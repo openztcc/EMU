@@ -1,3 +1,5 @@
 *.sln
 *.ncb
 *.suo
+.vs/
+GooseTek/

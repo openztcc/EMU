@@ -1,0 +1,4 @@
+Release/
+*.vcproj*
+*.user
+*.vcproj
