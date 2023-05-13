@@ -11,9 +11,49 @@
 #include "TekUtilities.h"
 #include "TekMemory.h"
 #include <iomanip>
+#include <mmsystem.h>
 
 // declare addToBudget
 DWORD __fastcall addToBudget(DWORD, float);
+
+DWORD WINAPI game_loop(LPVOID lpParameter) 
+{
+	Memory<DWORD> r; // read
+	Zoo::Process p; // initiate process data
+	Memory<float> w; // write
+	DWORD startTime = timeGetTime();  // get the current system time
+	DWORD interval = 10000;  // interval in milliseconds
+
+
+	DWORD ptr;
+	float* budget;
+	DWORD currentTime = timeGetTime();
+
+	// dirty loop that gives me 10 seconds to enter a zoo
+	while (true)
+	{
+		currentTime = timeGetTime();
+		if (currentTime - startTime >= interval)
+		{
+			break;
+		}
+	}
+
+	// main loop
+	while (true)
+	{
+		ptr = r.readMemory((void*)(p.base + 0x00238048)) + 0x0C; // grab address to budget
+		budget = (float*)(ptr);
+		// check if 10 seconds have elapsed
+		currentTime = timeGetTime();
+		if (currentTime - startTime >= interval)
+		{
+			w.writeMemory((void*)ptr, (float)(*budget + 10000)); // update budget
+			startTime = currentTime;  // reset the start time
+		}
+	}
+	return 1;
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD ul_reason_for_call,
@@ -31,7 +71,11 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	f << "Status: ";
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
+		{
 		f << "DLL attached!\n";
+		HANDLE thread = CreateThread(NULL, 0, &game_loop, NULL, 0, NULL);
+		CloseHandle(thread);
+		}
 		break;
 	case DLL_PROCESS_DETACH:
 		f << "DLL detached!\n";
@@ -52,18 +96,8 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	return TRUE;
 }
 
-void game_loop() {
-    // 
-}
 
-extern "C" __declspec(dllexport) void start_game_loop() 
-{
-    // new thread
-    std::thread game_thread(game_loop);
 
-    // wait for the game loop thread to finish before exiting the function
-    game_thread.join();
-}
 
 // utility function for near hooking
 DWORD callHook(DWORD hookAt, DWORD newFunc)
@@ -85,7 +119,7 @@ _origFunc* __addToBudget = (_origFunc*)callHook(0x0050A245, (DWORD)&addToBudget)
 // deposit = admission fee paid by guest 
 DWORD __fastcall addToBudget(DWORD tclass, float transaction)
 {
-	transaction = 10000; // final release won't see this line. also the idea will be to call this function
+	//transaction = 10000; // final release won't see this line. also the idea will be to call this function
 	                     // from a VF table to use other class members
 	return __addToBudget(tclass, transaction); // return to location in zoo.exe
 }
