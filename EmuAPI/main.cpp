@@ -31,7 +31,7 @@ DWORD WINAPI game_loop(LPVOID lpParameter)
 	// main loop
 	while (true)
 	{
-
+		Sleep(0);
 	}
 	return 1;
 }
