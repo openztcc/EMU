@@ -18,39 +18,20 @@ DWORD __fastcall addToBudget(DWORD, float);
 
 DWORD WINAPI game_loop(LPVOID lpParameter) 
 {
-	Memory<DWORD> r; // read
-	Zoo::Process p; // initiate process data
-	Memory<float> w; // write
-	DWORD startTime = timeGetTime();  // get the current system time
-	DWORD interval = 10000;  // interval in milliseconds
+	
+	// Create a console window
+    AllocConsole();
+    freopen("CONOUT$", "w", stdout);
 
+	std::cout << "Hello World!";
 
-	DWORD ptr;
-	float* budget;
-	DWORD currentTime = timeGetTime();
-
-	// dirty loop that gives me 10 seconds to enter a zoo
-	while (true)
-	{
-		currentTime = timeGetTime();
-		if (currentTime - startTime >= interval)
-		{
-			break;
-		}
-	}
-
+    // Free the console and wait for user input
+    FreeConsole();
+    system("pause");
 	// main loop
 	while (true)
 	{
-		ptr = r.readMemory((void*)(p.base + 0x00238048)) + 0x0C; // grab address to budget
-		budget = (float*)(ptr);
-		// check if 10 seconds have elapsed
-		currentTime = timeGetTime();
-		if (currentTime - startTime >= interval)
-		{
-			w.writeMemory((void*)ptr, (float)(*budget + 10000)); // update budget
-			startTime = currentTime;  // reset the start time
-		}
+
 	}
 	return 1;
 }
