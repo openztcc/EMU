@@ -18,7 +18,11 @@ DWORD __fastcall addToBudget(DWORD, float);
 
 DWORD WINAPI game_loop(LPVOID lpParameter) 
 {
-	
+	Memory<DWORD> r; // read
+	Zoo::Process p; // initiate process data
+	Memory<float> w; // write
+	DWORD ptr;
+	float* budget;
 	// Create a console window
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
@@ -31,7 +35,12 @@ DWORD WINAPI game_loop(LPVOID lpParameter)
 	// main loop
 	while (true)
 	{
-		Sleep(0);
+		ptr = r.readMemory((void*)(p.base + 0x00238048)) + 0x0C; // grab address to budget
+		budget = (float*)(ptr);
+
+		w.writeMemory((void*)ptr, (float)(*budget + 10000)); // update budget
+		
+		Sleep(10000);
 	}
 	return 1;
 }

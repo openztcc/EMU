@@ -1,10 +1,10 @@
-
-#include "EmuMod.h"
-
-EmuMod::EmuMod(void)
-{
-}
-
-EmuMod::~EmuMod(void)
-{
-}
+//
+//#include "EmuMod.h"
+//
+//EmuMod::EmuMod(void)
+//{
+//}
+//
+//EmuMod::~EmuMod(void)
+//{
+//}

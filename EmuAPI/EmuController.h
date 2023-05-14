@@ -1,12 +1,12 @@
-#pragma once
-
-#include "ModLoader.h"
-
-class EmuController
-{
-public:
-	EmuController(void);
-	~EmuController(void);
-
-	ModLoader modLoader;
-};
+//#pragma once
+//
+//#include "EmuLoader.h"
+//
+//class EmuController
+//{
+//public:
+//	EmuController(void);
+//	~EmuController(void);
+//
+//	EmuLoader modLoader;
+//};
