@@ -10,6 +10,7 @@
 #include <string>
 #include "TekUtilities.h"
 #include "TekMemory.h"
+#include "EmuConsole.h"
 #include <iomanip>
 #include <mmsystem.h>
 
@@ -18,30 +19,30 @@ DWORD __fastcall addToBudget(DWORD, float);
 
 DWORD WINAPI game_loop(LPVOID lpParameter) 
 {
-	Memory<DWORD> r; // read
-	Zoo::Process p; // initiate process data
-	Memory<float> w; // write
-	DWORD ptr;
-	float* budget;
+
+	Zoo::Process p;
+	Memory<DWORD> r;
+	Memory<float> w;
+	EmuConsole console;
+	DWORD ptr = r.readMemory((void*)(p.base + 0x00238048)) + 0x0C; // grab address to budget
+
 	// Create a console window
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
-
-	std::cout << "Hello World!";
-
-    // Free the console and wait for user input
-    FreeConsole();
-    system("pause");
+	std::cout << ">> ";
+	freopen("CONIN$", "r", stdin);
+	
+	
+	std::string input;
 	// main loop
 	while (true)
 	{
-		ptr = r.readMemory((void*)(p.base + 0x00238048)) + 0x0C; // grab address to budget
-		budget = (float*)(ptr);
-
-		w.writeMemory((void*)ptr, (float)(*budget + 10000)); // update budget
-		
-		Sleep(10000);
+		console.processInput(p, ptr, w);
+		// Free the console and wait for user input
+		std::cout << ">> ";
+		Sleep(0);
 	}
+	FreeConsole();
 	return 1;
 }
 
