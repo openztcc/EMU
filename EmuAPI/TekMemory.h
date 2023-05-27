@@ -11,6 +11,7 @@
 		T readMemory(LPVOID);
 		void writeMemory(LPVOID, T);
 		DWORD protectMemory(LPVOID, DWORD);
+		T* pointMemory(LPVOID adr);
 	};
 
 
@@ -33,6 +34,11 @@
 		//HANDLE handleZ = GetModuleHandle(L"zoo.exe");
 		VirtualProtect(adr, sizeof(T), prot, &oldProt);
 		return oldProt;
+	}
+
+	template<typename T>
+	T* Memory<T>::pointMemory(LPVOID adr) {
+	return ((T*)adr);
 	}
 
 #endif

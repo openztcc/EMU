@@ -1,6 +1,9 @@
 #ifndef EMUCONSOLE_H
 #define EMUCONSOLE_H
 
+#include <cstring>
+#include <iostream>
+#include <sstream>
 
 #include "TekUtilities.h"
 #include "TekMemory.h"
@@ -14,7 +17,7 @@ public:
 	std::string tokenize(std::string);
 
 	std::vector<std::string> tokens;
-	void processInput(Zoo::Process p, DWORD ptr, Memory<float> w);
+	void processInput(Zoo::Process p, Memory<float> w);
 	~EmuConsole(void);
 
 	
