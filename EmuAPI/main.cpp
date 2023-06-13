@@ -10,10 +10,83 @@
 #include <string>
 #include "TekUtilities.h"
 #include "TekMemory.h"
+#include "EmuConsole.h"
 #include <iomanip>
+#include <mmsystem.h>
+#include <winnt.h>
 
 // declare addToBudget
 DWORD __fastcall addToBudget(DWORD, float);
+VOID WINAPI newSleepFunction(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e);
+
+DWORD WINAPI game_loop(LPVOID lpParameter) 
+{
+
+	Zoo::Process p;
+	Memory<float> w;
+	
+	// Create a console window
+    AllocConsole();
+    freopen("CONOUT$", "w", stdout);
+	
+	freopen("CONIN$", "r", stdin);
+	
+	system("pause");
+	std::cout << ">> ";
+	std::string input;
+	// main loop
+	while (true)
+	{
+		float* budget;
+		Memory<DWORD> r;
+		DWORD ptr = r.readMemory((void*)(p.base + 0x00238048)) + 0x0C; // grab address to budget
+		budget = (float*)(ptr);
+
+		std::string input;
+		std::string argument;
+		std::cin >> input >> argument;
+
+		// Split the input into tokens based on space delimiter
+		//std::istringstream iss(input);
+		//std::vector<std::string> tokens;
+		std::string token;
+		/*while (iss >> token)
+		{
+			tokens.push_back(token);
+		}*/
+
+		// Process the input tokens
+		if (!input.empty())
+		{
+			// The first token is the command
+			std::string command = input;
+
+			// The remaining tokens are arguments
+			// std::vector<std::string> arguments(tokens.begin() + 1, tokens.end());
+	        
+			// Check for a special command to exit the program
+			if (command == "exit")
+			{
+				FreeConsole();
+				return 0;
+			}
+			
+			if (command == "addtobudget")
+			{
+				float newbudget = std::atof(argument.c_str());
+
+				// string -> float
+				w.writeMemory((void*)ptr, (float)(*budget + newbudget)); // update budget
+
+			}
+		}
+		// Free the console and wait for user input
+		std::cout << ">> ";
+		Sleep(0);
+	}
+	FreeConsole();
+	return 1;
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD ul_reason_for_call,
@@ -31,7 +104,11 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	f << "Status: ";
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
+		{
 		f << "DLL attached!\n";
+		HANDLE thread = CreateThread(NULL, 0, &game_loop, NULL, 0, NULL);
+		CloseHandle(thread);
+		}
 		break;
 	case DLL_PROCESS_DETACH:
 		f << "DLL detached!\n";
@@ -52,17 +129,13 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	return TRUE;
 }
 
-void game_loop() {
-    // 
-}
-
-extern "C" __declspec(dllexport) void start_game_loop() 
+typedef VOID (WINAPI _origSleep)(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e);
+_origSleep* originalSleep =
+(_origSleep*)hookIAT("PeekMessageA", (DWORD)&newSleepFunction);
+VOID WINAPI newSleepFunction(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e)
 {
-    // new thread
-    std::thread game_thread(game_loop);
-
-    // wait for the game loop thread to finish before exiting the function
-    game_thread.join();
+	std::cout << "new sleep works\n";
+	originalSleep(ms, b, c, d, e);
 }
 
 // utility function for near hooking
@@ -85,7 +158,7 @@ _origFunc* __addToBudget = (_origFunc*)callHook(0x0050A245, (DWORD)&addToBudget)
 // deposit = admission fee paid by guest 
 DWORD __fastcall addToBudget(DWORD tclass, float transaction)
 {
-	transaction = 10000; // final release won't see this line. also the idea will be to call this function
+	//transaction = 10000; // final release won't see this line. also the idea will be to call this function
 	                     // from a VF table to use other class members
 	return __addToBudget(tclass, transaction); // return to location in zoo.exe
 }
