@@ -129,58 +129,6 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	return TRUE;
 }
 
-// Modified IAT hook from Nick Cano's book. Needs a lot of fixing.
-//DWORD hookIAT(const char* funcName, DWORD newFunc)
-//{
-//    HMODULE hModule = GetModuleHandle(NULL);
-//    IMAGE_DOS_HEADER* dosHeader = (IMAGE_DOS_HEADER*)hModule;
-//
-//    if (dosHeader->e_magic != IMAGE_DOS_SIGNATURE)
-//    {
-//        return 0;
-//    }
-//
-//    IMAGE_NT_HEADERS* ntHeaders = (IMAGE_NT_HEADERS*)((BYTE*)hModule + dosHeader->e_lfanew);
-//
-//    if (ntHeaders->Signature != IMAGE_NT_SIGNATURE)
-//    {
-//        return 0;
-//    }
-//
-//    IMAGE_DATA_DIRECTORY* iatDirectory = &(ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT]);
-//    IMAGE_IMPORT_DESCRIPTOR* importDescriptor = (IMAGE_IMPORT_DESCRIPTOR*)((BYTE*)hModule + iatDirectory->VirtualAddress);
-//
-//    while (importDescriptor->Name != 0)
-//    {
-//        char* moduleName = (char*)((BYTE*)hModule + importDescriptor->Name);
-//        if (strcmp(moduleName, "kernel32.dll") == 0) // Replace "target_module.dll" with the actual module name
-//        {
-//            IMAGE_THUNK_DATA* thunkData = (IMAGE_THUNK_DATA*)((BYTE*)hModule + importDescriptor->FirstThunk);
-//
-//            while (thunkData->u1.Function != 0)
-//            {
-//                if (!(thunkData->u1.Ordinal & IMAGE_ORDINAL_FLAG))
-//                {
-//                    IMAGE_IMPORT_BY_NAME* importByName = (IMAGE_IMPORT_BY_NAME*)((BYTE*)hModule + thunkData->u1.AddressOfData);
-//                    if (strcmp(reinterpret_cast<const char*>(importByName->Name), funcName) == 0)
-//                    {
-//                        DWORD oldProtection;
-//                        VirtualProtect(&(thunkData->u1.Function), sizeof(DWORD), PAGE_EXECUTE_READWRITE, &oldProtection);
-//                        DWORD original = thunkData->u1.Function;
-//                        thunkData->u1.Function = newFunc;
-//                        VirtualProtect(&(thunkData->u1.Function), sizeof(DWORD), oldProtection, &oldProtection);
-//                        return original;
-//                    }
-//                }
-//                thunkData++;
-//            }
-//        }
-//        importDescriptor++;
-//    }
-//
-//    return 0;
-//}
-
 typedef VOID (WINAPI _origSleep)(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e);
 _origSleep* originalSleep =
 (_origSleep*)hookIAT("PeekMessageA", (DWORD)&newSleepFunction);
