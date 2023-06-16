@@ -19,8 +19,6 @@ public:
 	std::vector<std::string> tokens;
 	void processInput(Zoo::Process p, Memory<float> w);
 	~EmuConsole(void);
-
-	
 };
 
 #endif
