@@ -16,13 +16,12 @@ std::string EmuConsole::tokenize(std::string a)
 	return a;
 }
 
-void EmuConsole::processInput(Zoo::Process p, Memory<float> w)
+void EmuConsole::processInput(Zoo::Process &p, Memory<float> w)
 {
-	float* budget;
+	float* flt_ctr;
 	Memory<DWORD> r;
 	DWORD oldProtection = r.protectMemory((LPVOID)(*(DWORD*)((LPVOID)(0x00638048))), PAGE_EXECUTE_READWRITE);
-	DWORD ptr = *(DWORD*)((LPVOID)(0x00638048)) + 0x0C; // grab address to budget
-	budget = (float*)(ptr);
+	DWORD ptr;
 	Memory<DWORD> m;
 
     std::string input;
@@ -50,6 +49,7 @@ void EmuConsole::processInput(Zoo::Process p, Memory<float> w)
 		// Check for a special command to exit the program
 		if (command == "exit")
 		{
+			FreeConsole();
 			return;
 		}
 		
@@ -57,12 +57,18 @@ void EmuConsole::processInput(Zoo::Process p, Memory<float> w)
 		{
 			float newbudget = std::atof(argument.c_str());
 			float* b = w.pointMemory((LPVOID)ptr);
-
+			flt_ctr = (float*)(ptr);
+			ptr = *(DWORD*)((LPVOID)(0x00638048)) + 0x0C; // grab address to budget
 
 			// string -> float
-			*b = *budget + newbudget; // update budget
-			r.protectMemory((LPVOID)(ptr), oldProtection);
-
+			*b = *flt_ctr + newbudget; // update budget
+		}
+		else if (command == "numanimals")
+		{
+			ptr = r.readMemory((void*)(0x00638048)) + 0x30; // grab address to numanimals
+			int* numanimals = (int*)(ptr);
+		
+			std::cout << ">> " << numanimals << "\n";
 		}
     }
 

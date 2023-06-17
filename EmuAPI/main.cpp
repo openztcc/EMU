@@ -37,10 +37,10 @@ DWORD WINAPI game_loop(LPVOID lpParameter)
 	// main loop
 	while (true)
 	{
-		float* budget;
+		
 		Memory<DWORD> r;
-		DWORD ptr = r.readMemory((void*)(p.base + 0x00238048)) + 0x0C; // grab address to budget
-		budget = (float*)(ptr);
+		DWORD ptr;
+		EmuConsole c;
 
 		std::string input;
 		std::string argument;
@@ -56,30 +56,8 @@ DWORD WINAPI game_loop(LPVOID lpParameter)
 		}*/
 
 		// Process the input tokens
-		if (!input.empty())
-		{
-			// The first token is the command
-			std::string command = input;
-
-			// The remaining tokens are arguments
-			// std::vector<std::string> arguments(tokens.begin() + 1, tokens.end());
-	        
-			// Check for a special command to exit the program
-			if (command == "exit")
-			{
-				FreeConsole();
-				return 0;
-			}
-			
-			if (command == "addtobudget")
-			{
-				float newbudget = std::atof(argument.c_str());
-
-				// string -> float
-				w.writeMemory((void*)ptr, (float)(*budget + newbudget)); // update budget
-
-			}
-		}
+		c.processInput(p, w);
+		
 		// Free the console and wait for user input
 		std::cout << ">> ";
 		Sleep(0);
@@ -129,14 +107,14 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	return TRUE;
 }
 
-typedef VOID (WINAPI _origSleep)(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e);
-_origSleep* originalSleep =
-(_origSleep*)hookIAT("PeekMessageA", (DWORD)&newSleepFunction);
+//typedef VOID (WINAPI _origSleep)(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e);
+//_origSleep* originalSleep =
+/*(_origSleep*)hookIAT("PeekMessageA", (DWORD)&newSleepFunction);
 VOID WINAPI newSleepFunction(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e)
 {
 	std::cout << "new sleep works\n";
 	originalSleep(ms, b, c, d, e);
-}
+}*/
 
 // utility function for near hooking
 DWORD callHook(DWORD hookAt, DWORD newFunc)
