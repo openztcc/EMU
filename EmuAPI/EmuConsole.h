@@ -14,7 +14,7 @@ class EmuConsole
 {
 public:
 	EmuConsole(void);
-	std::string tokenize(std::string);
+	void tokenize();
 
 	std::vector<std::string> tokens;
 	void processInput(Zoo::Process &p, Memory<float> w);

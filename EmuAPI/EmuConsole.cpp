@@ -10,10 +10,24 @@ EmuConsole::~EmuConsole(void)
 {
 }
 
-std::string EmuConsole::tokenize(std::string a)
+void EmuConsole::tokenize()
 {
-	
-	return a;
+    
+    std::string token = "";
+    std::getline(std::cin, token);
+
+    if (token.size() > 100)
+    {
+        std::cerr << "100 char limit in buffer. Please try again." << std::endl;
+        throw;
+    }
+
+    std::istringstream iss(token);
+
+    while (std::getline(iss, token, ' '))
+    {
+        tokens.push_back(token);
+    }
 }
 
 void EmuConsole::processInput(Zoo::Process &p, Memory<float> w)
@@ -68,7 +82,7 @@ void EmuConsole::processInput(Zoo::Process &p, Memory<float> w)
 			ptr = r.readMemory((void*)(0x00638048)) + 0x30; // grab address to numanimals
 			int* numanimals = (int*)(ptr);
 		
-			std::cout << ">> " << numanimals << "\n";
+			std::cout << ">> " << numanimals << std::endl;
 		}
     }
 

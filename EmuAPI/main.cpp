@@ -76,7 +76,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 	// Get the thread ID of the current thread
 	DWORD mainThreadId = GetCurrentThreadId();
-	f << mainThreadId << "\nCurrent thread ID: " << std::setfill('0') << std::setw(8) << std::hex << p.base << "\n";
+	f << mainThreadId << "\nCurrent thread ID: " << std::setfill('0') << std::setw(8) << std::hex << p.base << std::endl;
 
 	// dll attachment status
 	f << "Status: ";
