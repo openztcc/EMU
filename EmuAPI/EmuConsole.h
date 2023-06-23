@@ -5,20 +5,19 @@
 #include <iostream>
 #include <sstream>
 
-#include "TekUtilities.h"
-#include "TekMemory.h"
+#include "EmuBase.h"
 #include <string>
 #include <vector>
 
-class EmuConsole
+class EmuConsole : public EmuBase
 {
 public:
 	EmuConsole(void);
-	void tokenize();
-
-	std::vector<std::string> tokens;
-	void processInput(Zoo::Process &p, Memory<float> w);
+	void processInput();
 	~EmuConsole(void);
+private:
+	void tokenize();
+	std::vector<std::string> tokens;
 };
 
 #endif

@@ -5,7 +5,7 @@
 /// <summary>
 /// Constructor: initiate  process variables 
 /// </summary>
-Zoo::Process::Process()
+EmuBase::EmuBase()
 {
 	id = GetCurrentProcessId();
 	handle = __getZooHandle(id);
@@ -17,7 +17,7 @@ Zoo::Process::Process()
 /// Returns 
 /// </summary>
 /// <param name="s">: input 32 bit float</param>
-DWORD Zoo::Process::getModuleBaseAddress()
+DWORD EmuBase::getModuleBaseAddress()
 {
 	return base;
 }
@@ -26,7 +26,7 @@ DWORD Zoo::Process::getModuleBaseAddress()
 /// Convert 32 bit float to 32 unsigned 32 bit value
 /// </summary>
 /// <param name="s">: input 32 bit float</param>
-uint32_t Zoo::Process::floatToUint(float f) 
+uint32_t EmuBase::floatToUint(float f) 
 {
 	uint32_t result;
 	memcpy(&result, &f, sizeof(f));
@@ -37,7 +37,7 @@ uint32_t Zoo::Process::floatToUint(float f)
 /// Convert unsigned 32 bit integer to 32 bit float
 /// </summary>
 /// <param name="s">: input unsigned 32 bit integer</param>
-float Zoo::Process::uintToFloat(uint32_t n) 
+float EmuBase::uintToFloat(uint32_t n) 
 {
 	float result;
 	memcpy(&result, &n, sizeof(n));
@@ -48,7 +48,7 @@ float Zoo::Process::uintToFloat(uint32_t n)
 /// Obtain process handle for zoo.exe
 /// </summary>
 /// <param name="s">: input zoo.exe process ID</param>
-HANDLE Zoo::Process::__getZooHandle(DWORD zooID)
+HANDLE EmuBase::__getZooHandle(DWORD zooID)
 {
 	HANDLE zooHandle;
 	return zooHandle = OpenProcess(PROCESS_ALL_ACCESS, true, zooID);
@@ -58,7 +58,7 @@ HANDLE Zoo::Process::__getZooHandle(DWORD zooID)
 /// Obtain thread ID for zoo.exe
 /// </summary>
 /// <param name="s">: input zoo.exe process ID</param>
-DWORD Zoo::Process::__getZooThread(DWORD zooID)
+DWORD EmuBase::__getZooThread(DWORD zooID)
 {
 	THREADENTRY32 entry;
 	entry.dwSize = sizeof(THREADENTRY32);
