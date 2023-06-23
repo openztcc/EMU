@@ -10,14 +10,17 @@ EmuConsole::~EmuConsole(void)
 {
 }
 
+/// <summary>
+/// Tokenizes buffer stream
+/// </summary>
 void EmuConsole::tokenize()
-{
-    
+{ 
     std::string token = "";
     std::getline(std::cin, token);
 
     if (token.size() > 100)
     {
+		// this limit will be increased, it's just a pre-emptive measure
         std::cerr << "100 char limit in buffer. Please try again." << std::endl;
         throw;
     }
@@ -30,61 +33,41 @@ void EmuConsole::tokenize()
     }
 }
 
-void EmuConsole::processInput(Zoo::Process &p, Memory<float> w)
+/// <summary>
+/// Delivers requested commands provided by user
+/// </summary>
+void EmuConsole::processInput()
 {
-	float* flt_ctr;
-	Memory<DWORD> r;
-	DWORD oldProtection = r.protectMemory((LPVOID)(*(DWORD*)((LPVOID)(0x00638048))), PAGE_EXECUTE_READWRITE);
-	DWORD ptr;
-	Memory<DWORD> m;
+    std::cout << ">> ";
 
-    std::string input;
-	std::string argument;
-	std::cin >> input >> argument;
-
-    // Split the input into tokens based on space delimiter
-    //std::istringstream iss(input);
-    //std::vector<std::string> tokens;
-    std::string token;
-    /*while (iss >> token)
-    {
-        tokens.push_back(token);
-    }*/
-
+    this->tokenize();
     // Process the input tokens
-    if (!input.empty())
+    while (!tokens.empty())
     {
-        // The first token is the command
-        std::string command = input;
-
-        // The remaining tokens are arguments
-        // std::vector<std::string> arguments(tokens.begin() + 1, tokens.end());
         
 		// Check for a special command to exit the program
-		if (command == "exit")
+		if (tokens[0] == "exit")
 		{
-			FreeConsole();
+            std::cout << "Closing console..." << std::endl;
 			return;
 		}
 		
-		if (command == "addToBudget")
+		else if (tokens[0] == "addtobudget")
 		{
-			float newbudget = std::atof(argument.c_str());
-			float* b = w.pointMemory((LPVOID)ptr);
-			flt_ctr = (float*)(ptr);
-			ptr = *(DWORD*)((LPVOID)(0x00638048)) + 0x0C; // grab address to budget
+            std::cout << "Budget has been updated. " << std::endl;
+            
+		}
+		else if (tokens[0] == "numanimals")
+		{
+			std::cout << "NumAnimals: 12 " << std::endl;
+		}
+        else
+        {
+            std::cout << "Err: No such command exists." << std::endl;
+        }
 
-			// string -> float
-			*b = *flt_ctr + newbudget; // update budget
-		}
-		else if (command == "numanimals")
-		{
-			ptr = r.readMemory((void*)(0x00638048)) + 0x30; // grab address to numanimals
-			int* numanimals = (int*)(ptr);
-		
-			std::cout << ">> " << numanimals << std::endl;
-		}
+        tokens.clear();
+        std::cout << ">> ";
+        this->tokenize();
     }
-
-    
 }
