@@ -49,18 +49,21 @@ void EmuConsole::processInput()
 		if (tokens[0] == "exit")
 		{
             std::cout << "Closing console..." << std::endl;
+            // close console
+            FreeConsole();
 			return;
 		}
 		
 		else if (tokens[0] == "addtobudget")
 		{
+            // add to budget hook
             std::cout << "Budget has been updated. " << std::endl;
-            
-		}
+        }
 		else if (tokens[0] == "numanimals")
 		{
+            // number of animals hook
 			std::cout << "NumAnimals: 12 " << std::endl;
-		}
+        }
         else
         {
             std::cout << "Err: No such command exists." << std::endl;

@@ -8,8 +8,6 @@
 #include <Windows.h>
 #include <sstream>
 #include <string>
-#include "TekUtilities.h"
-#include "TekMemory.h"
 #include "EmuConsole.h"
 #include <iomanip>
 #include <mmsystem.h>
@@ -17,61 +15,39 @@
 
 // declare addToBudget
 DWORD __fastcall addToBudget(DWORD, float);
-VOID WINAPI newSleepFunction(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e);
 
 DWORD WINAPI game_loop(LPVOID lpParameter) 
 {
-
-	Zoo::Process p;
-	Memory<float> w;
+	EmuConsole console;
+	EmuConsole::Memory<float> w;
+	EmuConsole::Memory<DWORD> r;
 	
 	// Create a console window
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
-	
 	freopen("CONIN$", "r", stdin);
-	
 	system("pause");
-	std::cout << ">> ";
-	std::string input;
+
 	// main loop
 	while (true)
 	{
-		
-		Memory<DWORD> r;
-		DWORD ptr;
-		EmuConsole c;
-
-		std::string input;
-		std::string argument;
-		std::cin >> input >> argument;
-
-		// Split the input into tokens based on space delimiter
-		//std::istringstream iss(input);
-		//std::vector<std::string> tokens;
-		std::string token;
-		/*while (iss >> token)
-		{
-			tokens.push_back(token);
-		}*/
-
 		// Process the input tokens
-		c.processInput(p, w);
+		console.processInput();
 		
 		// Free the console and wait for user input
 		std::cout << ">> ";
 		Sleep(0);
 	}
-	FreeConsole();
+
 	return 1;
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD ul_reason_for_call,
-	LPVOID lpReserved) {
-
+	LPVOID lpReserved) 
+{
+	EmuBase p;
 	std::ofstream f;
-	Zoo::Process p;
 	f.open("out.log");
 
 	// Get the thread ID of the current thread
@@ -105,28 +81,6 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	
 	f.close();
 	return TRUE;
-}
-
-//typedef VOID (WINAPI _origSleep)(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e);
-//_origSleep* originalSleep =
-/*(_origSleep*)hookIAT("PeekMessageA", (DWORD)&newSleepFunction);
-VOID WINAPI newSleepFunction(DWORD ms, DWORD b, DWORD c, DWORD d, DWORD e)
-{
-	std::cout << "new sleep works\n";
-	originalSleep(ms, b, c, d, e);
-}*/
-
-// utility function for near hooking
-DWORD callHook(DWORD hookAt, DWORD newFunc)
-{
-	Memory<DWORD> m;
-	Zoo::Process process;
-	DWORD newOffset = newFunc - hookAt - 5;
-	DWORD oldProtection = m.protectMemory((LPVOID)(hookAt + 1), PAGE_EXECUTE_READWRITE);
-	DWORD originalOffset = m.readMemory((LPVOID)(hookAt + 1));
-	m.writeMemory((LPVOID)(hookAt + 1), newOffset);
-	m.protectMemory((LPVOID)(hookAt + 1), oldProtection);
-	return originalOffset + hookAt + 5;
 }
 
 // reroute old function to new function

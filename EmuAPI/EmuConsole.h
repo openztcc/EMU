@@ -4,10 +4,10 @@
 #include <cstring>
 #include <iostream>
 #include <sstream>
-
-#include "EmuBase.h"
 #include <string>
 #include <vector>
+
+#include "EmuBase.h"
 
 class EmuConsole : public EmuBase
 {

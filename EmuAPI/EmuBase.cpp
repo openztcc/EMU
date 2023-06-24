@@ -1,6 +1,4 @@
-#include "TekUtilities.h"
-
-
+#include "EmuBase.h"
 
 /// <summary>
 /// Constructor: initiate  process variables 
@@ -73,4 +71,16 @@ DWORD EmuBase::__getZooThread(DWORD zooID)
 	}
 	CloseHandle(snapshot);
 	return NULL;
+}
+
+// utility function for near hooking
+DWORD EmuBase::callHook(DWORD hookAt, DWORD newFunc)
+{
+	Memory<DWORD> m;
+	DWORD newOffset = newFunc - hookAt - 5;
+	DWORD oldProtection = m.protectMemory((LPVOID)(hookAt + 1), PAGE_EXECUTE_READWRITE);
+	DWORD originalOffset = m.readMemory((LPVOID)(hookAt + 1));
+	m.writeMemory((LPVOID)(hookAt + 1), newOffset);
+	m.protectMemory((LPVOID)(hookAt + 1), oldProtection);
+	return originalOffset + hookAt + 5;
 }
