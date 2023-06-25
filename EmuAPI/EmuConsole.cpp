@@ -82,30 +82,3 @@ void EmuConsole::processInput()
         this->tokenize();
     }
 }
-
-bool EmuBase::SingleKey(const int VK_IKEY)
-{
-    if (GetAsyncKeyState(VK_IKEY) & 0x8000) 
-    {
-        return true;
-    }
-    return false;
-}
-
-bool EmuBase::DoubleKey(const int VK_IKEY, const int VK_SKEY)
-{
-    if (GetAsyncKeyState(VK_IKEY) & 0x8000 && GetAsyncKeyState(VK_SKEY) & 0x8000) 
-    {
-        return true;
-    }
-    return false;
-}
-
-bool EmuBase::TripleKey(const int VK_IKEY, const int VK_SKEY, const int VK_TKEY)
-{
-    if (GetAsyncKeyState(VK_IKEY) & 0x8000 && GetAsyncKeyState(VK_SKEY) & 0x8000) 
-    {
-        return true;
-    }
-    return false;
-}
