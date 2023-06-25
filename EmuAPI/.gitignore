@@ -1,5 +1,6 @@
 Release/
 .vscode/
+Debug/
 *.vcproj*
 *.user
 *.vcproj

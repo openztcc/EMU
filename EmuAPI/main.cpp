@@ -9,18 +9,16 @@
 #include <sstream>
 #include <string>
 #include "EmuConsole.h"
+#include "EmuBase.h"
 #include <iomanip>
 #include <mmsystem.h>
 #include <winnt.h>
 
-// declare addToBudget
-DWORD __fastcall addToBudget(DWORD, float);
-
 DWORD WINAPI game_loop(LPVOID lpParameter) 
 {
 	EmuConsole console;
-	EmuConsole::Memory<float> w;
-	EmuConsole::Memory<DWORD> r;
+	EmuBase::Memory<float> w;
+	EmuBase::Memory<DWORD> r;
 	
 	// Create a console window
     AllocConsole();
@@ -81,16 +79,4 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	
 	f.close();
 	return TRUE;
-}
-
-// reroute old function to new function
-typedef DWORD(__fastcall _origFunc)(DWORD arg1, float transaction);
-_origFunc* __addToBudget = (_origFunc*)callHook(0x0050A245, (DWORD)&addToBudget);
-
-// deposit = admission fee paid by guest 
-DWORD __fastcall addToBudget(DWORD tclass, float transaction)
-{
-	//transaction = 10000; // final release won't see this line. also the idea will be to call this function
-	                     // from a VF table to use other class members
-	return __addToBudget(tclass, transaction); // return to location in zoo.exe
 }

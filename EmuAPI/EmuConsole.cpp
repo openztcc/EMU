@@ -1,7 +1,6 @@
 
 #include "EmuConsole.h"
 
-
 EmuConsole::EmuConsole(void)
 {
 }
@@ -38,6 +37,7 @@ void EmuConsole::tokenize()
 /// </summary>
 void EmuConsole::processInput()
 {
+    ZooState state;
     std::cout << ">> ";
 
     this->tokenize();
@@ -59,10 +59,17 @@ void EmuConsole::processInput()
             // add to budget hook
             std::cout << "Budget has been updated. " << std::endl;
         }
-		else if (tokens[0] == "numanimals")
+		else if (tokens[0] == "pause")
 		{
             // number of animals hook
-			std::cout << "NumAnimals: 12 " << std::endl;
+			std::cout << "Pausing..." << std::endl;
+            state.PauseGame(true);
+        }
+        else if (tokens[0] == "play")
+		{
+            // number of animals hook
+			std::cout << "Playing..." << std::endl;
+            state.PauseGame(false);
         }
         else
         {

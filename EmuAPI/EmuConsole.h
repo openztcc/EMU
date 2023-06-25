@@ -7,14 +7,14 @@
 #include <string>
 #include <vector>
 
-#include "EmuBase.h"
+#include "ZooState.h"
 
-class EmuConsole : public EmuBase
+class EmuConsole
 {
 public:
-	EmuConsole(void);
+	EmuConsole();
 	void processInput();
-	~EmuConsole(void);
+	~EmuConsole();
 private:
 	void tokenize();
 	std::vector<std::string> tokens;
