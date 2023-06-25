@@ -38,6 +38,7 @@ void EmuConsole::tokenize()
 void EmuConsole::processInput()
 {
     ZooState state;
+    std::cout << "Welcome to the EMU command console. Please enter your command below.\n\n:::IMPORTANT::: Do not close this console window if you do not want to lose your zoo progress, this will effectively force quit the game. If you would like to exit the game, type in the 'exit' command and wait for the message. You can then close the command console." << std::endl << std::endl;
     std::cout << ">> ";
 
     this->tokenize();
@@ -48,7 +49,7 @@ void EmuConsole::processInput()
 		// Check for a special command to exit the program
 		if (tokens[0] == "exit")
 		{
-            std::cout << "Closing console..." << std::endl;
+            std::cout << "You may now safely close the console window." << std::endl;
             // close console
             FreeConsole();
 			return;
@@ -80,4 +81,31 @@ void EmuConsole::processInput()
         std::cout << ">> ";
         this->tokenize();
     }
+}
+
+bool EmuBase::SingleKey(const int VK_IKEY)
+{
+    if (GetAsyncKeyState(VK_IKEY) & 0x8000) 
+    {
+        return true;
+    }
+    return false;
+}
+
+bool EmuBase::DoubleKey(const int VK_IKEY, const int VK_SKEY)
+{
+    if (GetAsyncKeyState(VK_IKEY) & 0x8000 && GetAsyncKeyState(VK_SKEY) & 0x8000) 
+    {
+        return true;
+    }
+    return false;
+}
+
+bool EmuBase::TripleKey(const int VK_IKEY, const int VK_SKEY, const int VK_TKEY)
+{
+    if (GetAsyncKeyState(VK_IKEY) & 0x8000 && GetAsyncKeyState(VK_SKEY) & 0x8000) 
+    {
+        return true;
+    }
+    return false;
 }

@@ -34,6 +34,12 @@ public:
 	DWORD base;
 	DWORD thread;
 
+	// Windows Mgmt
+
+	bool SingleKey(const int);
+	bool DoubleKey(const int, const int);
+	bool TripleKey(const int, const int, const int);
+
 protected:
 	DWORD __getModuleBaseAddress(DWORD, const TCHAR*);
 	HANDLE __getZooHandle(DWORD);
