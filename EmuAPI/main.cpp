@@ -31,6 +31,8 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 		console.processInput(IsConsoleRunning);
 		Sleep(10);
 	}
+
+	return 1;
 }
 
 DWORD WINAPI RunEmu(LPVOID lpParameter) 
@@ -48,11 +50,6 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
 			IsConsoleRunning = true;
 			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
 			CloseHandle(thread);
-		}
-		// CTRL + SHIFT + J closes thread
-		if (b.TripleKey(0x11, 0x10, 0x4A))
-		{
-			IsConsoleRunning = false;
 		}
 
 		Sleep(0);
