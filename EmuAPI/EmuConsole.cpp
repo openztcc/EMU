@@ -35,7 +35,7 @@ void EmuConsole::tokenize()
 /// <summary>
 /// Delivers requested commands provided by user
 /// </summary>
-void EmuConsole::processInput()
+void EmuConsole::processInput(bool& IsConsoleRunning)
 {
     ZooState state;
     std::cout << "Welcome to the EMU command console. Please enter your command below.\n\n:::IMPORTANT::: Do not close this console window if you do not want to lose your zoo progress, this will effectively force quit the game. If you would like to exit the game, type in the 'exit' command and wait for the message. You can then close the command console." << std::endl << std::endl;
@@ -52,6 +52,7 @@ void EmuConsole::processInput()
             std::cout << "You may now safely close the console window." << std::endl;
             // close console
             FreeConsole();
+            IsConsoleRunning = false;
 			return;
 		}
 		

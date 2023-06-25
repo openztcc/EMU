@@ -14,26 +14,47 @@
 #include <mmsystem.h>
 #include <winnt.h>
 
-DWORD WINAPI game_loop(LPVOID lpParameter) 
+bool IsConsoleRunning = false;
+
+DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
 	EmuConsole console;
-	EmuBase::Memory<float> w;
-	EmuBase::Memory<DWORD> r;
-	
 	// Create a console window
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
 	freopen("CONIN$", "r", stdin);
 	system("pause");
 
+	while (IsConsoleRunning)
+	{
+		// Process the input tokens
+		console.processInput(IsConsoleRunning);
+		Sleep(10);
+	}
+}
+
+DWORD WINAPI RunEmu(LPVOID lpParameter) 
+{
+	EmuBase b;
+	EmuBase::Memory<float> w;
+	EmuBase::Memory<DWORD> r;
+	
 	// main loop
 	while (true)
 	{
-		// Process the input tokens
-		console.processInput();
-		
-		// Free the console and wait for user input
-		std::cout << ">> ";
+		// CTRL + J
+		if (b.DoubleKey(0x11, 0x4A) == true && !IsConsoleRunning)
+		{
+			IsConsoleRunning = true;
+			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
+			CloseHandle(thread);
+		}
+		// CTRL + SHIFT + J closes thread
+		if (b.TripleKey(0x11, 0x10, 0x4A))
+		{
+			IsConsoleRunning = false;
+		}
+
 		Sleep(0);
 	}
 
@@ -58,7 +79,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	case DLL_PROCESS_ATTACH:
 		{
 		f << "DLL attached!\n";
-		HANDLE thread = CreateThread(NULL, 0, &game_loop, NULL, 0, NULL);
+		HANDLE thread = CreateThread(NULL, 0, &RunEmu, NULL, 0, NULL);
 		CloseHandle(thread);
 		}
 		break;

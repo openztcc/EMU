@@ -13,7 +13,7 @@ class EmuConsole
 {
 public:
 	EmuConsole();
-	void processInput();
+	void processInput(bool&);
 	~EmuConsole();
 private:
 	void tokenize();
