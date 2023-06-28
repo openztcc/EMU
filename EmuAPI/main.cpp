@@ -13,6 +13,8 @@
 #include <iomanip>
 #include <mmsystem.h>
 #include <winnt.h>
+#include <cstdio>
+#include "lua.h"
 
 bool IsConsoleRunning = false;
 
