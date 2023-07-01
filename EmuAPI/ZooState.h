@@ -16,7 +16,8 @@ public:
 	~ZooState();
 
     void PauseGame(bool);
-    // float* zoo_budget_;
+    void SetZooBudget(float);
+    float GetZooBudget(float);
     // int* num_animals_;
     // int*  num_exhibits_;
     // int* num_guests_;
