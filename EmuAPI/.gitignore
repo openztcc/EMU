@@ -1,5 +1,5 @@
 Release/
 .vscode/
 Debug/
-*.vcproj*
+*.vcproj.ERIC.leric.user
 *.user
