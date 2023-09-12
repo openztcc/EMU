@@ -77,7 +77,7 @@ int ZooState::NumGuests()
 /// @return 
 float* ZooState::AdmissionsIncomeByMonth()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x54;
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x254;
     float* p = ((float*)ptr);
     return p;
 }
@@ -87,6 +87,7 @@ float* ZooState::AdmissionsIncomeByMonth()
 /// @param msg message to display
 void ZooState::print_year_to_console(float* p, std::string msg)
 {
+    std::cout << std::endl;
     std::string calendar[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     std::cout << msg << std::endl;
     std::cout << "---------------------------------------------" << std::endl;
@@ -94,6 +95,18 @@ void ZooState::print_year_to_console(float* p, std::string msg)
 
     for (int i = 0; i < 12; i++)
     {
-        std::cout << calendar[i] << ": " << p[i] << std::endl;
+        std::cout << calendar[i] << ": ";
+        int val = (int)p[i];
+        if (val < -1000000000)
+        {
+            std::cout << "[Value too low/not available]" << std::endl;
+        }
+        else
+        {
+            std::cout << val << std::endl;
+        }
+        
     }
+
+    std::cout << std::endl;
 }
