@@ -60,6 +60,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
 		{
             // add to budget hook
             std::cout << "Budget has been updated. " << std::endl;
+            state.AddToZooBudget(::atof(tokens[1].c_str()));
         }
 		else if (tokens[0] == "pause")
 		{

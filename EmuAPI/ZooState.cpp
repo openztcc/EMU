@@ -24,3 +24,11 @@ void ZooState::PauseGame(bool input)
     bool* p = ((bool*)ptr);
     *p = input;
 }
+
+void ZooState::AddToZooBudget(float input)
+{
+    Memory<float> w;
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x0C;
+    float* budget = (float*)ptr;
+    w.writeMemory((void*)ptr, (float)(*budget + input));;
+}

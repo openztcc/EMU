@@ -15,6 +15,7 @@
 #include <winnt.h>
 #include <cstdio>
 #include "lua.h"
+#include "ZooState.h"
 
 bool IsConsoleRunning = false;
 
@@ -39,20 +40,33 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 
 DWORD WINAPI RunEmu(LPVOID lpParameter) 
 {
-	EmuBase b;
-	EmuBase::Memory<float> w;
-	EmuBase::Memory<DWORD> r;
-	
+	//EmuBase b;
+	ZooState z;
+	bool ctrlMPressed = false;
+
 	// main loop
 	while (true)
 	{
 		// CTRL + J
-		if (b.DoubleKey(0x11, 0x4A) == true && !IsConsoleRunning)
+		if (z.DoubleKey(0x11, 0x4A) == true && !IsConsoleRunning)
 		{
 			IsConsoleRunning = true;
 			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
 			CloseHandle(thread);
 		}
+		
+		
+		// CTRL + M
+        if (z.DoubleKey(0x11, 0x4D) == true && !ctrlMPressed)
+        {
+            ctrlMPressed = true; // Set the flag
+            float mo_money = 1000000.00f;
+            z.AddToZooBudget(mo_money);
+        }
+        else if (z.DoubleKey(0x11, 0x4D) == false)
+        {
+            ctrlMPressed = false; // Reset the flag when the key is released
+        }
 
 		Sleep(0);
 	}

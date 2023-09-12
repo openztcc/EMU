@@ -85,6 +85,9 @@ DWORD EmuBase::callHook(DWORD hookAt, DWORD newFunc)
 	return originalOffset + hookAt + 5;
 }
 
+/// @brief Set key to custom action. Single key.
+/// @param VK_IKEY 
+/// @return 
 bool EmuBase::SingleKey(const int VK_IKEY)
 {
     if (GetAsyncKeyState(VK_IKEY) & 0x8000) 
@@ -94,6 +97,10 @@ bool EmuBase::SingleKey(const int VK_IKEY)
     return false;
 }
 
+/// @brief Set keys to custom action--two key binding.
+/// @param VK_IKEY 
+/// @param VK_SKEY 
+/// @return 
 bool EmuBase::DoubleKey(const int VK_IKEY, const int VK_SKEY)
 {
     if (GetAsyncKeyState(VK_IKEY) & 0x8000 && GetAsyncKeyState(VK_SKEY) & 0x8000) 
@@ -103,6 +110,11 @@ bool EmuBase::DoubleKey(const int VK_IKEY, const int VK_SKEY)
     return false;
 }
 
+/// @brief Set keys to custom action--three key binding.
+/// @param VK_IKEY 
+/// @param VK_SKEY 
+/// @param VK_TKEY 
+/// @return 
 bool EmuBase::TripleKey(const int VK_IKEY, const int VK_SKEY, const int VK_TKEY)
 {
     if (GetAsyncKeyState(VK_IKEY) & 0x8000 && GetAsyncKeyState(VK_SKEY) & 0x8000) 

@@ -18,16 +18,17 @@ public:
     void PauseGame(bool);
     void SetZooBudget(float);
     float GetZooBudget(float);
-    // int* num_animals_;
-    // int*  num_exhibits_;
-    // int* num_guests_;
-    // float* admissions_income_by_month_;
-    // float* concessions_benefit_by_month_;
-    // float* recycling_benefit_by_month_;
-    // float* zoo_profit_over_time_;
-    // float* income_expense_totals_by_month_;
-    // float* zoo_rating_by_month_;
-    // float* construction_cost_by_month_;
+    void AddToZooBudget(float);
+    int NumAnimals();
+    int  NumExhibits();
+    int NumGuests();
+    float AdmissionsIncomeByMonth();
+    float ConcessionsBenefitByMonth();
+    float RecyclingBenefitByMonth();
+    float ZooProfitOverTime();
+    float IncomeExpenseTotalsByMonth();
+    float ZooRatingByMonth();
+    float ConstructionCostByMonth();
 
     // verify
     // int* NumAngryGuests;
