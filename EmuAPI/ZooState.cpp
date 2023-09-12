@@ -32,3 +32,19 @@ void ZooState::AddToZooBudget(float input)
     float* budget = (float*)ptr;
     w.writeMemory((void*)ptr, (float)(*budget + input));;
 }
+
+float GetZooBudget()
+{
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x0C;
+    float* budget = (float*)ptr;
+    return *budget;
+}
+
+
+
+int NumAnimals()
+{
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x30;
+    int* p = ((int*)ptr);
+    return *p;
+}

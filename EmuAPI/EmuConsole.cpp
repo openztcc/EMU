@@ -62,17 +62,27 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             std::cout << "Budget has been updated. " << std::endl;
             state.AddToZooBudget(::atof(tokens[1].c_str()));
         }
+        else if (tokens[0] == "getbudget")
+        {
+            // return budget
+            std::cout << "The current budget is: " << state.GetZooBudget() << std::endl;
+        }
 		else if (tokens[0] == "pause")
 		{
             // number of animals hook
 			std::cout << "Pausing..." << std::endl;
             state.PauseGame(true);
         }
-        else if (tokens[0] == "play")
+        else if (tokens[0] == "resume")
 		{
             // number of animals hook
-			std::cout << "Playing..." << std::endl;
+			std::cout << "Resuming game..." << std::endl;
             state.PauseGame(false);
+        }
+        else if (tokens[0] == "numanimals")
+        {
+            // return num of animals
+            std::cout << "The current number of animals in the zoo: " << state.NumAnimals() << std::endl;
         }
         else
         {

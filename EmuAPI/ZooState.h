@@ -17,7 +17,7 @@ public:
 
     void PauseGame(bool);
     void SetZooBudget(float);
-    float GetZooBudget(float);
+    float GetZooBudget();
     void AddToZooBudget(float);
     int NumAnimals();
     int  NumExhibits();
