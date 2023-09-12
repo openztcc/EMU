@@ -2,6 +2,8 @@
 #define ZOOSTATE_H
 
 #include "EmuBase.h"
+#include <string>
+#include <iostream>
 
 class ZooState : public EmuBase
 {
@@ -22,7 +24,10 @@ public:
     int NumAnimals();
     int  NumExhibits();
     int NumGuests();
-    float AdmissionsIncomeByMonth();
+    float* AdmissionsIncomeByMonth();
+
+    void print_year_to_console(float*, std::string);
+
     float ConcessionsBenefitByMonth();
     float RecyclingBenefitByMonth();
     float ZooProfitOverTime();

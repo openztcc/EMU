@@ -84,6 +84,21 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // return num of animals
             std::cout << "The current number of animals in the zoo: " << state.NumAnimals() << std::endl;
         }
+        else if (tokens[0] == "numexhibits")
+        {
+            // return num of exhibits
+            std::cout << "The current number of exhibits in the zoo: " << state.NumExhibits() << std::endl;
+        }
+        else if (tokens[0] == "numguests")
+        {
+            // return num of guests
+            std::cout << "The current number of guests in the zoo: " << state.NumGuests() << std::endl;
+        }
+        else if (tokens[0] == "listadminc")
+        {
+            // return a full year list of admissions income by month
+            state.print_year_to_console(state.AdmissionsIncomeByMonth(), "ADMISSIONS INCOME BY MONTH");
+        }
         else
         {
             std::cout << "Err: No such command exists." << std::endl;
