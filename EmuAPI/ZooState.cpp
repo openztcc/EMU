@@ -82,6 +82,48 @@ float* ZooState::AdmissionsIncomeByMonth()
     return p;
 }
 
+float* ZooState::ConcessionsBenefitByMonth()
+{
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x29C;
+    float* p = ((float*)ptr);
+    return p;
+}
+
+float* ZooState::RecyclingBenefitByMonth()
+{
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x340;
+    float* p = ((float*)ptr);
+    return p;
+}
+
+float* ZooState::ZooProfitOverTime()
+{
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x404;
+    float* p = ((float*)ptr);
+    return p;
+}
+
+float* ZooState::IncomeExpenseTotalsByMonth()
+{
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x44C;
+    float* p = ((float*)ptr);
+    return p;
+}
+
+float* ZooState::ZooRatingByMonth()
+{
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x464;
+    float* p = ((float*)ptr);
+    return p;
+}
+
+float* ZooState::ConstructionCostByMonth()
+{
+    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x824;
+    float* p = ((float*)ptr);
+    return p;
+}
+
 /// @brief Print a human-readable list of one of the year-long arrays.
 /// @param p 12-member float
 /// @param msg message to display

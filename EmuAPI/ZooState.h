@@ -25,15 +25,14 @@ public:
     int  NumExhibits();
     int NumGuests();
     float* AdmissionsIncomeByMonth();
-
-    void print_year_to_console(float*, std::string);
-
-    float ConcessionsBenefitByMonth();
-    float RecyclingBenefitByMonth();
-    float ZooProfitOverTime();
+    float* ConcessionsBenefitByMonth();
+    float* RecyclingBenefitByMonth();
+    float* ZooProfitOverTime();
     float IncomeExpenseTotalsByMonth();
     float ZooRatingByMonth();
     float ConstructionCostByMonth();
+
+    void print_year_to_console(float*, std::string);
 
     // verify
     // int* NumAngryGuests;

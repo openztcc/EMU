@@ -79,25 +79,55 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
 			std::cout << "Resuming game..." << std::endl;
             state.PauseGame(false);
         }
-        else if (tokens[0] == "numanimals")
+        else if (tokens[0] == "num-animals")
         {
             // return num of animals
             std::cout << "The current number of animals in the zoo: " << state.NumAnimals() << std::endl;
         }
-        else if (tokens[0] == "numexhibits")
+        else if (tokens[0] == "num-exhibits")
         {
             // return num of exhibits
             std::cout << "The current number of exhibits in the zoo: " << state.NumExhibits() << std::endl;
         }
-        else if (tokens[0] == "numguests")
+        else if (tokens[0] == "num-guests")
         {
             // return num of guests
             std::cout << "The current number of guests in the zoo: " << state.NumGuests() << std::endl;
         }
-        else if (tokens[0] == "listadminc")
+        else if (tokens[0] == "list-admissionsincome")
         {
             // return a full year list of admissions income by month
             state.print_year_to_console(state.AdmissionsIncomeByMonth(), "ADMISSIONS INCOME BY MONTH");
+        }
+        else if (tokens[0] == "list-concessionsbenefit")
+        {
+            // return a full year list of concessions benefits by month
+            state.print_year_to_console(state.ConcessionsBenefitByMonth(), "CONCESSIONS BENEFIT BY MONTH");
+        }
+        else if (tokens[0] == "list-recyclingbenefit")
+        {
+            // return a full year list of recycling benefits by month
+            state.print_year_to_console(state.RecyclingBenefitByMonth(), "RECYCLING BENEFIT BY MONTH");
+        }
+        else if (tokens[0] == "list-zooprofits")
+        {
+            // return a full year list of zoo profits by month
+            state.print_year_to_console(state.ZooProfitOverTime(), "ZOO PROFITS BY MONTH");
+        }
+        else if (tokens[0] == "list-incomeexpensetotals")
+        {
+            // return a full year list of zoo profits by month
+            state.print_year_to_console(state.IncomeExpenseTotalsByMonth(), "INCOME EXPENSE TOTALS BY MONTH");
+        }
+        else if (tokens[0] == "list-zoorating")
+        {
+            // return a full year list of zoo profits by month
+            state.print_year_to_console(state.ZooRatingByMonth(), "ZOO RATING BY MONTH");
+        }
+        else if (tokens[0] == "list-constructioncosts")
+        {
+            // return a full year list of zoo profits by month
+            state.print_year_to_console(state.ConstructionCostByMonth(), "CONSTRUCTION COSTS BY MONTH");
         }
         else
         {
