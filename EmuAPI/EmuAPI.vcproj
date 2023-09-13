@@ -204,6 +204,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ZooMiniMap.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ZooState.cpp"
 				>
 			</File>
@@ -255,6 +259,10 @@
 			</File>
 			<File
 				RelativePath=".\lualib.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ZooMiniMap.h"
 				>
 			</File>
 			<File

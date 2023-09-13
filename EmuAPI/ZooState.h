@@ -28,21 +28,23 @@ public:
     float* ConcessionsBenefitByMonth();
     float* RecyclingBenefitByMonth();
     float* ZooProfitOverTime();
-    float IncomeExpenseTotalsByMonth();
-    float ZooRatingByMonth();
-    float ConstructionCostByMonth();
+    float* IncomeExpenseTotalsByMonth();
+    float* ZooRatingByMonth();
+    float* ConstructionCostByMonth();
+    // verify
+    int NumAngryGuests();
+    int NumTiredGuests();
+    int NumHungryGuests();
+    int NumThirstyGuests();
+    int NumGuestsNeedRestrm();
+    int NumGuestsInFilter();
+    float ZooAdmissionCost();
+    float* ZooValueOverTime();
 
     void print_year_to_console(float*, std::string);
 
-    // verify
-    // int* NumAngryGuests;
-    // int* NumTiredGuests;
-    // int* NumHungryGuests;
-    // int* NumThirstyGuests;
-    // int* NumGuestsNeedRestrm;
-    // int* NumGuestsInFilter;
-    // float* ZooAdmissionCost;
-    // float* ZooValueOverTime;
+    
+    
 };
 
 #endif

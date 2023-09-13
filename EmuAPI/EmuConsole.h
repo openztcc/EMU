@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "ZooState.h"
+#include "ZooMiniMap.h"
 
 class EmuConsole
 {
