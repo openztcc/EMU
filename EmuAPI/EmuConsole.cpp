@@ -1,5 +1,6 @@
 
 #include "EmuConsole.h"
+#include <iomanip>
 
 EmuConsole::EmuConsole(void)
 {
@@ -66,7 +67,8 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         else if (tokens[0] == "getbudget")
         {
             // return budget
-            std::cout << "The current budget is: " << state.GetZooBudget() << std::endl;
+            std::cout << std::fixed;  
+            std::cout << "The current budget is: " << std::setprecision(2) << state.GetZooBudget() << std::endl;
         }
 		else if (tokens[0] == "pause")
 		{
