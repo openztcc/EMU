@@ -7,11 +7,6 @@
 
 class ZooState : public EmuBase
 {
-    union ptr 
-    {
-        bool* bl;
-        ptr() : bl(NULL) {};
-    };
 
 public:
 	ZooState();
@@ -22,7 +17,7 @@ public:
     float GetZooBudget();
     void AddToZooBudget(float);
     int NumAnimals();
-    int  NumExhibits();
+    int  NumSpecies();
     int NumGuests();
     float* AdmissionsIncomeByMonth();
     float* ConcessionsBenefitByMonth();
@@ -43,8 +38,9 @@ public:
 
     void print_year_to_console(float*, std::string);
 
-    
-    
+private:
+        
+    DWORD object_ptr;
 };
 
 #endif

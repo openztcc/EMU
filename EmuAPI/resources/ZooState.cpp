@@ -2,6 +2,7 @@
 
 ZooState::ZooState()
 {
+    object_ptr = *((DWORD*)((LPVOID)0x638048));
 }
 
 ZooState::~ZooState(void)
@@ -22,8 +23,7 @@ void ZooState::PauseGame(bool input)
         input = true;
     }
 
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x4;
-    bool* p = ((bool*)ptr);
+    bool* p = ((bool*)(object_ptr + 0x4));
     *p = input;
 }
 
@@ -31,18 +31,15 @@ void ZooState::PauseGame(bool input)
 /// @param input 
 void ZooState::AddToZooBudget(float input)
 {
-    Memory<float> w;
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x0C;
-    float* budget = (float*)ptr;
-    w.writeMemory((void*)ptr, (float)(*budget + input));;
+    float* budget = (float*)(object_ptr + 0x0C);
+    *budget = (float)(*budget + input);
 }
 
 /// @brief Returns the zoo budget.
 /// @return 
 float ZooState::GetZooBudget()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x0C;
-    float* budget = (float*)ptr;
+    float* budget = (float*)(object_ptr + 0x0C);
     return *budget;
 }
 
@@ -50,17 +47,15 @@ float ZooState::GetZooBudget()
 /// @return 
 int ZooState::NumAnimals()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x30;
-    int* p = ((int*)ptr);
+    int* p = ((int*)(object_ptr + 0x30));
     return *p;
 }
 
-/// @brief Returns number of exhibits in zoo.
+/// @brief Returns number of animal species in zoo.
 /// @return 
-int ZooState::NumExhibits()
+int ZooState::NumSpecies()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x38;
-    int* p = ((int*)ptr);
+    int* p = ((int*)(object_ptr + 0x38));
     return *p;
 }
 
@@ -68,8 +63,7 @@ int ZooState::NumExhibits()
 /// @return 
 int ZooState::NumGuests()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x54;
-    int* p = ((int*)ptr);
+    int* p = ((int*)(object_ptr + 0x54));
     return *p;
 }
 
@@ -77,50 +71,43 @@ int ZooState::NumGuests()
 /// @return 
 float* ZooState::AdmissionsIncomeByMonth()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x254;
-    float* p = ((float*)ptr);
+    float* p = ((float*)(object_ptr + 0x254));
     return p;
 }
 
 float* ZooState::ConcessionsBenefitByMonth()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x29C;
-    float* p = ((float*)ptr);
+    float* p = ((float*)(object_ptr + 0x29C));
     return p;
 }
 
 float* ZooState::RecyclingBenefitByMonth()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x340;
-    float* p = ((float*)ptr);
+    float* p = ((float*)(object_ptr + 0x340));
     return p;
 }
 
 float* ZooState::ZooProfitOverTime()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x404;
-    float* p = ((float*)ptr);
+    float* p = ((float*)(object_ptr + 0x404));
     return p;
 }
 
 float* ZooState::IncomeExpenseTotalsByMonth()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x44C;
-    float* p = ((float*)ptr);
+    float* p = ((float*)(object_ptr + 0x44C));
     return p;
 }
 
 float* ZooState::ZooRatingByMonth()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x464;
-    float* p = ((float*)ptr);
+    float* p = ((float*)(object_ptr + 0x464));
     return p;
 }
 
 float* ZooState::ConstructionCostByMonth()
 {
-    DWORD ptr = *((DWORD*)((LPVOID)0x638048)) + 0x824;
-    float* p = ((float*)ptr);
+    float* p = ((float*)(object_ptr + 0x824));
     return p;
 }
 

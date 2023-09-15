@@ -90,7 +90,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         else if (tokens[0] == "num-exhibits")
         {
             // return num of exhibits
-            std::cout << "The current number of exhibits in the zoo: " << state.NumExhibits() << std::endl;
+            std::cout << "The current number of exhibits in the zoo: " << state.NumSpecies() << std::endl;
         }
         else if (tokens[0] == "num-guests")
         {
