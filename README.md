@@ -14,6 +14,10 @@ If you do not own the Complete Collection but own the base game and have the two
 
 The .sln file has been included for the option to build from source. This requires Microsoft Visual C++ 2008 in order to compile. Express Edition should be fine.
 
+### Installation
+
+Drop the res-EMU.dll binary directly into your `C:\Program Files (x86)\Microsoft Games\Zoo Tycoon` game directory.
+
 ### Command Console
 
 The API includes a command console not originally available in the vanilla game. It can be accessed via `CTRL + J`. It is currently not advisable to run any commands unless a zoo file has been loaded as it depends on the resources to have been allocated in memory.
