@@ -13,15 +13,15 @@ class ZooMiniMap : public EmuBase
         ~ZooMiniMap();
     
         lua_State* L;
-        void SetMiniMapCursor(int, int);
-        void SetMiniMapCursor(std::string);
-        void RestoreMiniMapCursor();
-        int GetMiniMapCursorX();
-        int GetMiniMapCursorY();
+        static void SetMiniMapCursor(int, int);
+        static void SetMiniMapCursor(std::string);
+        static void RestoreMiniMapCursor();
+        static int GetMiniMapCursorX();
+        static int GetMiniMapCursorY();
     private:
-        bool dflt_set;
-        int min_map_x;
-        int min_map_y;
+        static bool dflt_set;
+        static int min_map_x;
+        static int min_map_y;
 };
 
 #endif
