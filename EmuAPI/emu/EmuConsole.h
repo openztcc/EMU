@@ -4,23 +4,21 @@
 #include <cstring>
 #include <iostream>
 #include <sstream>
-
-#include "TekUtilities.h"
-#include "TekMemory.h"
 #include <string>
 #include <vector>
+
+#include "ZooState.h"
+#include "ZooMiniMap.h"
 
 class EmuConsole
 {
 public:
-	EmuConsole(void);
-	std::string tokenize(std::string);
-
+	EmuConsole();
+	void processInput(bool&);
+	~EmuConsole();
+private:
+	void tokenize();
 	std::vector<std::string> tokens;
-	void processInput(Zoo::Process p, Memory<float> w);
-	~EmuConsole(void);
-
-	
 };
 
 #endif

@@ -3,3 +3,5 @@
 *.suo
 .vs/
 GooseTek/
+.vscode/
+Release/
