@@ -23,9 +23,11 @@ public:
     float* ConcessionsBenefitByMonth();
     float* RecyclingBenefitByMonth();
     float* ZooProfitOverTime();
-    float* IncomeExpenseTotalsByMonth();
     float* ZooRatingByMonth();
     float* ConstructionCostByMonth();
+    float* PrivateDonationsByMonth();
+    float* AnimalPurchaseCostsByMonth();
+    float* ResearchCostsByMonth();
     // verify
     int NumAngryGuests();
     int NumTiredGuests();
@@ -33,8 +35,9 @@ public:
     int NumThirstyGuests();
     int NumGuestsNeedRestrm();
     int NumGuestsInFilter();
-    float ZooAdmissionCost();
-    float* ZooValueOverTime();
+    float GetZooAdmissionCost();
+    void SetZooAdmissionCost(float);
+    float* ZooValueByMonth();
 
     void print_year_to_console(float*, std::string);
 

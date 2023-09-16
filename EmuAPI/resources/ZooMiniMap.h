@@ -4,6 +4,7 @@
 #include "EmuBase.h"
 #include <string>
 #include <iostream>
+#include "lua.h"
 
 class ZooMiniMap : public EmuBase
 {
@@ -11,6 +12,7 @@ class ZooMiniMap : public EmuBase
         ZooMiniMap();
         ~ZooMiniMap();
     
+        lua_State* L;
         void SetMiniMapCursor(int, int);
         void SetMiniMapCursor(std::string);
         void RestoreMiniMapCursor();

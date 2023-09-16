@@ -115,7 +115,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="$(ProjectDir)"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;C:\Users\leric\OneDrive\Documents\Mods\XP_Backup\TekToolkit\GooseTek\EmuAPI\resources"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EMUAPI_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -176,27 +176,31 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\EmuBase.cpp"
+				RelativePath=".\emu\EmuBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\EmuConsole.cpp"
+				RelativePath=".\emu\EmuConsole.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\EmuController.cpp"
+				RelativePath=".\emu\EmuController.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\EmuGameLoop.cpp"
+				RelativePath=".\emu\EmuGameLoop.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\EmuLoader.cpp"
+				RelativePath=".\emu\EmuLoader.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\EmuMod.cpp"
+				RelativePath=".\emu\EmuMod.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\lua\include\lua.hpp"
 				>
 			</File>
 			<File
@@ -204,11 +208,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ZooMiniMap.cpp"
+				RelativePath=".\resources\ZooMiniMap.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ZooState.cpp"
+				RelativePath=".\resources\ZooState.cpp"
 				>
 			</File>
 		</Filter>
@@ -218,57 +222,61 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\EmuBase.h"
+				RelativePath=".\resources\ZooMiniMap.h"
 				>
 			</File>
 			<File
-				RelativePath=".\EmuConsole.h"
+				RelativePath=".\resources\ZooState.h"
 				>
 			</File>
-			<File
-				RelativePath=".\EmuController.h"
+			<Filter
+				Name="emu"
 				>
-			</File>
-			<File
-				RelativePath=".\EmuGameLoop.h"
+				<File
+					RelativePath=".\emu\EmuBase.h"
+					>
+				</File>
+				<File
+					RelativePath=".\emu\EmuConsole.h"
+					>
+				</File>
+				<File
+					RelativePath=".\emu\EmuController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\emu\EmuGameLoop.h"
+					>
+				</File>
+				<File
+					RelativePath=".\emu\EmuLoader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\emu\EmuMod.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="lua"
 				>
-			</File>
-			<File
-				RelativePath=".\EmuLoader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\EmuMod.h"
-				>
-			</File>
-			<File
-				RelativePath=".\lauxlib.h"
-				>
-			</File>
-			<File
-				RelativePath=".\lua.h"
-				>
-			</File>
-			<File
-				RelativePath=".\lua.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\luaconf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\lualib.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ZooMiniMap.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ZooState.h"
-				>
-			</File>
+				<File
+					RelativePath=".\lua\include\lauxlib.h"
+					>
+				</File>
+				<File
+					RelativePath=".\lua\include\lua.h"
+					>
+				</File>
+				<File
+					RelativePath=".\lua\include\luaconf.h"
+					>
+				</File>
+				<File
+					RelativePath=".\lua\include\lualib.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"

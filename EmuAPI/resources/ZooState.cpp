@@ -43,6 +43,14 @@ float ZooState::GetZooBudget()
     return *budget;
 }
 
+/// @brief Sets the zoo budget.
+/// @return 
+void ZooState::SetZooBudget(float new_budget)
+{
+    float* budget = (float*)(object_ptr + 0x0C);
+    *budget = new_budget;
+}
+
 /// @brief Returns number of animals in zoo.
 /// @return 
 int ZooState::NumAnimals()
@@ -67,6 +75,50 @@ int ZooState::NumGuests()
     return *p;
 }
 
+int ZooState::NumTiredGuests()
+{
+    int* p = ((int*)(object_ptr + 0x3C));
+    return *p;
+}
+
+int ZooState::NumHungryGuests()
+{
+    int* p = ((int*)(object_ptr + 0x30));
+    return *p;
+}
+
+int ZooState::NumThirstyGuests()
+{
+    int* p = ((int*)(object_ptr + 0x44));
+    return *p;
+}
+
+int ZooState::NumGuestsNeedRestrm()
+{
+    int* p = ((int*)(object_ptr + 0x48));
+    return *p;
+}
+
+int ZooState::NumGuestsInFilter()
+{
+    int* p = ((int*)(object_ptr + 0x54));
+    return *p;
+}
+
+float ZooState::GetZooAdmissionCost()
+{
+    float* p = ((float*)(object_ptr + 0x1160));
+    return *p;
+}
+
+void ZooState::SetZooAdmissionCost(float new_cost)
+{
+    float* p = ((float*)(object_ptr + 0x1160));
+    *p = new_cost;
+}
+
+/// LISTS
+
 /// @brief Returns admissions income by month as a 12-member array.
 /// @return 
 float* ZooState::AdmissionsIncomeByMonth()
@@ -77,13 +129,13 @@ float* ZooState::AdmissionsIncomeByMonth()
 
 float* ZooState::ConcessionsBenefitByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x29C));
+    float* p = ((float*)(object_ptr + 0x284));
     return p;
 }
 
 float* ZooState::RecyclingBenefitByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x340));
+    float* p = ((float*)(object_ptr + 0x314));
     return p;
 }
 
@@ -93,9 +145,9 @@ float* ZooState::ZooProfitOverTime()
     return p;
 }
 
-float* ZooState::IncomeExpenseTotalsByMonth()
+float* ZooState::PrivateDonationsByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x44C));
+    float* p = ((float*)(object_ptr + 0x2E4));
     return p;
 }
 
@@ -107,9 +159,34 @@ float* ZooState::ZooRatingByMonth()
 
 float* ZooState::ConstructionCostByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x824));
+    float* p = ((float*)(object_ptr + 0x1F4));
     return p;
 }
+
+float* ZooState::AnimalPurchaseCostsByMonth()
+{
+    float* p = ((float*)(object_ptr + 0x1C4));
+    return p;
+}
+
+// needs another look
+float* ZooState::ResearchCostsByMonth()
+{
+    float* p = ((float*)(object_ptr + 0xD10));
+    return p;
+}
+
+float* ZooState::ZooValueByMonth()
+{
+    float* p = ((float*)(object_ptr + 0x434));
+    return p;
+}
+
+// float* ZooState::ZooValueByMonth()
+// {
+//     float* p = ((float*)(object_ptr + 0x434));
+//     return p;
+// }
 
 /// @brief Print a human-readable list of one of the year-long arrays.
 /// @param p 12-member float

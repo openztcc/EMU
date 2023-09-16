@@ -70,6 +70,11 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             std::cout << std::fixed;  
             std::cout << "The current budget is: " << std::setprecision(2) << state.GetZooBudget() << std::endl;
         }
+        else if (tokens[0] == "setbudget")
+        {
+            // sets the budget
+            state.SetZooBudget(::atof(tokens[1].c_str()));
+        }
 		else if (tokens[0] == "pause")
 		{
             // number of animals hook
@@ -87,16 +92,52 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // return num of animals
             std::cout << "The current number of animals in the zoo: " << state.NumAnimals() << std::endl;
         }
-        else if (tokens[0] == "num-exhibits")
+        else if (tokens[0] == "num-species")
         {
-            // return num of exhibits
-            std::cout << "The current number of exhibits in the zoo: " << state.NumSpecies() << std::endl;
+            // return num of animal species
+            std::cout << "The current number of animal species in the zoo: " << state.NumSpecies() << std::endl;
         }
         else if (tokens[0] == "num-guests")
         {
             // return num of guests
             std::cout << "The current number of guests in the zoo: " << state.NumGuests() << std::endl;
         }
+        else if (tokens[0] == "num-tiredguests")
+        {
+            // return num of tired guests
+            std::cout << "The current number of tired guests in the zoo: " << state.NumTiredGuests() << std::endl;
+        }
+        else if (tokens[0] == "num-hungryguests")
+        {
+            // return num of hungry guests
+            std::cout << "The current number of hungry guests in the zoo: " << state.NumHungryGuests() << std::endl;
+        }
+        else if (tokens[0] == "num-thirstyguests")
+        {
+            // return num of thirsty guests
+            std::cout << "The current number of thirsty guests in the zoo: " << state.NumThirstyGuests() << std::endl;
+        }
+        else if (tokens[0] == "num-rstrmguests")
+        {
+            // return num of guests that need to use the restroom
+            std::cout << "The current number of guests that need restroom in the zoo: " << state.NumGuestsNeedRestrm() << std::endl;
+        }
+        else if (tokens[0] == "num-guestsfilter")
+        {
+            // return num of guests in filter
+            std::cout << "The current number of guests in the guest filter: " << state.NumGuestsInFilter() << std::endl;
+        }
+        else if (tokens[0] == "getzooadmcost")
+        {
+            // return zoo admission cost
+            std::cout << "Zoo admission cost: $" << state.GetZooAdmissionCost() << std::endl;
+        }
+        else if (tokens[0] == "setzooadmcost")
+        {
+            // sets the admissions cost
+            state.SetZooAdmissionCost(::atof(tokens[1].c_str()));
+        }
+
         else if (tokens[0] == "list-admissionsincome")
         {
             // return a full year list of admissions income by month
@@ -117,11 +158,10 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // return a full year list of zoo profits by month
             state.print_year_to_console(state.ZooProfitOverTime(), "ZOO PROFITS BY MONTH");
         }
-        // TODO: error: wrong list
-        else if (tokens[0] == "list-incomeexpensetotals")
+        else if (tokens[0] == "list-privatedonations")
         {
-            // return a full year list of zoo profits by month
-            state.print_year_to_console(state.IncomeExpenseTotalsByMonth(), "INCOME EXPENSE TOTALS BY MONTH");
+            // return a full year list of private donations by month
+            state.print_year_to_console(state.PrivateDonationsByMonth(), "PRIVATE DONATIONS BY MONTH");
         }
         else if (tokens[0] == "list-zoorating")
         {
@@ -133,19 +173,34 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // return a full year list of zoo profits by month
             state.print_year_to_console(state.ConstructionCostByMonth(), "CONSTRUCTION COSTS BY MONTH");
         }
-        else if (tokens[0] == "setmmcursor")
+        else if (tokens[0] == "list-animalpurchasecosts")
         {
-            if (tokens.size() > 2)
-            {
-                zmm.SetMiniMapCursor(::atoi(tokens[1].c_str()), ::atoi(tokens[2].c_str()));
-            }
-            else if (tokens.size() == 2)
-            {
-                // set new mini map cursor size
-                zmm.SetMiniMapCursor(tokens[1]);
-            }
-            
+            // return a full year list of animal purchase costs by month
+            state.print_year_to_console(state.AnimalPurchaseCostsByMonth(), "ANIMAL PURCHASE COSTS BY MONTH");
         }
+        else if (tokens[0] == "list-researchcosts")
+        {
+            // return a full year list of research costs by month
+            state.print_year_to_console(state.ResearchCostsByMonth(), "RESEARCH COSTS BY MONTH");
+        }
+        else if (tokens[0] == "list-totalbudget")
+        {
+            // return a full year list of the zoo's value by month
+            state.print_year_to_console(state.ZooValueByMonth(), "ZOO VALUE BY MONTH");
+        }
+        // else if (tokens[0] == "setmmcursor")
+        // {
+        //     if (tokens.size() > 2)
+        //     {
+        //         zmm.SetMiniMapCursor(::atoi(tokens[1].c_str()), ::atoi(tokens[2].c_str()));
+        //     }
+        //     else if (tokens.size() == 2)
+        //     {
+        //         // set new mini map cursor size
+        //         zmm.SetMiniMapCursor(tokens[1]);
+        //     }
+            
+        // }
         else
         {
             std::cout << "Err: No such command exists." << std::endl;
