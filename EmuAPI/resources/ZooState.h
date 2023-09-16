@@ -12,38 +12,38 @@ public:
 	ZooState();
 	~ZooState();
 
-    void PauseGame(bool);
-    void SetZooBudget(float);
-    float GetZooBudget();
-    void AddToZooBudget(float);
-    int NumAnimals();
-    int  NumSpecies();
-    int NumGuests();
-    float* AdmissionsIncomeByMonth();
-    float* ConcessionsBenefitByMonth();
-    float* RecyclingBenefitByMonth();
-    float* ZooProfitOverTime();
-    float* ZooRatingByMonth();
-    float* ConstructionCostByMonth();
-    float* PrivateDonationsByMonth();
-    float* AnimalPurchaseCostsByMonth();
-    float* ResearchCostsByMonth();
+    static void PauseGame(bool);
+    static void SetZooBudget(float);
+    static float GetZooBudget();
+    static void AddToZooBudget(float);
+    static int NumAnimals();
+    static int  NumSpecies();
+    static int NumGuests();
+    static float* AdmissionsIncomeByMonth();
+    static float* ConcessionsBenefitByMonth();
+    static float* RecyclingBenefitByMonth();
+    static float* ZooProfitOverTime();
+    static float* ZooRatingByMonth();
+    static float* ConstructionCostByMonth();
+    static float* PrivateDonationsByMonth();
+    static float* AnimalPurchaseCostsByMonth();
+    static float* ResearchCostsByMonth();
     // verify
-    int NumAngryGuests();
-    int NumTiredGuests();
-    int NumHungryGuests();
-    int NumThirstyGuests();
-    int NumGuestsNeedRestrm();
-    int NumGuestsInFilter();
-    float GetZooAdmissionCost();
-    void SetZooAdmissionCost(float);
-    float* ZooValueByMonth();
+    static int NumAngryGuests();
+    static int NumTiredGuests();
+    static int NumHungryGuests();
+    static int NumThirstyGuests();
+    static int NumGuestsNeedRestrm();
+    static int NumGuestsInFilter();
+    static float GetZooAdmissionCost();
+    static void SetZooAdmissionCost(float);
+    static float* ZooValueByMonth();
 
-    void print_year_to_console(float*, std::string);
+    static void print_year_to_console(float*, std::string);
 
 private:
         
-    DWORD object_ptr;
+    static DWORD object_ptr;
 };
 
 #endif

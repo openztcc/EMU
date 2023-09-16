@@ -9,6 +9,8 @@ ZooState::~ZooState(void)
 {
 }
 
+DWORD ZooState::object_ptr = *((DWORD*)((LPVOID)0x638048));
+
 /// @brief Pause the game.
 /// @param input 
 void ZooState::PauseGame(bool input)

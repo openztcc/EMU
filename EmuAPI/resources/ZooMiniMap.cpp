@@ -10,6 +10,10 @@ ZooMiniMap::~ZooMiniMap()
 
 }
 
+bool ZooMiniMap::dflt_set = false;
+int ZooMiniMap::min_map_x = 800;
+int ZooMiniMap::min_map_y = 600;
+
 void ZooMiniMap::SetMiniMapCursor(int mapx, int mapy)
 {
     DWORD ptr = *((DWORD*)((LPVOID)0x638068)) + 0x4C;
