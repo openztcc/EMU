@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-class ZooState : public EmuBase
+class ZooState
 {
 
 public:

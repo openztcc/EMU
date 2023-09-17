@@ -41,14 +41,13 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 DWORD WINAPI RunEmu(LPVOID lpParameter) 
 {
 	//EmuBase b;
-	ZooState z;
 	bool ctrlMPressed = false;
 
 	// main loop
 	while (true)
 	{
 		// CTRL + J
-		if (z.DoubleKey(0x11, 0x4A) == true && !IsConsoleRunning)
+		if (EmuBase::DoubleKey(0x11, 0x4A) == true && !IsConsoleRunning)
 		{
 			IsConsoleRunning = true;
 			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
@@ -57,13 +56,13 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
 		
 		
 		// CTRL + M
-        if (z.DoubleKey(0x11, 0x4D) == true && !ctrlMPressed)
+        if (EmuBase::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed)
         {
             ctrlMPressed = true; // Set the flag
             float mo_money = 1000000.00f;
-            z.AddToZooBudget(mo_money);
+            ZooState::AddToZooBudget(mo_money);
         }
-        else if (z.DoubleKey(0x11, 0x4D) == false)
+        else if (EmuBase::DoubleKey(0x11, 0x4D) == false)
         {
             ctrlMPressed = false; // Reset the flag when the key is released
         }
@@ -78,13 +77,12 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD ul_reason_for_call,
 	LPVOID lpReserved) 
 {
-	EmuBase p;
 	std::ofstream f;
 	f.open("out.log");
 
 	// Get the thread ID of the current thread
 	DWORD mainThreadId = GetCurrentThreadId();
-	f << mainThreadId << "\nCurrent thread ID: " << std::setfill('0') << std::setw(8) << std::hex << p.base << std::endl;
+	f << mainThreadId << "\nCurrent thread ID: " << std::setfill('0') << std::setw(8) << std::hex << EmuBase::base << std::endl;
 
 	// dll attachment status
 	f << "Status: ";

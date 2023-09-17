@@ -6,7 +6,7 @@
 #include <iostream>
 #include "lua.h"
 
-class ZooMiniMap : public EmuBase
+class ZooMiniMap
 {
     public:
         ZooMiniMap();

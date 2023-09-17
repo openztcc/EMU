@@ -1,5 +1,10 @@
 #include "EmuBase.h"
 
+DWORD EmuBase::id = GetCurrentProcessId();
+HANDLE EmuBase::handle = EmuBase::__getZooHandle(EmuBase::id);
+DWORD EmuBase::base = (DWORD)GetModuleHandle(NULL);
+DWORD EmuBase::thread = EmuBase::__getZooThread(EmuBase::id);
+
 /// <summary>
 /// Constructor: initiate  process variables 
 /// </summary>
@@ -63,7 +68,7 @@ DWORD EmuBase::__getZooThread(DWORD zooID)
 	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
 	if (Thread32First(snapshot, &entry) == TRUE) {
 		while (Thread32Next(snapshot, &entry) == TRUE) {
-			if (entry.th32OwnerProcessID == id) {
+			if (entry.th32OwnerProcessID == EmuBase::id) {
 				CloseHandle(snapshot);
 				return entry.th32ThreadID;
 			}
@@ -76,12 +81,11 @@ DWORD EmuBase::__getZooThread(DWORD zooID)
 // utility function for near hooking
 DWORD EmuBase::callHook(DWORD hookAt, DWORD newFunc)
 {
-	Memory<DWORD> m;
 	DWORD newOffset = newFunc - hookAt - 5;
-	DWORD oldProtection = m.protectMemory((LPVOID)(hookAt + 1), PAGE_EXECUTE_READWRITE);
-	DWORD originalOffset = m.readMemory((LPVOID)(hookAt + 1));
-	m.writeMemory((LPVOID)(hookAt + 1), newOffset);
-	m.protectMemory((LPVOID)(hookAt + 1), oldProtection);
+	DWORD oldProtection = EmuBase::Memory<DWORD>::protectMemory((LPVOID)(hookAt + 1), PAGE_EXECUTE_READWRITE);
+	DWORD originalOffset = EmuBase::Memory<DWORD>::readMemory((LPVOID)(hookAt + 1));
+	EmuBase::Memory<DWORD>::writeMemory((LPVOID)(hookAt + 1), newOffset);
+	EmuBase::Memory<DWORD>::protectMemory((LPVOID)(hookAt + 1), oldProtection);
 	return originalOffset + hookAt + 5;
 }
 

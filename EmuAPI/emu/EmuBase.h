@@ -17,33 +17,33 @@ public:
 	{
 	public:
 		Memory() {};
-		T readMemory(LPVOID);
-		void writeMemory(LPVOID, T);
-		DWORD protectMemory(LPVOID, DWORD);
-		T* pointMemory(LPVOID adr);
+		static T readMemory(LPVOID);
+		static void writeMemory(LPVOID, T);
+		static DWORD protectMemory(LPVOID, DWORD);
+		static T* pointMemory(LPVOID adr);
 	};
 
-	DWORD getModuleBaseAddress();
-	DWORD callHook(DWORD hookAt, DWORD newFunc);
+	static DWORD getModuleBaseAddress();
+	static DWORD callHook(DWORD hookAt, DWORD newFunc);
 
-	uint32_t floatToUint(float);
-	float uintToFloat(uint32_t);
+	static uint32_t floatToUint(float);
+	static float uintToFloat(uint32_t);
 	EmuBase();
-	DWORD id;
-	HANDLE handle;
-	DWORD base;
-	DWORD thread;
+	static DWORD id;
+	static HANDLE handle;
+	static DWORD base;
+	static DWORD thread;
 
 	// Windows Mgmt
 
-	bool SingleKey(const int);
-	bool DoubleKey(const int, const int);
-	bool TripleKey(const int, const int, const int);
+	static bool SingleKey(const int);
+	static bool DoubleKey(const int, const int);
+	static bool TripleKey(const int, const int, const int);
 
 protected:
-	DWORD __getModuleBaseAddress(DWORD, const TCHAR*);
-	HANDLE __getZooHandle(DWORD);
-	DWORD __getZooThread(DWORD);
+	static DWORD __getModuleBaseAddress(DWORD, const TCHAR*);
+	static HANDLE __getZooHandle(DWORD);
+	static DWORD __getZooThread(DWORD);
 };
 
 // read from memory

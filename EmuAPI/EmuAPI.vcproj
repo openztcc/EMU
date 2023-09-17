@@ -188,6 +188,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EmuEngine.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\emu\EmuGameLoop.cpp"
 				>
 			</File>
@@ -201,10 +205,6 @@
 			</File>
 			<File
 				RelativePath=".\lua\include\lua.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
