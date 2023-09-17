@@ -60,7 +60,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
 		{
             // add to budget hook
             std::cout << "Budget has been updated. " << std::endl;
-            ZooState::AddToZooBudget(::atof(tokens[1].c_str()));
+            ZooState::AddToZooBudget(static_cast<float>(::atof(tokens[1].c_str())));
         }
         else if (tokens[0] == "getbudget")
         {
@@ -71,7 +71,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         else if (tokens[0] == "setbudget")
         {
             // sets the budget
-            ZooState::SetZooBudget(::atof(tokens[1].c_str()));
+            ZooState::SetZooBudget(static_cast<float>(::atof(tokens[1].c_str())));
         }
 		else if (tokens[0] == "pause")
 		{
@@ -133,7 +133,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         else if (tokens[0] == "setzooadmcost")
         {
             // sets the admissions cost
-            ZooState::SetZooAdmissionCost(::atof(tokens[1].c_str()));
+            ZooState::SetZooAdmissionCost(static_cast<float>(::atof(tokens[1].c_str())));
         }
 
         else if (tokens[0] == "list-admissionsincome")
@@ -181,7 +181,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // return a full year list of research costs by month
             ZooState::print_year_to_console(ZooState::ResearchCostsByMonth(), "RESEARCH COSTS BY MONTH");
         }
-        else if (tokens[0] == "list-totalbudget")
+        else if (tokens[0] == "list-zoovalue")
         {
             // return a full year list of the zoo's value by month
             ZooState::print_year_to_console(ZooState::ZooValueByMonth(), "ZOO VALUE BY MONTH");

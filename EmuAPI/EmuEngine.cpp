@@ -22,10 +22,21 @@ bool IsConsoleRunning = false;
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
 	EmuConsole console;
+	FILE* file_s;
+
 	// Create a console window
     AllocConsole();
-    freopen("CONOUT$", "w", stdout);
-	freopen("CONIN$", "r", stdin);
+    if (freopen_s(&file_s, "CONOUT$", "w", stdout) != 0)
+	{
+		perror("freeopen_s");
+		return 1;
+	}
+	if (freopen_s(&file_s, "CONIN$", "r", stdin) != 0)
+	{
+		perror("freeopen_s");
+		return 1;
+	}
+	
 	system("pause");
 
 	while (IsConsoleRunning)
