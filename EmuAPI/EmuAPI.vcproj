@@ -115,7 +115,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;C:\Users\leric\OneDrive\Documents\Mods\XP_Backup\TekToolkit\GooseTek\EmuAPI\resources"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;&quot;$(ProjectDir)\resources&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EMUAPI_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"

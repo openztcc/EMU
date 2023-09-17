@@ -21,7 +21,7 @@ public:
     static int NumGuests();
     static float* AdmissionsIncomeByMonth();
     static float* ConcessionsBenefitByMonth();
-    static float* RecyclingBenefitByMonth();
+    // static float* RecyclingBenefitByMonth();
     static float* ZooProfitOverTime();
     static float* ZooRatingByMonth();
     static float* ConstructionCostByMonth();
@@ -42,8 +42,7 @@ public:
     static void print_year_to_console(float*, std::string);
 
 private:
-        
-    static DWORD object_ptr;
+    static DWORD object_ptr(DWORD);
 };
 
 #endif

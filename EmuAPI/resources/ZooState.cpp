@@ -2,14 +2,17 @@
 
 ZooState::ZooState()
 {
-    object_ptr = *((DWORD*)((LPVOID)0x638048));
+    
 }
 
 ZooState::~ZooState(void)
 {
 }
 
-DWORD ZooState::object_ptr = *((DWORD*)((LPVOID)0x638048));
+DWORD ZooState::object_ptr(DWORD offset)
+{
+    return (*((DWORD*)((LPVOID)0x638048)) + offset);
+}
 
 /// @brief Pause the game.
 /// @param input 
@@ -25,7 +28,7 @@ void ZooState::PauseGame(bool input)
         input = true;
     }
 
-    bool* p = ((bool*)(object_ptr + 0x4));
+    bool* p = ((bool*)object_ptr(0x4));
     *p = input;
 }
 
@@ -33,7 +36,7 @@ void ZooState::PauseGame(bool input)
 /// @param input 
 void ZooState::AddToZooBudget(float input)
 {
-    float* budget = (float*)(object_ptr + 0x0C);
+    float* budget = (float*)object_ptr(0x0C);
     *budget = (float)(*budget + input);
 }
 
@@ -41,7 +44,7 @@ void ZooState::AddToZooBudget(float input)
 /// @return 
 float ZooState::GetZooBudget()
 {
-    float* budget = (float*)(object_ptr + 0x0C);
+    float* budget = (float*)object_ptr(0x0C);
     return *budget;
 }
 
@@ -49,7 +52,7 @@ float ZooState::GetZooBudget()
 /// @return 
 void ZooState::SetZooBudget(float new_budget)
 {
-    float* budget = (float*)(object_ptr + 0x0C);
+    float* budget = (float*)object_ptr(0x0C);
     *budget = new_budget;
 }
 
@@ -57,7 +60,7 @@ void ZooState::SetZooBudget(float new_budget)
 /// @return 
 int ZooState::NumAnimals()
 {
-    int* p = ((int*)(object_ptr + 0x30));
+    int* p = ((int*)object_ptr(0x30));
     return *p;
 }
 
@@ -65,7 +68,7 @@ int ZooState::NumAnimals()
 /// @return 
 int ZooState::NumSpecies()
 {
-    int* p = ((int*)(object_ptr + 0x38));
+    int* p = ((int*)object_ptr(0x38));
     return *p;
 }
 
@@ -73,49 +76,57 @@ int ZooState::NumSpecies()
 /// @return 
 int ZooState::NumGuests()
 {
-    int* p = ((int*)(object_ptr + 0x54));
+    int* p = ((int*)object_ptr(0x54));
     return *p;
 }
 
+/// @brief Returns the number of tired guests.
+/// @return 
 int ZooState::NumTiredGuests()
 {
-    int* p = ((int*)(object_ptr + 0x3C));
+    int* p = ((int*)object_ptr(0x3C));
     return *p;
 }
 
+/// @brief Returns the number of hungry guests.
+/// @return 
 int ZooState::NumHungryGuests()
 {
-    int* p = ((int*)(object_ptr + 0x30));
+    int* p = ((int*)object_ptr(0x40));
     return *p;
 }
 
+/// @brief Returns the number of thirsty guests.
+/// @return 
 int ZooState::NumThirstyGuests()
 {
-    int* p = ((int*)(object_ptr + 0x44));
+    int* p = ((int*)object_ptr(0x44));
     return *p;
 }
 
+/// @brief Returns the number of guests that need the restroom.
+/// @return 
 int ZooState::NumGuestsNeedRestrm()
 {
-    int* p = ((int*)(object_ptr + 0x48));
+    int* p = ((int*)object_ptr(0x48));
     return *p;
 }
 
 int ZooState::NumGuestsInFilter()
 {
-    int* p = ((int*)(object_ptr + 0x54));
+    int* p = ((int*)object_ptr(0x54));
     return *p;
 }
 
 float ZooState::GetZooAdmissionCost()
 {
-    float* p = ((float*)(object_ptr + 0x1160));
+    float* p = ((float*)object_ptr(0x1160));
     return *p;
 }
 
 void ZooState::SetZooAdmissionCost(float new_cost)
 {
-    float* p = ((float*)(object_ptr + 0x1160));
+    float* p = ((float*)object_ptr(0x1160));
     *p = new_cost;
 }
 
@@ -125,68 +136,69 @@ void ZooState::SetZooAdmissionCost(float new_cost)
 /// @return 
 float* ZooState::AdmissionsIncomeByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x254));
+    float* p = ((float*)object_ptr(0x254));
     return p;
 }
 
 float* ZooState::ConcessionsBenefitByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x284));
+    float* p = ((float*)object_ptr(0x284));
     return p;
 }
 
-float* ZooState::RecyclingBenefitByMonth()
-{
-    float* p = ((float*)(object_ptr + 0x314));
-    return p;
-}
+// Offset is incorrect
+// float* ZooState::RecyclingBenefitByMonth()
+// {
+//     float* p = ((float*)object_ptr(0x314));
+//     return p;
+// }
 
 float* ZooState::ZooProfitOverTime()
 {
-    float* p = ((float*)(object_ptr + 0x404));
+    float* p = ((float*)object_ptr(0x404));
     return p;
 }
 
 float* ZooState::PrivateDonationsByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x2E4));
+    float* p = ((float*)object_ptr(0x2E4));
     return p;
 }
 
 float* ZooState::ZooRatingByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x464));
+    float* p = ((float*)object_ptr(0x464));
     return p;
 }
 
 float* ZooState::ConstructionCostByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x1F4));
+    float* p = ((float*)object_ptr(0x1F4));
     return p;
 }
 
 float* ZooState::AnimalPurchaseCostsByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x1C4));
+    float* p = ((float*)object_ptr(0x1C4));
     return p;
 }
 
 // needs another look
 float* ZooState::ResearchCostsByMonth()
 {
-    float* p = ((float*)(object_ptr + 0xD10));
+    float* p = ((float*)object_ptr(0xD10));
     return p;
 }
 
 float* ZooState::ZooValueByMonth()
 {
-    float* p = ((float*)(object_ptr + 0x434));
+    float* p = ((float*)object_ptr(0x434));
     return p;
 }
 
 // float* ZooState::ZooValueByMonth()
 // {
-//     float* p = ((float*)(object_ptr + 0x434));
+//     float* p = ((float*)object_ptr(0x434));
 //     return p;
 // }
 

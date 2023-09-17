@@ -146,11 +146,11 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // return a full year list of concessions benefits by month
             ZooState::print_year_to_console(ZooState::ConcessionsBenefitByMonth(), "CONCESSIONS BENEFIT BY MONTH");
         }
-        else if (tokens[0] == "list-recyclingbenefit")
-        {
-            // return a full year list of recycling benefits by month
-            ZooState::print_year_to_console(ZooState::RecyclingBenefitByMonth(), "RECYCLING BENEFIT BY MONTH");
-        }
+        // else if (tokens[0] == "list-recyclingbenefit")
+        // {
+        //     // return a full year list of recycling benefits by month
+        //     ZooState::print_year_to_console(ZooState::RecyclingBenefitByMonth(), "RECYCLING BENEFIT BY MONTH");
+        // }
         else if (tokens[0] == "list-zooprofits")
         {
             // return a full year list of zoo profits by month
