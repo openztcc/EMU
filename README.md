@@ -48,8 +48,7 @@ List of all available commands:
 | setzooadmcost <float new_adm> | Set the current admission cost to your zoo. See the above limitation about child ticket prices. |
 | list-admissionsincome | Return a calendar listing of admissions income. |
 | list-concessionsbenefit | Return a calendar listing of concessions benefits. |
-| list-recyclingbenefit | Return a calendar listing of recycling benefits. |
-| list-zooprofits | Return a calendar listing of zoo profits. |
+| list-zoovalue | Return a calendar listing of zoo value changes over the year. |
 | list-privatedonations | Return a calendar listing of private donations. |
 | list-zoorating | Return a calendar listing of zoo ratings. |
 | list-constructioncosts | Return a calendar listing with construction costs. |
