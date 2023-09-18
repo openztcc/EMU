@@ -58,7 +58,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
 	luaL_openlibs (lua);              // Load io library
     
 		
-    if ((iErr = luaL_loadfile (lua, "emu_test_script.lua")) == 0)
+    if ((iErr = luaL_loadfile (lua, "emu_test_script.emu")) == 0)
     {
         
         // Call main...
