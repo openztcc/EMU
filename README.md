@@ -22,7 +22,7 @@ Drop the res-EMU.dll binary directly into your `C:\Program Files (x86)\Microsoft
 
 The API includes a command console not originally available in the vanilla game. It can be accessed via `CTRL + J`. It is currently not advisable to run any commands unless a zoo file has been loaded as it depends on the resources to have been allocated in memory.
 
-Important limitations to consider as of **EMU v1.0.0-alpha.1**:
+Important limitations to consider as of **EMU v1.0.0-alpha.2**:
 - The console is only visible in windowed mode and will not be accessible if you are full screen.
 - Do not immediately exit the console by hitting 'X' on the window as this will close your game without prompt to save your zoo. First enter the `exit` command in order to detach the console thread from the game thread. This will now let you close the window safely and allow you to keep playing your game without issue.
 - Safety checks are not yet implemented so be careful to stray too far from the expected input.
