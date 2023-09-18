@@ -32,9 +32,9 @@ List of all available commands:
 | Command  | Description |
 | ------------- | ------------- |
 | exit  | Safely close the console thread. |
-| addtobudget <float deposit> | Deposit a discrete amount of cash into your zoo budget. |
+| addtobudget \<float deposit\> | Deposit a discrete amount of cash into your zoo budget. |
 | getbudget | Returns the current budget. |
-| setbudget <float new_budget> | Set your current budget to a new amount. |
+| setbudget \<float new_budget\> | Set your current budget to a new amount. |
 | pause | Pause your game from the console. |
 | resume | Resume your game from the console. |
 | num-animals | Return the current number of animals in your zoo. |
@@ -45,7 +45,7 @@ List of all available commands:
 | num-thirstyguests | Return the current number of thirsty guests in your zoo. |
 | num-rstrmguests | Return the current number of guests that need to use the restroom. |
 | getzooadmcost | Return the current admission cost to your zoo. Note: this is the adult ticket value. The child ticket value is not stored in memory as it is automatically calculated from the adult price divided by 2. |
-| setzooadmcost <float new_adm> | Set the current admission cost to your zoo. See the above limitation about child ticket prices. |
+| setzooadmcost \<float new_adm\> | Set the current admission cost to your zoo. See the above limitation about child ticket prices. |
 | list-admissionsincome | Return a calendar listing of admissions income. |
 | list-concessionsbenefit | Return a calendar listing of concessions benefits. |
 | list-zoovalue | Return a calendar listing of zoo value changes over the year. |
