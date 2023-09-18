@@ -1,15 +1,15 @@
 
-#include "EmuRegister.h"
+// #include "EmuRegister.h"
 
-EmuRegister::EmuRegister(void)
-{
-}
+// EmuRegister::EmuRegister(void)
+// {
+// }
 
-EmuRegister::~EmuRegister(void)
-{
-}
+// EmuRegister::~EmuRegister(void)
+// {
+// }
 
-void EmuRegister::RegisterMod(EmuMod modToRegister)
-{
-	registeredMods.push_back(modToRegister);
-}
+// void EmuRegister::RegisterMod(EmuMod modToRegister)
+// {
+// 	registeredMods.push_back(modToRegister);
+// }

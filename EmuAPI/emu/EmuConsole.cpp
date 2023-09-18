@@ -1,6 +1,7 @@
 
 #include "EmuConsole.h"
 #include <iomanip>
+#include "lua.hpp"
 
 EmuConsole::EmuConsole(void)
 {
@@ -39,9 +40,45 @@ void EmuConsole::tokenize()
 void EmuConsole::processInput(bool& IsConsoleRunning)
 {
     std::cout << "Welcome to the EMU command console. Please enter your command below.\n\n:::IMPORTANT::: Do not close this console window if you do not want to lose your zoo progress, this will effectively force quit the game. If you would like to exit the console safely, type in the 'exit' command and wait for the message. You can then close the command console." << std::endl << std::endl;
-    std::cout << ">> ";
+    
+    int iErr = 0;
+    
+    
+	lua_State *lua = luaL_newstate();  // Open Lua
+
+    if (!lua) 
+    {
+        std::cerr << "Failed to create Lua state." << std::endl;
+        return;
+    }
+
+    
+    
+    
+	luaL_openlibs (lua);              // Load io library
+    
+		
+    if ((iErr = luaL_loadfile (lua, "emu_test_script.lua")) == 0)
+    {
+        
+        // Call main...
+        if ((iErr = lua_pcall (lua, 0, LUA_MULTRET, 0)) == 0)
+        { 
+            lua_pcall(lua, 0, LUA_MULTRET, 0);
+            
+            // Push the function name onto the stack
+            lua_getglobal(lua, "emu_run");
+            
+            lua_pcall(lua, 0, 0, 0);
+            
+        }
+    }
+    lua_close (lua);
+
+    std::cout << "\n>> ";
 
     this->tokenize();
+
     // Process the input tokens
     while (!tokens.empty())
     {

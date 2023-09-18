@@ -14,8 +14,8 @@
 #include <mmsystem.h>
 #include <winnt.h>
 #include <cstdio>
-#include "lua.h"
 #include "ZooState.h"
+#include "lua.hpp"
 
 bool IsConsoleRunning = false;
 
@@ -78,9 +78,10 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
             ctrlMPressed = false; // Reset the flag when the key is released
         }
 
+
 		Sleep(0);
 	}
-
+	
 	return 1;
 }
 

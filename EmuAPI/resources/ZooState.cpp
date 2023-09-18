@@ -1,6 +1,6 @@
 #include "ZooState.h"
 
-using LuaFunction = std::function<void(lua_State*)>;
+//using LuaFunction = std::function<void(lua_State*)>;
 
 ZooState::ZooState()
 {
@@ -11,36 +11,35 @@ ZooState::~ZooState(void)
 {
 }
 
-int ZooState::LuaTable(lua_State* L)
-{
-    std::map<std::string, LuaFunction> luaFunctions;
+// int ZooState::LuaTable(lua_State* L)
+// {
+//     std::map<std::string, LuaFunction> luaFunctions;
 
-    luaFunctions["AddToBudget"] = [](lua_State* L)
-    {
-        float arg1 = (float)luaL_checknumber(L, 1);
-        AddToZooBudget(arg1);
-        lua_pushnumber(L, result);
-    }
-}
+//     luaFunctions["AddToBudget"] = [](lua_State* L)
+//     {
+//         float arg1 = (float)luaL_checknumber(L, 1);
+//         AddToZooBudget(arg1);
+//     };
+// }
 
-void ZooState::RegisterToLua(lua_State* L)
-{
-    static const luaL_Reg zoo_state_functions[] = 
-    {
-        {"PauseGame", PauseGame },
-        {"SetZooBudget", SetZooBudget }
+// void ZooState::RegisterToLua(lua_State* L)
+// {
+//     static const luaL_Reg zoo_state_functions[] = 
+//     {
+//         {"PauseGame", PauseGame },
+//         {"SetZooBudget", SetZooBudget }
 
-    };
+//     };
 
-    lua_newtable(L);
+//     lua_newtable(L);
 
-    for (const luaL_Reg* function =  zoo_state_functions; function->name != nullptr; function++)
-    {
+//     for (const luaL_Reg* function =  zoo_state_functions; function->name != nullptr; function++)
+//     {
 
-    }
+//     }
 
-    lua_setglobal(L, "ZooState");
-}
+//     lua_setglobal(L, "ZooState");
+// }
 
 DWORD ZooState::object_ptr(DWORD offset)
 {

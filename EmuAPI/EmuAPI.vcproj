@@ -189,7 +189,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\EmuEngine.cpp"
+				RelativePath=".\EmuLoader.cpp"
 				>
 			</File>
 			<File
@@ -197,15 +197,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\emu\EmuLoader.cpp"
+				RelativePath=".\emu\EmuRegister.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\emu\EmuMod.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\lua\include\lua.hpp"
 				>
 			</File>
 			<File
@@ -250,7 +246,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\emu\EmuLoader.h"
+					RelativePath=".\emu\EmuRegister.h"
 					>
 				</File>
 				<File
@@ -262,19 +258,7 @@
 				Name="lua"
 				>
 				<File
-					RelativePath=".\lua\include\lauxlib.h"
-					>
-				</File>
-				<File
-					RelativePath=".\lua\include\lua.h"
-					>
-				</File>
-				<File
-					RelativePath=".\lua\include\luaconf.h"
-					>
-				</File>
-				<File
-					RelativePath=".\lua\include\lualib.h"
+					RelativePath=".\lua\include\lau.hpp"
 					>
 				</File>
 			</Filter>
