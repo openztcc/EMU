@@ -4,6 +4,9 @@
 #include "EmuBase.h"
 #include <string>
 #include <iostream>
+#include "lua.hpp"
+#include <map>
+#include <functional>
 
 class ZooState
 {
@@ -11,7 +14,8 @@ class ZooState
 public:
 	ZooState();
 	~ZooState();
-
+    static void RegisterToLua(lua_State* L);
+    static int LuaTable(lua_State* L);
     static void PauseGame(bool);
     static void SetZooBudget(float);
     static float GetZooBudget();
