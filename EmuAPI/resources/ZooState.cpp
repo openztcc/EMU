@@ -50,18 +50,26 @@ DWORD ZooState::object_ptr(DWORD offset)
 /// @param input 
 void ZooState::PauseGame(bool input)
 {
-    // game has it so pause = false. PauseGame is catchier so I like it this way :P
-    if (input == true)
-    {
-        input = false;
-    }
-    else
-    {
-        input = true;
-    }
-
-    bool* p = ((bool*)object_ptr(0x4));
+    bool* p = (bool*)(*((DWORD*)((LPVOID)0x638588)));
     *p = input;
+}
+
+
+/// @brief Overload: allows a user to set
+/// @param input 
+void ZooState::FreezeGameState(bool is_loaded)
+{
+    bool* p = ((bool*)object_ptr(0x4));
+    *p = is_loaded;
+}
+
+
+/// @brief Pause the game.
+/// @param input 
+bool ZooState::IsZooLoaded()
+{
+    bool* p = ((bool*)object_ptr(0x4));
+    return *p;
 }
 
 /// @brief Add money to the zoo budget.

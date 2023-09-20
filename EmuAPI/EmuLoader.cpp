@@ -36,8 +36,6 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 		perror("freeopen_s");
 		return 1;
 	}
-	
-	system("pause");
 
 	while (IsConsoleRunning)
 	{

@@ -14,6 +14,8 @@ class ZooState
 public:
 	ZooState();
 	~ZooState();
+    void FreezeGameState(bool);
+    static bool IsZooLoaded();
     static void RegisterToLua(lua_State* L);
     static int LuaTable(lua_State* L);
     static void PauseGame(bool);
