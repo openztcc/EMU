@@ -15,7 +15,6 @@
 #include <winnt.h>
 #include <cstdio>
 #include "ZooState.h"
-#include "lua.hpp"
 
 bool IsConsoleRunning = false;
 bool IsConsoleHiding = false;
@@ -61,11 +60,24 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 		Sleep(10);
 	}
 	FreeConsole();
+	return 1;
 }
 
 DWORD WINAPI RunEmu(LPVOID lpParameter) 
 {
 	bool ctrlMPressed = false;
+
+	lua_State *lua = luaL_newstate();  // Open Lua
+	int iErr = 0;
+	if (!lua) 
+	{
+		std::cerr << "Failed to create Lua state." << std::endl;
+		return 0;
+	}
+
+	int print_counter = 0;
+	ZooState::register_zoo_state(lua);
+	luaL_openlibs (lua);              // Load io library
 
 	// main loop
 	while (true)
@@ -95,11 +107,31 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
         {
             ctrlMPressed = false; // Reset the flag when the key is released
         }
-
+		
+		
+		if (print_counter < 5 && (((bool*)ZooState::object_ptr(0x0)) > 0) && (iErr = luaL_loadfile (lua, "emu_test_script.emu")) == 0)
+		{
+			if (ZooState::IsZooLoaded() == true)
+			{
+				// Call main...
+				if ((iErr = lua_pcall (lua, 0, LUA_MULTRET, 0)) == 0)
+				{ 
+					lua_pcall(lua, 0, LUA_MULTRET, 0);
+					
+					// Push the function name onto the stack
+					lua_getglobal(lua, "emu_run");
+					
+					lua_pcall(lua, 0, 0, 0);
+					
+				}
+			}
+			print_counter++;
+		}
+		
 
 		Sleep(0);
 	}
-	
+	lua_close (lua);
 	return 1;
 }
 

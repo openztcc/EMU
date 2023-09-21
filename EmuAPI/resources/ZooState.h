@@ -12,12 +12,15 @@ class ZooState
 {
 
 public:
+	/// Lua Managers
+    static void register_zoo_state(lua_State*);
+    static int lua_ZooState_GetZooBudget(lua_State*);
+
+	/// Zoo State
 	ZooState();
 	~ZooState();
     void FreezeGameState(bool);
     static bool IsZooLoaded();
-    static void RegisterToLua(lua_State* L);
-    static int LuaTable(lua_State* L);
     static void PauseGame(bool);
     static void SetZooBudget(float);
     static float GetZooBudget();
@@ -46,8 +49,6 @@ public:
     static float* ZooValueByMonth();
 
     static void print_year_to_console(float*, std::string);
-
-private:
     static DWORD object_ptr(DWORD);
 };
 
