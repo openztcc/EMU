@@ -74,7 +74,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         }
     }
     lua_close (lua);
-
+    tokens.clear();
     std::cout << "\n>> ";
 
     this->tokenize();
@@ -82,21 +82,16 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
     // Process the input tokens
     while (!tokens.empty())
     {
-        if (ZooState::IsZooLoaded())
+        // Check for a special command to exit the program
+        if (tokens[0] == "exit")
         {
-
-            
-            // Check for a special command to exit the program
-            if (tokens[0] == "exit")
-            {
-                std::cout << "You may now safely close the console window." << std::endl;
-                // close console
-                FreeConsole();
-                IsConsoleRunning = false;
-                return;
-            }
-            
-            else if (tokens[0] == "addtobudget")
+            std::cout << "You may now safely close the console window." << std::endl;
+            return;
+        }
+        if (ZooState::IsZooLoaded())
+        { 
+        
+            if (tokens[0] == "addtobudget")
             {
                 // add to budget hook
                 std::cout << "Budget has been updated. " << std::endl;

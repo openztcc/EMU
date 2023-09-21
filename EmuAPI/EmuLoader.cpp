@@ -18,11 +18,16 @@
 #include "lua.hpp"
 
 bool IsConsoleRunning = false;
+bool IsConsoleHiding = false;
+bool HasConsoleOpenedOnce = false;
+HWND consoleWindow;
 
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
 	EmuConsole console;
 	FILE* file_s;
+
+	HasConsoleOpenedOnce = true;
 
 	// Create a console window
     AllocConsole();
@@ -37,14 +42,25 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 		return 1;
 	}
 
+	consoleWindow = GetConsoleWindow();
+	// SetWindowLongPtr(consoleWindow, GWL_EXSTYLE, GetWindowLongPtr(consoleWindow, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
+    // SetWindowPos(consoleWindow, HWND_TOPMOST, 100, 100, 400, 200, SWP_SHOWWINDOW);
+
+
 	while (IsConsoleRunning)
 	{
 		// Process the input tokens
 		console.processInput(IsConsoleRunning);
+		
+		if (IsConsoleHiding == false)
+		{
+			ShowWindow(consoleWindow, SW_HIDE);
+			IsConsoleHiding = true;
+		}
+		
 		Sleep(10);
 	}
-
-	return 1;
+	FreeConsole();
 }
 
 DWORD WINAPI RunEmu(LPVOID lpParameter) 
@@ -56,11 +72,16 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
 	while (true)
 	{
 		// CTRL + J
-		if (EmuBase::DoubleKey(0x11, 0x4A) == true && !IsConsoleRunning)
+		if (EmuBase::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false)
 		{
 			IsConsoleRunning = true;
 			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
 			CloseHandle(thread);
+		}
+		else if (EmuBase::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true)
+		{
+			ShowWindow(consoleWindow, SW_SHOW);
+			IsConsoleHiding = false;
 		}
 		
 		
