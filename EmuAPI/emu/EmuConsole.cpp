@@ -17,13 +17,26 @@ EmuConsole::~EmuConsole(void)
 void EmuConsole::tokenize()
 { 
     std::string token = "";
-    std::getline(std::cin, token);
-
-    if (token.size() > 100)
+    // TODO: fix try/catch. Crashes if error found.
+    try
     {
-		// this limit will be increased, it's just a pre-emptive measure
-        std::cerr << "100 char limit in buffer. Please try again." << std::endl;
-        throw;
+        
+        std::getline(std::cin, token);
+
+        if (token.size() > 100)
+        {
+            // this limit will be increased, it's just a pre-emptive measure
+            std::cout << "100 char limit in buffer. Please try again." << std::endl;
+            throw;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+        token = "";
+        std::cin.clear();
+        std::getline(std::cin, token);
+        
     }
 
     std::istringstream iss(token);

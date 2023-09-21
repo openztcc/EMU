@@ -19,12 +19,12 @@
 
 bool IsConsoleRunning = false;
 bool IsConsoleHiding = false;
-bool HasConsoleOpenedOnce = false;
-HWND consoleWindow;
+bool HasConsoleOpenedOnce = false; // to avoid conflicts when console has not been opened yet
+HWND consoleWindow; // contains console window handle
 
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
-	EmuConsole console;
+	EmuConsole console; // new console object. needed to keep token state persistent.
 	FILE* file_s;
 
 	HasConsoleOpenedOnce = true;
@@ -65,7 +65,6 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 
 DWORD WINAPI RunEmu(LPVOID lpParameter) 
 {
-	//EmuBase b;
 	bool ctrlMPressed = false;
 
 	// main loop
