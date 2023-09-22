@@ -4,6 +4,7 @@ void RegZooState::register_zoo_state(lua_State* lua)
 {
     lua_register(lua, "GetZooBudget", RegZooState::lua_ZooState_GetZooBudget);
     lua_register(lua, "IsZooLoaded", RegZooState::lua_ZooState_IsZooLoaded);
+    lua_register(lua, "PauseGame", RegZooState::lua_ZooState_PauseGame);
     lua_register(lua, "SetZooBudget", RegZooState::lua_ZooState_SetZooBudget);
     lua_register(lua, "AddToZooBudget", RegZooState::lua_ZooState_AddToZooBudget);
     lua_register(lua, "NumAnimals", RegZooState::lua_ZooState_NumAnimals);
@@ -17,7 +18,7 @@ void RegZooState::register_zoo_state(lua_State* lua)
     lua_register(lua, "PrivateDonationsByMonth", RegZooState::lua_ZooState_PrivateDonationsByMonth);
     lua_register(lua, "AnimalPurchaseCostsByMonth", RegZooState::lua_ZooState_AnimalPurchaseCostsByMonth);
     lua_register(lua, "ResearchCostsByMonth", RegZooState::lua_ZooState_ResearchCostsByMonth);
-    lua_register(lua, "NumAngryGuests", RegZooState::lua_ZooState_NumAngryGuests);
+    //lua_register(lua, "NumAngryGuests", RegZooState::lua_ZooState_NumAngryGuests);
     lua_register(lua, "NumTiredGuests", RegZooState::lua_ZooState_NumTiredGuests);
     lua_register(lua, "NumHungryGuests", RegZooState::lua_ZooState_NumHungryGuests);
     lua_register(lua, "NumThirstyGuests", RegZooState::lua_ZooState_NumThirstyGuests);
@@ -49,7 +50,7 @@ int RegZooState::lua_ZooState_PauseGame(lua_State* lua)
     if (numArgs == 1)
     {
         // parameter is at Lua stack 1
-        float pause_state = (float)lua_tonumber(lua, 1);
+        bool pause_state = (bool)lua_toboolean(lua, 1);
 
         // set new value
         ZooState::PauseGame(pause_state);
@@ -264,11 +265,11 @@ int RegZooState::lua_ZooState_ResearchCostsByMonth(lua_State* lua)
     return 1;
 }
 
-int RegZooState::lua_ZooState_NumAngryGuests(lua_State* lua)
-{
-    lua_pushnumber(lua, ZooState::NumAngryGuests());
-    return 1;
-}
+// int RegZooState::lua_ZooState_NumAngryGuests(lua_State* lua)
+// {
+//     lua_pushnumber(lua, ZooState::NumAngryGuests());
+//     return 1;
+// }
 
 int RegZooState::lua_ZooState_NumTiredGuests(lua_State* lua)
 {

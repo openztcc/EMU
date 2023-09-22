@@ -38,7 +38,7 @@ public:
     static float* AnimalPurchaseCostsByMonth();
     static float* ResearchCostsByMonth();
     // verify
-    static int NumAngryGuests();
+    //static int NumAngryGuests();
     static int NumTiredGuests();
     static int NumHungryGuests();
     static int NumThirstyGuests();

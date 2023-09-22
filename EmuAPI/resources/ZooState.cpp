@@ -20,7 +20,8 @@ DWORD ZooState::object_ptr(DWORD offset)
 /// @param input 
 void ZooState::PauseGame(bool input)
 {
-    bool* p = (bool*)(*((DWORD*)((LPVOID)0x638588)));
+    DWORD ptr = (((DWORD)((LPVOID)0x638588)));
+    bool* p = (bool*)ptr;
     *p = input;
 }
 

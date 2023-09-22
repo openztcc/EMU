@@ -25,7 +25,7 @@ class RegZooState
         static int lua_ZooState_PrivateDonationsByMonth(lua_State*);
         static int lua_ZooState_AnimalPurchaseCostsByMonth(lua_State*);
         static int lua_ZooState_ResearchCostsByMonth(lua_State*);
-        static int lua_ZooState_NumAngryGuests(lua_State*);
+        //static int lua_ZooState_NumAngryGuests(lua_State*);
         static int lua_ZooState_NumTiredGuests(lua_State*);
         static int lua_ZooState_NumHungryGuests(lua_State*);
         static int lua_ZooState_NumThirstyGuests(lua_State*);
