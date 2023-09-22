@@ -14,15 +14,20 @@
 #include <mmsystem.h>
 #include <winnt.h>
 #include <cstdio>
-#include "lua.h"
 #include "ZooState.h"
+#include "RegZooState.h"
 
 bool IsConsoleRunning = false;
+bool IsConsoleHiding = false;
+bool HasConsoleOpenedOnce = false; // to avoid conflicts when console has not been opened yet
+HWND consoleWindow; // contains console window handle
 
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
-	EmuConsole console;
+	EmuConsole console; // new console object. needed to keep token state persistent.
 	FILE* file_s;
+
+	HasConsoleOpenedOnce = true;
 
 	// Create a console window
     AllocConsole();
@@ -36,33 +41,59 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 		perror("freeopen_s");
 		return 1;
 	}
-	
-	system("pause");
 
+	consoleWindow = GetConsoleWindow();
+	// SetWindowLongPtr(consoleWindow, GWL_EXSTYLE, GetWindowLongPtr(consoleWindow, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
+    // SetWindowPos(consoleWindow, HWND_TOPMOST, 100, 100, 400, 200, SWP_SHOWWINDOW);
+
+	std::cout << "Welcome to the EMU command console. Please enter your command below.\n\n:::IMPORTANT::: Do not close this console window if you do not want to lose your zoo progress, this will effectively force quit the game. If you would like to exit the console safely, type in the 'exit' command and wait for the message. You can then close the command console." << std::endl << std::endl;
+	
 	while (IsConsoleRunning)
 	{
 		// Process the input tokens
 		console.processInput(IsConsoleRunning);
+		
+		if (IsConsoleHiding == false)
+		{
+			ShowWindow(consoleWindow, SW_HIDE);
+			IsConsoleHiding = true;
+		}
+		
 		Sleep(10);
 	}
-
+	FreeConsole();
 	return 1;
 }
 
 DWORD WINAPI RunEmu(LPVOID lpParameter) 
 {
-	//EmuBase b;
 	bool ctrlMPressed = false;
+
+	lua_State *lua = luaL_newstate();  // Open Lua
+	int iErr = 0;
+	if (!lua) 
+	{
+		std::cerr << "Failed to create Lua state." << std::endl;
+		return 0;
+	}
+
+	RegZooState::register_zoo_state(lua);
+	luaL_openlibs (lua);              // Load io library
 
 	// main loop
 	while (true)
 	{
 		// CTRL + J
-		if (EmuBase::DoubleKey(0x11, 0x4A) == true && !IsConsoleRunning)
+		if (EmuBase::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false)
 		{
 			IsConsoleRunning = true;
 			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
 			CloseHandle(thread);
+		}
+		else if (EmuBase::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true)
+		{
+			ShowWindow(consoleWindow, SW_SHOW);
+			IsConsoleHiding = false;
 		}
 		
 		
@@ -77,10 +108,31 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
         {
             ctrlMPressed = false; // Reset the flag when the key is released
         }
+		
+		
+		if ((((int)ZooState::object_ptr(0x0)) > 0) && (iErr = luaL_loadfile (lua, "playground.emu")) == 0)
+		{
+			if (ZooState::IsZooLoaded() == true)
+			{
+				// Call main...
+				if ((iErr = lua_pcall (lua, 0, LUA_MULTRET, 0)) == 0)
+				{ 
+					lua_pcall(lua, 0, LUA_MULTRET, 0);
+					
+					// Push the function name onto the stack
+					lua_getglobal(lua, "emu_run");
+					
+					lua_pcall(lua, 0, 0, 0);
+					
+				}
+			}
+			
+		}
+		
 
 		Sleep(0);
 	}
-
+	lua_close (lua);
 	return 1;
 }
 

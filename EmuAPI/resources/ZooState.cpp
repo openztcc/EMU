@@ -1,5 +1,7 @@
 #include "ZooState.h"
 
+//using LuaFunction = std::function<void(lua_State*)>;
+
 ZooState::ZooState()
 {
     
@@ -18,18 +20,34 @@ DWORD ZooState::object_ptr(DWORD offset)
 /// @param input 
 void ZooState::PauseGame(bool input)
 {
-    // game has it so pause = false. PauseGame is catchier so I like it this way :P
-    if (input == true)
-    {
-        input = false;
-    }
-    else
-    {
-        input = true;
-    }
-
-    bool* p = ((bool*)object_ptr(0x4));
+    DWORD ptr = (((DWORD)((LPVOID)0x638588)));
+    bool* p = (bool*)ptr;
     *p = input;
+}
+
+/// @brief Is the game paused through the UI?
+bool ZooState::IsGamePaused()
+{
+    DWORD ptr = (((DWORD)((LPVOID)0x638588)));
+    bool* p = (bool*)ptr;
+    return *p;
+}
+
+/// @brief Overload: allows a user to set
+/// @param input 
+void ZooState::FreezeGameState(bool is_loaded)
+{
+    bool* p = ((bool*)object_ptr(0x4));
+    *p = is_loaded;
+}
+
+
+/// @brief Pause the game.
+/// @param input 
+bool ZooState::IsZooLoaded()
+{
+    bool* p = ((bool*)object_ptr(0x4));
+    return *p;
 }
 
 /// @brief Add money to the zoo budget.
