@@ -50,7 +50,9 @@ int RegZooState::lua_ZooState_PauseGame(lua_State* lua)
     if (numArgs == 1)
     {
         // parameter is at Lua stack 1
-        bool pause_state = (bool)lua_toboolean(lua, 1);
+        #pragma warning(disable : 4800)
+        bool pause_state = lua_toboolean(lua, 1);
+        #pragma warning(default : 4800)
 
         // set new value
         ZooState::PauseGame(pause_state);

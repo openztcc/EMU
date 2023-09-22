@@ -76,7 +76,6 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
 		return 0;
 	}
 
-	int print_counter = 0;
 	RegZooState::register_zoo_state(lua);
 	luaL_openlibs (lua);              // Load io library
 
@@ -110,7 +109,7 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
         }
 		
 		
-		if (print_counter < 1 && (((int)ZooState::object_ptr(0x0)) > 0) && (iErr = luaL_loadfile (lua, "emu_test_script.emu")) == 0)
+		if ((((int)ZooState::object_ptr(0x0)) > 0) && (iErr = luaL_loadfile (lua, "playground.emu")) == 0)
 		{
 			if (ZooState::IsZooLoaded() == true)
 			{
@@ -125,7 +124,6 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
 					lua_pcall(lua, 0, 0, 0);
 					
 				}
-				print_counter++;
 			}
 			
 		}
