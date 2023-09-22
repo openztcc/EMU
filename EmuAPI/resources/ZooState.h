@@ -22,6 +22,7 @@ public:
     void FreezeGameState(bool);
     static bool IsZooLoaded();
     static void PauseGame(bool);
+    static bool IsGamePaused();
     static void SetZooBudget(float);
     static float GetZooBudget();
     static void AddToZooBudget(float);

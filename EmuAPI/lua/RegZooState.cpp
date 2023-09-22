@@ -5,6 +5,7 @@ void RegZooState::register_zoo_state(lua_State* lua)
     lua_register(lua, "GetZooBudget", RegZooState::lua_ZooState_GetZooBudget);
     lua_register(lua, "IsZooLoaded", RegZooState::lua_ZooState_IsZooLoaded);
     lua_register(lua, "PauseGame", RegZooState::lua_ZooState_PauseGame);
+    lua_register(lua, "IsGamePaused", RegZooState::lua_ZooState_IsGamePaused);
     lua_register(lua, "SetZooBudget", RegZooState::lua_ZooState_SetZooBudget);
     lua_register(lua, "AddToZooBudget", RegZooState::lua_ZooState_AddToZooBudget);
     lua_register(lua, "NumAnimals", RegZooState::lua_ZooState_NumAnimals);
@@ -64,6 +65,12 @@ int RegZooState::lua_ZooState_PauseGame(lua_State* lua)
 
     // ret num of values to ret to lua (0 in this case)
     return 0;
+}
+
+int RegZooState::lua_ZooState_IsGamePaused(lua_State* lua)
+{
+    lua_pushboolean(lua, ZooState::IsGamePaused());
+    return 1;
 }
 
 int RegZooState::lua_ZooState_SetZooBudget(lua_State* lua)

@@ -12,6 +12,7 @@ class RegZooState
         static int lua_ZooState_GetZooBudget(lua_State*);
         static int lua_ZooState_IsZooLoaded(lua_State*);
         static int lua_ZooState_PauseGame(lua_State*);
+        static int lua_ZooState_IsGamePaused(lua_State*);
         static int lua_ZooState_SetZooBudget(lua_State*);
         static int lua_ZooState_AddToZooBudget(lua_State*);
         static int lua_ZooState_NumAnimals(lua_State*);

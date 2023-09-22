@@ -25,6 +25,13 @@ void ZooState::PauseGame(bool input)
     *p = input;
 }
 
+/// @brief Is the game paused through the UI?
+bool ZooState::IsGamePaused()
+{
+    DWORD ptr = (((DWORD)((LPVOID)0x638588)));
+    bool* p = (bool*)ptr;
+    return *p;
+}
 
 /// @brief Overload: allows a user to set
 /// @param input 
