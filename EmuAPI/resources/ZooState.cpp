@@ -13,28 +13,12 @@ ZooState::~ZooState(void)
 
 void ZooState::register_zoo_state(lua_State* lua)
 {
-    ZooState **zsPtr = (ZooState**)lua_newuserdata(lua, sizeof(ZooState*));
-    
-    if (luaL_newmetatable(lua, "ZooStateMetaTable"))
-    {
-        lua_pushvalue(lua, -1);
-        lua_setfield(lua, -2, "__index");
-        luaL_Reg ZooStateFunctions[] = 
-        {
-            "GetZooBudget", ZooState::lua_ZooState_GetZooBudget,
-            NULL, NULL
-        };
-        luaL_setfuncs(lua, ZooStateFunctions, 0);
-    }
-    
-    lua_setmetatable(lua, -2);
-    
+    lua_register(lua, "GetZooBudget", ZooState::lua_ZooState_GetZooBudget);
 }
 
 int ZooState::lua_ZooState_GetZooBudget(lua_State* lua)
 {
-    ZooState **pptr = (ZooState**)luaL_checkudata(lua, 1, "ZooStateMetaTable");
-    lua_pushnumber(lua, (*pptr)->GetZooBudget());
+    lua_pushnumber(lua, ZooState::GetZooBudget());
     return 1;
 }
 

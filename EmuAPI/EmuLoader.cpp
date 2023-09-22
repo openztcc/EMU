@@ -109,7 +109,7 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
         }
 		
 		
-		if (print_counter < 5 && (((bool*)ZooState::object_ptr(0x0)) > 0) && (iErr = luaL_loadfile (lua, "emu_test_script.emu")) == 0)
+		if (print_counter < 1 && (((int)ZooState::object_ptr(0x0)) > 0) && (iErr = luaL_loadfile (lua, "emu_test_script.emu")) == 0)
 		{
 			if (ZooState::IsZooLoaded() == true)
 			{
@@ -124,8 +124,9 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
 					lua_pcall(lua, 0, 0, 0);
 					
 				}
+				print_counter++;
 			}
-			print_counter++;
+			
 		}
 		
 
