@@ -11,47 +11,6 @@ ZooState::~ZooState(void)
 {
 }
 
-void ZooState::register_zoo_state(lua_State* lua)
-{
-    lua_register(lua, "GetZooBudget", ZooState::lua_ZooState_GetZooBudget);
-}
-
-int ZooState::lua_ZooState_GetZooBudget(lua_State* lua)
-{
-    lua_pushnumber(lua, ZooState::GetZooBudget());
-    return 1;
-}
-
-// int ZooState::LuaTable(lua_State* L)
-// {
-//     std::map<std::string, LuaFunction> luaFunctions;
-
-//     luaFunctions["AddToBudget"] = [](lua_State* L)
-//     {
-//         float arg1 = (float)luaL_checknumber(L, 1);
-//         AddToZooBudget(arg1);
-//     };
-// }
-
-// void ZooState::RegisterToLua(lua_State* L)
-// {
-//     static const luaL_Reg zoo_state_functions[] = 
-//     {
-//         {"PauseGame", PauseGame },
-//         {"SetZooBudget", SetZooBudget }
-
-//     };
-
-//     lua_newtable(L);
-
-//     for (const luaL_Reg* function =  zoo_state_functions; function->name != nullptr; function++)
-//     {
-
-//     }
-
-//     lua_setglobal(L, "ZooState");
-// }
-
 DWORD ZooState::object_ptr(DWORD offset)
 {
     return (*((DWORD*)((LPVOID)0x638048)) + offset);

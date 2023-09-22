@@ -115,7 +115,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;&quot;$(ProjectDir)\resources&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;&quot;$(ProjectDir)\resources&quot;;&quot;$(ProjectDir)\lua\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EMUAPI_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -135,7 +135,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="Psapi.lib winmm.lib lua53.lib"
-				OutputFile="$(OutDir)\res-EmuAPI.dll"
+				OutputFile="$(OutDir)\res-EMU.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib&quot;"
 				GenerateDebugInformation="true"
@@ -189,15 +189,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\EmuLoader.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\emu\EmuGameLoop.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\emu\EmuRegister.cpp"
+				RelativePath=".\EmuLoader.cpp"
 				>
 			</File>
 			<File
@@ -205,11 +201,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\resources\ZooMiniMap.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\resources\ZooState.cpp"
+				RelativePath=".\emu\EmuRegister.cpp"
 				>
 			</File>
 		</Filter>
@@ -218,14 +210,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\resources\ZooMiniMap.h"
-				>
-			</File>
-			<File
-				RelativePath=".\resources\ZooState.h"
-				>
-			</File>
 			<Filter
 				Name="emu"
 				>
@@ -246,11 +230,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\emu\EmuRegister.h"
+					RelativePath=".\emu\EmuMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\emu\EmuMod.h"
+					RelativePath=".\emu\EmuRegister.h"
 					>
 				</File>
 			</Filter>
@@ -258,9 +242,37 @@
 				Name="lua"
 				>
 				<File
-					RelativePath=".\lua\include\lau.hpp"
+					RelativePath=".\lua\RegZooState.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\lua\RegZooState.h"
+					>
+				</File>
+				<Filter
+					Name="include"
+					>
+					<File
+						RelativePath=".\lua\include\lauxlib.h"
+						>
+					</File>
+					<File
+						RelativePath=".\lua\include\lua.h"
+						>
+					</File>
+					<File
+						RelativePath=".\lua\include\lua.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\lua\include\luaconf.h"
+						>
+					</File>
+					<File
+						RelativePath=".\lua\include\lualib.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -268,6 +280,22 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\resources\ZooMiniMap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\ZooMiniMap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\ZooState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\ZooState.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

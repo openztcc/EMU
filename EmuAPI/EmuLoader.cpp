@@ -15,6 +15,7 @@
 #include <winnt.h>
 #include <cstdio>
 #include "ZooState.h"
+#include "RegZooState.h"
 
 bool IsConsoleRunning = false;
 bool IsConsoleHiding = false;
@@ -76,7 +77,7 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
 	}
 
 	int print_counter = 0;
-	ZooState::register_zoo_state(lua);
+	RegZooState::register_zoo_state(lua);
 	luaL_openlibs (lua);              // Load io library
 
 	// main loop
