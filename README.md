@@ -22,12 +22,14 @@ Drop the res-EMU.dll binary directly into your `C:\Program Files (x86)\Microsoft
 
 The API includes a command console not originally available in the vanilla game. It can be accessed via `CTRL + J`. It is currently not advisable to run any commands unless a zoo file has been loaded as it depends on the resources to have been allocated in memory.
 
-Important limitations to consider as of **EMU v1.0.0-alpha.2**:
+Console limitations to consider as of **EMU v1.0.0-alpha.3**:
 - The console is only visible in windowed mode and will not be accessible if you are full screen.
-- Do not immediately exit the console by hitting 'X' on the window as this will close your game without prompt to save your zoo. First enter the `exit` command in order to detach the console thread from the game thread. This will now let you close the window safely and allow you to keep playing your game without issue.
+- Do not immediately exit the console by hitting 'X' on the window UI as this will close your game without prompt to save your zoo. The `exit` command will allow you to hide the console from view.
 - Safety checks are not yet implemented so be careful to stray too far from the expected input.
+- This API makes use of multi-threading to run EMU and the console simultaneously with the game. On slower hardware you might see propagation of resources take longer between what you see in the game and what you see in a function return value. For example: `num-tiredguests` might say 10, but the game says 11 for a few milliseconds longer.
+- `list-privatedonations` has different values than what the game displays. The array is accurate down to the second that the month changes, but then the game adds an unknown value to the final recorded value on-screen. It is not known if this is a bug or if it is adding other donations like benefactor contributions. We keep it for analysis in the future.
 
-List of all available commands:
+#### Console Commands
 
 | Command  | Description |
 | ------------- | ------------- |
@@ -52,4 +54,58 @@ List of all available commands:
 | list-privatedonations | Return a calendar listing of private donations. |
 | list-zoorating | Return a calendar listing of zoo ratings. |
 | list-constructioncosts | Return a calendar listing with construction costs. |
-| list-animalpurchasecosts | Return a calendar listing of animal purchase costs. |
+| list-animalpurchasecosts | Return a calendar listing of animal adoption costs. |
+
+### Lua Scripting
+
+Introduced as of **EMU v1.0.0-alpha.3**.
+
+EMU adds scripting support to Zoo Tycoon 1. Currently scripting is limited to the following commands:
+
+| Command  | Description |
+| ------------- | ------------- |
+| AddToZooBudget(float deposit) | Deposit a discrete amount of cash into your zoo budget. Takes a float as an argument. |
+| GetZooBudget() | Returns the current budget as a float. |
+| SetZooBudget(float new_budget) | Set your current budget to a new amount. Takes a float as an argument. |
+| IsZooLoaded() | Is a zoo currently open? Returns a boolean value. |
+| PauseGame() | Pause the game. |
+| IsGamePaused() | Is the game currently paused? Returns a boolean value. |
+| NumAnimals() | Return the current number of animals in your zoo. Returns an integer. |
+| NumSpecies() | Return the current number of animal species in your zoo. Returns an integer. |
+| NumGuests() | Return the current number of guests in your zoo. Returns an integer. |
+| NumTiredGuests() | Return the current number of tired guests in your zoo. Returns an integer. |
+| NumHungryGuests() | Return the current number of hungry guests in your zoo. Returns an integer. |
+| NumThirstyGuests() | Return the current number of thirsty guests in your zoo. Returns an integer. |
+| NumGuestsNeedRestrm() | Return the current number of guests that need to use the restroom. Returns an integer. |
+| NumGuestsInFilter() | Return the current number of guests in the guest filter. Returns an integer. |
+| GetZooAdmissionCost() | Return the current admission cost to your zoo. Note: this is the adult ticket value. The child ticket value is not stored in memory as it is automatically calculated from the adult price divided by 2. Returns a float. |
+| SetZooAdmissionCost(float new_adm) | Set the current admission cost to your zoo. See the above limitation about child ticket prices. Takes one float as an argument. |
+| AdmissionsIncomeByMonth() | Retrieve an array containing 12 elements, each representing admissions income for a specific month. |
+| ConcessionsBenefitByMonth() | Retrieve an array containing 12 elements, each representing the concessions benefit for a specific month. |
+| ZooValueByMonth() | Retrieve an array containing 12 elements, each representing the zoo value for a specific month. |
+| PrivateDonationsByMonth() | Retrieve an array containing 12 elements, each representing the private donations for a specific month. |
+| ZooRatingByMonth() | Retrieve an array containing 12 elements, each representing the zoo rating for a specific month. |
+| ConstructionCostByMonth() | Retrieve an array containing 12 elements, each representing the construction costs for a specific month. |
+| AnimalPurchaseCostsByMonth() | Retrieve an array containing 12 elements, each representing the animal adoption costs for a specific month. |
+
+Scripting considerations:
+- All Lua standard libraries as of Lua 5.3 are made available for your use.
+- Currently (as of EMU v1.0.0-alpha.3) EMU can not load more than one script at a time. To try the Lua scripting, you must create a Lua script with the name and extension: `playground.emu` and place it inside of your Zoo Tycoon directory alongside the `res-EMU.dll`. This will be addressed in the next update.
+- Lua support is designed for modders to take control of the game logic by having individual scripts run on the main EMU loop. If/then statements are obviously encouraged, but be conservative with your own loops unless they are predictable and efficient. Global variables might not be effective.
+- All executing code must live inside of an `emu_run` function.
+
+**Example Lua Script:**
+_playground.emu_
+```Lua
+function emu_run()
+    -- pause the game if the budget goes above $400,000
+    if GetZooBudget() > 400000 and IsGamePaused() == false then
+        io.write("Pausing the game")
+        PauseGame(true)
+    -- resume game if budget dips below $400,000 (maybe the console can save us here?)
+    elseif GetZooBudget() <= 400000 and IsGamePaused() == true then
+        io.write("Resuming the game")
+        PauseGame(false)
+    end
+end
+```
