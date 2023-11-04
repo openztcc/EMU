@@ -213,7 +213,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // }
             else
             {
-                std::cout << "Err: No such command exists." << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> does not exist." << std::endl;
             }
         }
         else
