@@ -17,6 +17,7 @@
 #include "ZooState.h"
 #include "RegZooState.h"
 #include <ctime>
+#include "EmuScriptMgr.h"
 
 bool IsConsoleRunning = false;
 bool IsConsoleHiding = false;
@@ -71,211 +72,69 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 	return 1;
 }
 
-DWORD WINAPI RunEmu(LPVOID lpParameter) 
-{
+DWORD WINAPI RunEmu(LPVOID lpParameter) {
+	//------ Variable and object initialization
 	bool ctrlMPressed = false;
+
+	//------ Timestamp for logging
 	std::time_t t = std::time(0);
 	char timestamp[80]; // timestamp buffer
 	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
 
+	//------ Open log file in append mode
 	std::ofstream f;
 	f.open("out.log", std::ios_base::app);
 
+	//------ Initializing Lua
 	lua_State *lua = luaL_newstate();  // Open Lua
 	int iErr = 0;
-	if (!lua) 
-	{
+	if (!lua) {
 		f << "[" << timestamp << "] " << "Failed to create Lua state." << std::endl;
 		return 0;
 	}
 
-	std::vector<lua_CFunction> script_functions; // store the lua scripts
+	//------ Register API functions to Lua
 	RegZooState::register_zoo_state(lua);
-	luaL_openlibs (lua);              // Load io library
-	wchar_t buffer[MAX_PATH];
-	DWORD len = GetCurrentDirectory(MAX_PATH, buffer); // TODO: add error handling for this
 
-	// directory path
-	// std::string path = "/scripts";
-	std::wstring wpath(buffer, len);//std::wstring(buffer.begin(), buffer.end()); // conv path to wide string (project uses multi-byte char set)
-	wpath += L"\\scripts";
-	std::string path(wpath.begin(), wpath.end());
-	std::string ext = ".emu";
+	//------ Load Lua libraries
+	luaL_openlibs (lua);
 
-	// while ((((int)ZooState::object_ptr(0x0)) == 0) || (iErr = lua_pcall (lua, 0, LUA_MULTRET, 0)) > 0)
-	// {
-	// 	iErr = lua_pcall (lua, 0, LUA_MULTRET, 0);
-	// 	Sleep(100);
-	// }
-
-	// iterate through directory
-	//if ((iErr = lua_pcall (lua, 0, LUA_MULTRET, 0)) == 0)
-	//{
-		WIN32_FIND_DATA find_emu_file;
-		HANDLE hFind = FindFirstFile((wpath + L"\\*.emu").c_str(), &find_emu_file); // wide string used here
-
-		wpath = find_emu_file.cFileName;
-		std::string file_found(wpath.begin(), wpath.end());
-		
-		if  (hFind == INVALID_HANDLE_VALUE)
-		{
-			f << "[" << timestamp << "] " << "Error finding path: " << file_found << std::endl;
-		}
-		else
-		{
-			f << "[" << timestamp << "] " << "Path found: " << file_found << std::endl;
-			do
-			{
-				if (find_emu_file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				{
-					// skip directories (for now)
-				}
-				else // we only care about files (for now)
-				{
-					std::wstring nFound = find_emu_file.cFileName; // conv file found back to narrow string
-					std::string file_name(nFound.begin(), nFound.end());
-					std::string file = path + "\\" + file_name;
-					
-					// look for .emu files
-					if (file_name.size() > ext.size() && file_name.compare(file_name.size() - ext.size(), ext.size(), ext) == 0)
-					{
-						f << "[" << timestamp << "] " << "Loading script: " << file_name << std::endl;
-
-						if ((iErr = luaL_loadfile(lua, file.c_str())) == 0)
-						{
-							if ((iErr = lua_pcall(lua, 0, 0, 0)) == 0)
-    						{
-								lua_getglobal(lua, "emu_run");
-
-								if (lua_isfunction(lua, -1))
-        						{
-									lua_CFunction script_fun = lua_tocfunction(lua, -1); // conv to c funct
-									if (script_fun != NULL)
-									{
-										lua_pop(lua, 1); // remove from lua stack
-										script_functions.push_back(script_fun); // add to vector
-									}
-									else
-									{
-										f << "[" << timestamp << "] " << "Error loading script: <" << file_name << "> null function" << std::endl;
-									}
-									// if ((iErr = lua_pcall (lua, 0, LUA_MULTRET, 0)) == 0)
-									// { 
-									// 	// lua_pcall(lua, 0, LUA_MULTRET, 0);
-									// 	// // Push the function name onto the stack
-									// 	// lua_getglobal(lua, "emu_run");
-									// 	// lua_pcall(lua, 0, 0, 0);
-									// }
-								}
-							}
-							else
-							{
-								const char* error_message = lua_tostring(lua, -1);
-								if (error_message != NULL)
-								{
-									f << "[" << timestamp << "] " << "Error loading script: <" << file_name << "> " << error_message << std::endl;
-								}
-								else
-								{
-									f << "[" << timestamp << "] " << "Error loading script: <" << file_name << std::endl;
-								}
-							}
-						}
-						else
-						{
-							const char* error_message = lua_tostring(lua, -1);
-							if (error_message != NULL)
-							{
-								f << "[" << timestamp << "] " << "Error loading script: <" << file_name << "> " << error_message << std::endl;
-							}
-							else
-							{
-								f << "[" << timestamp << "] " << "Error loading script: <" << file_name << std::endl;
-							}
-							
-						}
-					}
-				}
-			} while (FindNextFile(hFind, &find_emu_file) != 0);
-			FindClose(hFind);
-		}
-		
-	//}
-	// else
-	// {
-	// 	const char* err = lua_tostring(lua, -1);
-	// 	f << "[" << timestamp << "] Error loading lua state: " << err << std::endl;
-	// 	lua_pop(lua, 1);
-	// }
-
-		// if ((((int)ZS::object_ptr(0x0)) > 0) && (iErr = luaL_loadfile (lua, "playground.emu")) == 0)
-		// {
-		// 	if (ZS::IsZooLoaded() == true)
-		// 	{
-		// 		// Call main...
-		// 		if ((iErr = lua_pcall (lua, 0, LUA_MULTRET, 0)) == 0)
-		// 		{ 
-		// 			lua_pcall(lua, 0, LUA_MULTRET, 0);
-					
-		// 			// Push the function name onto the stack
-		// 			lua_getglobal(lua, "emu_run");
-					
-		// 			lua_pcall(lua, 0, 0, 0);
-					
-		// 		}
-		// 	}
-			
-		// }
+	//------ Find/load script file directories with script manager
+	EmuScriptMgr sm(lua, f);
+	sm.findScripts();
+	sm.serializeScripts();
 
 	// main loop
-	while (true)
-	{
+
+	bool renaming_done = false;
+	while (true) {
 		// CTRL + J
-		if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false)
-		{
+		if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
 			IsConsoleRunning = true;
 			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
 			CloseHandle(thread);
-		}
-		else if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true)
-		{
+		} else if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true) {
 			ShowWindow(consoleWindow, SW_SHOW);
 			IsConsoleHiding = false;
 		}
 		
 		
 		// CTRL + M
-        if (B::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed)
-        {
+        if (B::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed) {
             ctrlMPressed = true; // Set the flag
             float mo_money = 1000000.00f;
             ZS::AddToZooBudget(mo_money);
         }
-        else if (B::DoubleKey(0x11, 0x4D) == false)
-        {
+        else if (B::DoubleKey(0x11, 0x4D) == false) {
             ctrlMPressed = false; // Reset the flag when the key is released
         }
 
+		
+
 		// only run scripts while zoo is loaded and not in main menu
-		if ((int)ZS::object_ptr(0x0) > 0 && script_functions.size() > 0)
-		{
-			if (ZS::IsZooLoaded() == true)
-			{
-				for (size_t i = 0; i < script_functions.size(); ++i)
-				{
-					lua_CFunction script_fun = script_functions[i];
-					//script_fun(lua);
-				// 	lua_getglobal(lua, "emu_run"); // call emu_run from script
-				// 	if (lua_isfunction(lua, -1))
-				// 	{
-				// 		lua_pcall(lua, 0, 0, 0);
-				// 	}
-				// 	lua_pop(lua, 1);  // remov emu_run from stack
-					lua_pushcfunction(lua, script_fun);
-					lua_pcall(lua, 0, 0, 0);
-				}
-				// }
-				
+		if ((int)ZS::object_ptr(0x0) > 0) {
+			if (ZS::IsZooLoaded() == true) {
+				sm.executeScripts();
 			}
 			
 		}
@@ -289,42 +148,41 @@ DWORD WINAPI RunEmu(LPVOID lpParameter)
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD ul_reason_for_call,
-	LPVOID lpReserved) 
-{
-	std::ofstream f;
-	f.open("out.log", std::ios_base::app);
-	std::time_t t = std::time(0);
-	char timestamp[80]; // timestamp buffer
-	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
+	LPVOID lpReserved) {
+	// std::ofstream f;
+	// f.open("out.log", std::ios_base::app);
+	// std::time_t t = std::time(0);
+	// char timestamp[80]; // timestamp buffer
+	// std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
 
 	// Get the thread ID of the current thread
-	DWORD mainThreadId = GetCurrentThreadId();
-	f << std::endl << std::endl << "[" << timestamp << "] " << "\nMain thread ID: " << mainThreadId << "\nCurrent thread ID: " << std::setfill('0') << std::setw(8) << std::hex << B::base << std::endl;
+	// DWORD mainThreadId = GetCurrentThreadId();
+	// f << std::endl << std::endl << "[" << timestamp << "] " << "\nMain thread ID: " << mainThreadId << "\nCurrent thread ID: " << std::setfill('0') << std::setw(8) << std::hex << B::base << std::endl;
 
 	// dll attachment status
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
 		{
-		f << "[" << timestamp << "] " << "DLL attached!\n";
+		//f << "[" << timestamp << "] " << "DLL attached!\n";
 		HANDLE thread = CreateThread(NULL, 0, &RunEmu, NULL, 0, NULL);
 		CloseHandle(thread);
 		}
 		break;
 	case DLL_PROCESS_DETACH:
-		f << "[" << timestamp << "] " << "DLL detached!\n";
+		//f << "[" << timestamp << "] " << "DLL detached!\n";
 		break;
 	case DLL_THREAD_ATTACH:
-		f << "[" << timestamp << "] " << "Thread attached!\n";
+		//f << "[" << timestamp << "] " << "Thread attached!\n";
 		break;
 
 	case DLL_THREAD_DETACH:
-		f << "[" << timestamp << "] " << "Thread detached!\n";
+		//f << "[" << timestamp << "] " << "Thread detached!\n";
 		break;
 	default:
-		f << "[" << timestamp << "] " << "DLL was not attached to thread or process!\n";
+		//f << "[" << timestamp << "] " << "DLL was not attached to thread or process!\n";
 		return FALSE;
 	}
 	
-	f.close();
+	// f.close();
 	return TRUE;
 }
