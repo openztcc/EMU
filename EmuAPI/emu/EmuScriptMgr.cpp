@@ -1,15 +1,22 @@
 #include "EmuScriptMgr.h"
 
-// EmuScriptMgr::EmuScriptMgr() {
-
+// EmuScriptMgr::EmuScriptMgr() : lua(NULL), f(std::ofstream("out.log", std::ios_base::app)), timestamp(*new char) {
+//     // do not use default constructor
 // }
 
-EmuScriptMgr::EmuScriptMgr(lua_State* lua, std::ofstream& fs) : lua(lua), f(fs) {
+EmuScriptMgr::EmuScriptMgr(std::ofstream& fs, char* ts) : f(fs), timestamp(ts) {
+    //------ Initializing Lua
+	lua = luaL_newstate();  // Open Lua
+	int iErr = 0;
+	if (!lua) {
+		f << "[" << timestamp << "] " << "Failed to create Lua state." << std::endl;
+	}
 
-    //------ Timestamp for logging
-    *t = std::time(0);
-	timestamp = new char[80]; // timestamp buffer
-    std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(t));
+	//------ Register API functions to Lua
+	RegZooState::register_zoo_state(lua);
+
+	//------ Load Lua libraries
+	luaL_openlibs (lua);
 }
 
 EmuScriptMgr::~EmuScriptMgr() {
@@ -17,70 +24,87 @@ EmuScriptMgr::~EmuScriptMgr() {
 
 /// @brief Executes all emu scripts in a directory.
 int EmuScriptMgr::executeScripts() {
-    std::string function_name;
-    try {
-        for (size_t i = 0; i < files.size() - 1; i++) {
-            // lua_CFunction script_fun = script_functions[i];
-            //script_fun(lua);
-            std::stringstream ss;
-            ss << "emu_run";// << i + 1;
-            function_name = ss.str();
-            lua_getglobal(lua, function_name.c_str()); // call emu_run from script
-            if (lua_isfunction(lua, -1)) {
-                int pcall = lua_pcall(lua, 0, 0, 0);
-                if (pcall != 0) {
-                    const char* error_message = lua_tostring(lua, -1);
-                    if(error_message != NULL) {
-                        f << "[" << timestamp << "] " << "Lua pcall error: <" << function_name << "> " << error_message << std::endl;
-                    } else {
-                        f << "[" << timestamp << "] " << "Lua pcall error: <" << function_name << "> err unavailable" << std::endl;
+    
+    for (int i = 0; i < scripts.size(); i++) {
+        lua = luaL_newstate();  // Open Lua
+    
+        int iErr = 0;
+        if (!lua) {
+            f << "[" << timestamp << "] " << "Failed to create Lua state." << std::endl;
+        }
+        //------ Register API functions to Lua
+        RegZooState::register_zoo_state(lua);
+        luaL_openlibs (lua);
+        if (luaL_loadstring(lua, scripts[i].c_str()) == 0) {
+            if (lua_pcall(lua, 0, LUA_MULTRET, 0) == 0)
+            {
+                // script is loaded, now load specific function
+                lua_getglobal(lua, "emu_run");
+                // check if we can call function
+                if (lua_isfunction(lua, -1)) {
+                    if (lua_pcall(lua, 0, LUA_MULTRET, 0) != 0) {
+                        // errors if can't execute script
+                        const char* error_message = lua_tostring(lua, -1);
+                        f << "Error executing Lua function: " << error_message << std::endl;
+                        lua_close (lua);
+                        return 1;
                     }
-                    
-                    lua_pop(lua, 1);
+                } else {
+                    f << "[" << timestamp << "] " << "Function 'emu_run' not found or not callable" << std::endl;
+                    lua_close (lua);
+                    return 1;
                 }
                 lua_pop(lua, 1);
-            }
-            else {
+            } else {
+                // error handling
+                const char* error_message = lua_tostring(lua, -1);
+                f << "[" << timestamp << "] " << "Error executing Lua script " << i << ": " << error_message << std::endl;
+
+                // remove err from stack
                 lua_pop(lua, 1);
-                f << "[" << timestamp << "] " << "Error while finding function: <" << function_name << "> null function" << std::endl;
-                return 2;
+                lua_close (lua);
+                return 1;
             }
+        } else {
+            // error handling
+            const char* error_message = lua_tostring(lua, -1);
+            f << "[" << timestamp << "] " << "Error loading Lua script " << i << ": " << error_message << std::endl;
+
+            // remove err from stack
+            lua_pop(lua, 1);
+            lua_close (lua);
+            return 1;
         }
+        lua_close (lua);
     }
-    catch (const std::bad_alloc& e) {
-        f << "[" << timestamp << "] " << "Error while executing function: <" << function_name << "> " << e.what() << std::endl;
-    }
+    
     return 0;
 }
 
-/// @brief Serializes all emu scripts in a directory as a binary format.
-void EmuScriptMgr::serializeScripts() {
-    int err = 0;
+/// @brief Stores all emu scripts in a directory in memory.
+void EmuScriptMgr::storeScripts() {
 
-    //------ Load scripts
     for (int i = 0; i < files.size(); i++) {
-        std::string file = files[i];
-        std::string file_name = file_names[i];
-
-        //------ Load script into Lua state (if no errors
-        if ((err = luaL_loadfile(lua, file.c_str())) == 0) {
-            lua_pcall(lua, 0, LUA_MULTRET, 0);
-            f << "[" << timestamp << "] " << "Loading script: " << file_name << std::endl;
+        //------ Read script file
+        std::ifstream file(files[i].c_str());
+        std::string script;
+        char c;
+        while (file.get(c)) {
+            script += c;
         }
-        else
-        {
-            const char* error_message = lua_tostring(lua, -1);
-            if (error_message != NULL)
-            {
-                f << "[" << timestamp << "] " << "Error loading script: <" << file_name << "> " << error_message << std::endl;
-            }
-            else
-            {
-                f << "[" << timestamp << "] " << "Error loading script: <" << file_name << std::endl;
-            }
-            
+        scripts.push_back(script);
+        file.close();
+        //------ Compile script
+        if ((luaL_loadstring(lua, script.c_str())) == 0) {
+            lua_CFunction script_funct = lua_tocfunction(lua, -1);
+            compiled_scripts.push_back(script_funct);
+            lua_pop(lua, 1);
+        } else {
+            f << "[" << timestamp << "] " << "Error loading script: " << files[i].substr(0, files[i].size() - (int)(files[i].size() * 0.30)) << " [..]" << std::endl;
         }
     }
+    lua_close (lua);
+
 }
 
 /// @brief Finds all scripts within the /scripts directory and stores their location in memory.
@@ -98,9 +122,6 @@ void EmuScriptMgr::findScripts() {
 
     //------ Convert wide string to narrow string, 
 	std::string path(wpath.begin(), wpath.end());
-
-    //------ Store all file directories into vector
-    std::vector<std::string> files;
 
     //------ Find first .emu file in directory
 	WIN32_FIND_DATA find_emu_file;

@@ -85,24 +85,10 @@ DWORD WINAPI RunEmu(LPVOID lpParameter) {
 	std::ofstream f;
 	f.open("out.log", std::ios_base::app);
 
-	//------ Initializing Lua
-	lua_State *lua = luaL_newstate();  // Open Lua
-	int iErr = 0;
-	if (!lua) {
-		f << "[" << timestamp << "] " << "Failed to create Lua state." << std::endl;
-		return 0;
-	}
-
-	//------ Register API functions to Lua
-	RegZooState::register_zoo_state(lua);
-
-	//------ Load Lua libraries
-	luaL_openlibs (lua);
-
 	//------ Find/load script file directories with script manager
-	EmuScriptMgr sm(lua, f);
+	EmuScriptMgr sm(f, timestamp);
 	sm.findScripts();
-	sm.serializeScripts();
+	sm.storeScripts();
 
 	// main loop
 
@@ -141,7 +127,6 @@ DWORD WINAPI RunEmu(LPVOID lpParameter) {
 			
 		Sleep(0);
 	}
-	lua_close (lua);
 	f.close();
 	return 1;
 }
