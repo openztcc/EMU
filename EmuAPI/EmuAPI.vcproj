@@ -204,6 +204,10 @@
 				RelativePath=".\emu\EmuRegister.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\emu\EmuScriptMgr.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -235,6 +239,10 @@
 				</File>
 				<File
 					RelativePath=".\emu\EmuRegister.h"
+					>
+				</File>
+				<File
+					RelativePath=".\emu\EmuScriptMgr.h"
 					>
 				</File>
 			</Filter>

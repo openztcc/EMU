@@ -1,0 +1,21 @@
+-- Wrapper script
+function emu_run_wrapper()
+    -- Define a function counter
+    local counter = 1
+
+    -- Iterate through the emu_run functions
+    while true do
+        -- Generate the function name
+        local func_name = "emu_run" .. counter
+
+        -- Call the function with the generated name
+        local func = _G[func_name]
+        if func then
+            func()
+            counter = counter + 1
+        else
+            break  -- Exit the loop when no more functions are found
+        end
+    end
+end
+

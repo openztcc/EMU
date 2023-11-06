@@ -16,16 +16,23 @@
 #include <cstdio>
 #include "ZooState.h"
 #include "RegZooState.h"
+#include <ctime>
+#include "EmuScriptMgr.h"
 
 bool IsConsoleRunning = false;
 bool IsConsoleHiding = false;
 bool HasConsoleOpenedOnce = false; // to avoid conflicts when console has not been opened yet
 HWND consoleWindow; // contains console window handle
 
+#define fs std::filesystem
+#define B EmuBase
+#define ZS ZooState
+
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
 	EmuConsole console; // new console object. needed to keep token state persistent.
 	FILE* file_s;
+	
 
 	HasConsoleOpenedOnce = true;
 
@@ -65,113 +72,102 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 	return 1;
 }
 
-DWORD WINAPI RunEmu(LPVOID lpParameter) 
-{
+DWORD WINAPI RunEmu(LPVOID lpParameter) {
+	//------ Variable and object initialization
 	bool ctrlMPressed = false;
 
-	lua_State *lua = luaL_newstate();  // Open Lua
-	int iErr = 0;
-	if (!lua) 
-	{
-		std::cerr << "Failed to create Lua state." << std::endl;
-		return 0;
-	}
+	//------ Timestamp for logging
+	std::time_t t = std::time(0);
+	char timestamp[80]; // timestamp buffer
+	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
 
-	RegZooState::register_zoo_state(lua);
-	luaL_openlibs (lua);              // Load io library
+	//------ Open log file in append mode
+	std::ofstream f;
+	f.open("out.log", std::ios_base::app);
+
+	//------ Find/load script file directories with script manager
+	EmuScriptMgr sm(f, timestamp);
+	sm.findScripts();
+	sm.storeScripts();
 
 	// main loop
-	while (true)
-	{
+
+	bool renaming_done = false;
+	while (true) {
 		// CTRL + J
-		if (EmuBase::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false)
-		{
+		if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
 			IsConsoleRunning = true;
 			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
 			CloseHandle(thread);
-		}
-		else if (EmuBase::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true)
-		{
+		} else if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true) {
 			ShowWindow(consoleWindow, SW_SHOW);
 			IsConsoleHiding = false;
 		}
 		
 		
 		// CTRL + M
-        if (EmuBase::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed)
-        {
+        if (B::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed) {
             ctrlMPressed = true; // Set the flag
             float mo_money = 1000000.00f;
-            ZooState::AddToZooBudget(mo_money);
+            ZS::AddToZooBudget(mo_money);
         }
-        else if (EmuBase::DoubleKey(0x11, 0x4D) == false)
-        {
+        else if (B::DoubleKey(0x11, 0x4D) == false) {
             ctrlMPressed = false; // Reset the flag when the key is released
         }
+
 		
-		
-		if ((((int)ZooState::object_ptr(0x0)) > 0) && (iErr = luaL_loadfile (lua, "playground.emu")) == 0)
-		{
-			if (ZooState::IsZooLoaded() == true)
-			{
-				// Call main...
-				if ((iErr = lua_pcall (lua, 0, LUA_MULTRET, 0)) == 0)
-				{ 
-					lua_pcall(lua, 0, LUA_MULTRET, 0);
-					
-					// Push the function name onto the stack
-					lua_getglobal(lua, "emu_run");
-					
-					lua_pcall(lua, 0, 0, 0);
-					
-				}
+
+		// only run scripts while zoo is loaded and not in main menu
+		if ((int)ZS::object_ptr(0x0) > 0) {
+			if (ZS::IsZooLoaded() == true) {
+				sm.executeScripts();
 			}
 			
 		}
-		
-
+			
 		Sleep(0);
 	}
-	lua_close (lua);
+	f.close();
 	return 1;
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD ul_reason_for_call,
-	LPVOID lpReserved) 
-{
-	std::ofstream f;
-	f.open("out.log");
+	LPVOID lpReserved) {
+	// std::ofstream f;
+	// f.open("out.log", std::ios_base::app);
+	// std::time_t t = std::time(0);
+	// char timestamp[80]; // timestamp buffer
+	// std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
 
 	// Get the thread ID of the current thread
-	DWORD mainThreadId = GetCurrentThreadId();
-	f << mainThreadId << "\nCurrent thread ID: " << std::setfill('0') << std::setw(8) << std::hex << EmuBase::base << std::endl;
+	// DWORD mainThreadId = GetCurrentThreadId();
+	// f << std::endl << std::endl << "[" << timestamp << "] " << "\nMain thread ID: " << mainThreadId << "\nCurrent thread ID: " << std::setfill('0') << std::setw(8) << std::hex << B::base << std::endl;
 
 	// dll attachment status
-	f << "Status: ";
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
 		{
-		f << "DLL attached!\n";
+		//f << "[" << timestamp << "] " << "DLL attached!\n";
 		HANDLE thread = CreateThread(NULL, 0, &RunEmu, NULL, 0, NULL);
 		CloseHandle(thread);
 		}
 		break;
 	case DLL_PROCESS_DETACH:
-		f << "DLL detached!\n";
+		//f << "[" << timestamp << "] " << "DLL detached!\n";
 		break;
 	case DLL_THREAD_ATTACH:
-		f << "Thread attached!\n";
+		//f << "[" << timestamp << "] " << "Thread attached!\n";
 		break;
 
 	case DLL_THREAD_DETACH:
-		f << "Thread detached!\n";
+		//f << "[" << timestamp << "] " << "Thread detached!\n";
 		break;
 	default:
-		f << "DLL was not attached to thread or process!\n";
+		//f << "[" << timestamp << "] " << "DLL was not attached to thread or process!\n";
 		return FALSE;
 	}
 	
-	f.close();
+	// f.close();
 	return TRUE;
 }

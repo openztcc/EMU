@@ -1,4 +1,3 @@
-
 #include "EmuConsole.h"
 #include <iomanip>
 
@@ -17,33 +16,25 @@ void EmuConsole::tokenize()
 { 
     std::string token = "";
     // TODO: fix try/catch. Crashes if error found.
-    try
-    {
-        
-        std::getline(std::cin, token);
+    if (!std::getline(std::cin, token)) {
+        return;
+    }
 
-        if (token.size() > 100)
+    if (token.size() > 100)
+    {
+        // this limit will be increased, it's just a pre-emptive measure
+        std::cout << "100 char limit in buffer. Please try again." << std::endl;
+        // std::cin.ignore(32767, '\n');
+    } else {
+        std::istringstream iss(token);
+
+        while (std::getline(iss, token, ' '))
         {
-            // this limit will be increased, it's just a pre-emptive measure
-            std::cout << "100 char limit in buffer. Please try again." << std::endl;
-            throw;
+            tokens.push_back(token);
         }
     }
-    catch(const std::exception& e)
-    {
-        std::cout << e.what() << std::endl;
-        token = "";
-        std::cin.clear();
-        std::getline(std::cin, token);
-        
-    }
 
-    std::istringstream iss(token);
-
-    while (std::getline(iss, token, ' '))
-    {
-        tokens.push_back(token);
-    }
+    
 }
 
 /// <summary>
@@ -213,7 +204,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // }
             else
             {
-                std::cout << "Err: No such command exists." << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> does not exist." << std::endl;
             }
         }
         else
