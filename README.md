@@ -90,7 +90,8 @@ EMU adds scripting support to Zoo Tycoon 1. Currently scripting is limited to th
 
 Scripting considerations:
 - All Lua standard libraries as of Lua 5.3 are made available for your use.
-- Currently (as of EMU v1.0.0-alpha.3) EMU can not load more than one script at a time. To try the Lua scripting, you must create a Lua script with the name and extension: `playground.emu` and place it inside of your Zoo Tycoon directory alongside the `res-EMU.dll`. This will be addressed in the next update.
+- Lua scripts must have the `.emu` extension.
+- As of the latest **EMU v1.0.0-alpha.4**, EMU can load any lua scripts inside of a `/scripts` folder inside of the root Zoo Tycoon 1 folder.
 - Lua support is designed for modders to take control of the game logic by having individual scripts run on the main EMU loop. If/then statements are obviously encouraged, but be conservative with your own loops unless they are predictable and efficient. Global variables might not be effective.
 - All executing code must live inside of an `emu_run` function.
 
