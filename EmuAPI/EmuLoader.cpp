@@ -32,11 +32,10 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
 	EmuConsole console; // new console object. needed to keep token state persistent.
 	FILE* file_s;
-	
 
 	HasConsoleOpenedOnce = true;
 
-	// Create a console window
+	// ------ Create a console window
     AllocConsole();
     if (freopen_s(&file_s, "CONOUT$", "w", stdout) != 0)
 	{
@@ -57,7 +56,7 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 	
 	while (IsConsoleRunning)
 	{
-		// Process the input tokens
+		// ------ Process the input tokens while console is running
 		console.processInput(IsConsoleRunning);
 		
 		if (IsConsoleHiding == false)
@@ -73,7 +72,7 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 }
 
 DWORD WINAPI RunEmu(LPVOID lpParameter) {
-	//------ Variable and object initialization
+	//------ Flags for keypresses
 	bool ctrlMPressed = false;
 
 	//------ Timestamp for logging
@@ -94,7 +93,7 @@ DWORD WINAPI RunEmu(LPVOID lpParameter) {
 
 	bool renaming_done = false;
 	while (true) {
-		// CTRL + J
+		//---- CTRL + J
 		if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
 			IsConsoleRunning = true;
 			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
@@ -104,18 +103,14 @@ DWORD WINAPI RunEmu(LPVOID lpParameter) {
 			IsConsoleHiding = false;
 		}
 		
-		
-		// CTRL + M
+		//---- CTRL + M
         if (B::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed) {
             ctrlMPressed = true; // Set the flag
             float mo_money = 1000000.00f;
             ZS::AddToZooBudget(mo_money);
-        }
-        else if (B::DoubleKey(0x11, 0x4D) == false) {
+        } else if (B::DoubleKey(0x11, 0x4D) == false) {
             ctrlMPressed = false; // Reset the flag when the key is released
         }
-
-		
 
 		// only run scripts while zoo is loaded and not in main menu
 		if ((int)ZS::object_ptr(0x0) > 0) {

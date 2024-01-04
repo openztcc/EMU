@@ -6,7 +6,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
+#include "ZUtilities.h"
 #include "ZooState.h"
 #include "ZooMiniMap.h"
 
