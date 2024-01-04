@@ -18,11 +18,14 @@
 #include "RegZooState.h"
 #include <ctime>
 #include "EmuScriptMgr.h"
+#include "ZUtilities.h"
 
 bool IsConsoleRunning = false;
 bool IsConsoleHiding = false;
 bool HasConsoleOpenedOnce = false; // to avoid conflicts when console has not been opened yet
 HWND consoleWindow; // contains console window handle
+EmuScriptMgr sm;
+
 
 #define fs std::filesystem
 #define B EmuBase
@@ -71,64 +74,50 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 	return 1;
 }
 
-DWORD WINAPI RunEmu(LPVOID lpParameter) {
+VOID WINAPI RunEmu(LPVOID lpParameter) {
 	//------ Flags for keypresses
 	bool ctrlMPressed = false;
-
-	//------ Timestamp for logging
-	std::time_t t = std::time(0);
-	char timestamp[80]; // timestamp buffer
-	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
-
-	//------ Open log file in append mode
-	std::ofstream f;
-	f.open("out.log", std::ios_base::app);
-
-	//------ Find/load script file directories with script manager
-	EmuScriptMgr sm(f, timestamp);
-	sm.findScripts();
-	sm.storeScripts();
 
 	// main loop
 
 	bool renaming_done = false;
-	while (true) {
-		//---- CTRL + J
-		if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
-			IsConsoleRunning = true;
-			HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
-			CloseHandle(thread);
-		} else if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true) {
-			ShowWindow(consoleWindow, SW_SHOW);
-			IsConsoleHiding = false;
+	//---- CTRL + J
+	if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
+		IsConsoleRunning = true;
+		HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
+		CloseHandle(thread);
+	} else if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true) {
+		ShowWindow(consoleWindow, SW_SHOW);
+		IsConsoleHiding = false;
+	}
+	
+	//---- CTRL + M
+	if (B::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed) {
+		ctrlMPressed = true; // Set the flag
+		float mo_money = 1000000.00f;
+		ZS::AddToZooBudget(mo_money);
+	} else if (B::DoubleKey(0x11, 0x4D) == false) {
+		ctrlMPressed = false; // Reset the flag when the key is released
+	}
+
+	// only run scripts while zoo is loaded and not in main menu
+	if ((int)ZS::object_ptr(0x0) > 0) {
+		if (ZS::IsZooLoaded() == true) {
+			sm.executeScripts();
 		}
 		
-		//---- CTRL + M
-        if (B::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed) {
-            ctrlMPressed = true; // Set the flag
-            float mo_money = 1000000.00f;
-            ZS::AddToZooBudget(mo_money);
-        } else if (B::DoubleKey(0x11, 0x4D) == false) {
-            ctrlMPressed = false; // Reset the flag when the key is released
-        }
-
-		// only run scripts while zoo is loaded and not in main menu
-		if ((int)ZS::object_ptr(0x0) > 0) {
-			if (ZS::IsZooLoaded() == true) {
-				sm.executeScripts();
-			}
-			
-		}
-			
-		Sleep(0);
 	}
-	f.close();
-	return 1;
 }
+
+// ------ Set IAT hook for Sleep to run the main loop, RunEmu
+typedef VOID (WINAPI _origSleep)(DWORD ms);
+_origSleep* originalSleep = (_origSleep*)ZUtilities::SetIAT("Sleep", (DWORD)RunEmu);
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD ul_reason_for_call,
 	LPVOID lpReserved) {
+
+
 	// std::ofstream f;
 	// f.open("out.log", std::ios_base::app);
 	// std::time_t t = std::time(0);
@@ -144,9 +133,13 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	case DLL_PROCESS_ATTACH:
 		{
 		//f << "[" << timestamp << "] " << "DLL attached!\n";
-		HANDLE thread = CreateThread(NULL, 0, &RunEmu, NULL, 0, NULL);
-		CloseHandle(thread);
+		// HANDLE thread = CreateThread(NULL, 0, &RunEmu, NULL, 0, NULL);
+		 // CloseHandle(thread);
 		}
+		//------ Find/load script file directories with script manager
+		sm.findScripts();
+		sm.storeScripts();
+
 		break;
 	case DLL_PROCESS_DETACH:
 		//f << "[" << timestamp << "] " << "DLL detached!\n";

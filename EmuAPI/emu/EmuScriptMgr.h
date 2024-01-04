@@ -17,7 +17,7 @@ class EmuScriptMgr
 {
 public:
     EmuScriptMgr();
-    EmuScriptMgr(std::ofstream&, char*); // overloaded constructor
+    EmuScriptMgr(); // overloaded constructor
     ~EmuScriptMgr();
     void findScripts();
     void storeScripts();

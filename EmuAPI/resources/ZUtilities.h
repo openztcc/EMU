@@ -13,8 +13,7 @@ class ZUtilities
     public:
     ZUtilities();
     ~ZUtilities();
-    static int FoundIAT();
-
+    static DWORD SetIAT(const char*, DWORD);
 };
 
 #endif

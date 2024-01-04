@@ -204,26 +204,26 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // }
 
             // ----- Test commands (devs only)
-            else if (tokens[0] == "pefound") {
-                // ----- Test command to check if PE header is valid or found
-                if (ZUtilities::FoundIAT() == 0)
-                {
-                    std::cout << "PE header not found." << std::endl;
-                }
-                else if (ZUtilities::FoundIAT() == 2)
-                {
-                    std::cout << "Optional header in PE Header not found." << std::endl;
-                }
-                else if (ZUtilities::FoundIAT() == 3)
-                {
-                    std::cout << "Import Address Table in PE Header not found." << std::endl;
-                }
-                else
-                {
-                    std::cout << "PE header found and valid." << std::endl;
-                }
+            // else if (tokens[0] == "pefound") {
+            //     // ----- Test command to check if PE header is valid or found
+            //     if (ZUtilities::FoundIAT() == 0)
+            //     {
+            //         std::cout << "PE header not found." << std::endl;
+            //     }
+            //     else if (ZUtilities::FoundIAT() == 2)
+            //     {
+            //         std::cout << "Optional header in PE Header not found." << std::endl;
+            //     }
+            //     else if (ZUtilities::FoundIAT() == 3)
+            //     {
+            //         std::cout << "Import Address Table in PE Header not found." << std::endl;
+            //     }
+            //     else
+            //     {
+            //         std::cout << "PE header found and valid." << std::endl;
+            //     }
                 
-            }
+            // }
             else
             {
                 std::cout << "Err: Command <" << tokens[0] << "> does not exist." << std::endl;
