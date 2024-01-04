@@ -304,6 +304,14 @@
 				RelativePath=".\resources\ZooState.h"
 				>
 			</File>
+			<File
+				RelativePath=".\resources\ZUtilities.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\resources\ZUtilities.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
