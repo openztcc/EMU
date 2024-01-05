@@ -16,7 +16,6 @@
 class EmuScriptMgr
 {
 public:
-    EmuScriptMgr();
     EmuScriptMgr(); // overloaded constructor
     ~EmuScriptMgr();
     void findScripts();

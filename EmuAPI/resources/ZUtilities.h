@@ -7,6 +7,9 @@
 #include "lua.hpp"
 #include <map>
 #include <functional>
+#include <ctime>
+#include <sstream>
+#include <fstream>
 
 class ZUtilities
 {
