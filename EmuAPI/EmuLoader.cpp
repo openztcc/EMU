@@ -45,11 +45,25 @@ VOID WINAPI RunEmu(DWORD ms) {
 
 	// main loop
 
-	bool renaming_done = false;
+	std::ofstream f;
+	f.open("out.log", std::ios_base::app);
+	std::time_t t = std::time(0);
+	char timestamp[80]; // timestamp buffer
+	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
+
+	// if (originalSleep == 0) {
+	// 	f << "[" << timestamp << "] " << "Sleep hook failed!" << std::endl;
+	// } else {
+	// 	f << "[" << timestamp << "] " << "Sleep hook success!" << std::endl;
+	// }
+
+
 	//---- CTRL + J
 	if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
+		f << "[" << timestamp << "] " << "Opening console..." << std::endl;
 		IsConsoleRunning = true;
 		HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
+		f << "[" << timestamp << "] " << "Console opened!" << std::endl;
 		CloseHandle(thread);
 	} else if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true) {
 		ShowWindow(consoleWindow, SW_SHOW);
@@ -73,19 +87,8 @@ VOID WINAPI RunEmu(DWORD ms) {
 		
 	}
 
-	std::ofstream f;
-	f.open("out.log", std::ios_base::app);
-	std::time_t t = std::time(0);
-	char timestamp[80]; // timestamp buffer
-	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
 
-	if (originalSleep == 0) {
-		f << "[" << timestamp << "] " << "Sleep hook failed!" << std::endl;
-	} else {
-		f << "[" << timestamp << "] " << "Sleep hook success!" << std::endl;
-	}
-
-	originalSleep(10);
+	originalSleep(0);
 
 	f.close();
 }
