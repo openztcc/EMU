@@ -17,6 +17,7 @@ class ZUtilities
     ZUtilities();
     ~ZUtilities();
     static DWORD SetIAT(const char*, DWORD);
+    static void DetourFunction(DWORD, DWORD);
 };
 
 #endif

@@ -1,4 +1,7 @@
 #include "ZUtilities.h"
+#include "detours.h"
+
+char (*OriginalUpdate)(DWORD, int);
 
 ZUtilities::ZUtilities()
 {
@@ -8,6 +11,25 @@ ZUtilities::ZUtilities()
 ZUtilities::~ZUtilities()
 {
 
+}
+
+void ZUtilities::DetourFunction(DWORD funcName, DWORD newFunc)
+{
+    OriginalUpdate = (char (*)(DWORD, int))0x41a6d1;
+
+    DetourTransactionBegin();
+    DetourUpdateThread(GetCurrentThread());
+    DetourAttach(&(PVOID&)OriginalUpdate, (PVOID)newFunc);
+    DetourTransactionCommit();
+
+        std::ofstream f;
+	f.open("out.log", std::ios_base::app);
+	std::time_t t = std::time(0);
+	char timestamp[80]; // timestamp buffer
+	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
+
+    f << "[" << timestamp << "] " << "Detour success!" << std::endl;
+    f.close();
 }
 
 /// @brief Sets the IAT hook for a given function
@@ -64,6 +86,7 @@ DWORD ZUtilities::SetIAT(const char* funcName, DWORD newFunc)
     // --- Loop through the import descriptor to find the function
     while (impDesc->FirstThunk)
     {
+
         // ----- Get thunk data
         IMAGE_THUNK_DATA* thunkData = (IMAGE_THUNK_DATA*)(EmuBase::base + impDesc->OriginalFirstThunk);
 

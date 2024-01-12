@@ -32,15 +32,15 @@ EmuScriptMgr sm;
 DWORD WINAPI ZooConsole(LPVOID lpParameter);
 
 // ------ Set IAT hook for Sleep to run the main loop, RunEmu
-VOID WINAPI RunEmu(DWORD ms);
-typedef VOID (WINAPI *_origSleep)(DWORD);
-_origSleep originalSleep = (_origSleep)ZUtilities::SetIAT("Sleep", (DWORD)&RunEmu);;
+VOID WINAPI RunEmu();
+// typedef VOID (WINAPI *_origSleep)();
+// _origSleep originalSleep = (_origSleep)ZUtilities::SetIAT("WaitMessage", (DWORD)&RunEmu);;
 
 #define fs std::filesystem
 #define B EmuBase
 #define ZS ZooState
 
-VOID WINAPI RunEmu(DWORD ms) {
+VOID WINAPI RunEmu() {
 
 
 	// main loop
@@ -88,7 +88,7 @@ VOID WINAPI RunEmu(DWORD ms) {
 	}
 
 
-	originalSleep(0);
+	// originalSleep();
 
 	f.close();
 }
@@ -163,6 +163,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		//------ Find/load script file directories with script manager
 		sm.findScripts();
 		sm.storeScripts();
+		ZUtilities::DetourFunction(0x41a6d1, (DWORD)&RunEmu);
 		break;
 	case DLL_PROCESS_DETACH:
 		//f << "[" << timestamp << "] " << "DLL detached!\n";

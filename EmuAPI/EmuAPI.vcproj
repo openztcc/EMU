@@ -115,7 +115,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;&quot;$(ProjectDir)\resources&quot;;&quot;$(ProjectDir)\lua\&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;&quot;$(ProjectDir)\resources&quot;;&quot;$(ProjectDir)\lua\&quot;;&quot;$(ProjectDir)\detours\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EMUAPI_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -134,8 +134,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Psapi.lib winmm.lib lua53.lib"
-				OutputFile="$(OutDir)\res-EMU.dll"
+				AdditionalDependencies="Psapi.lib winmm.lib lua53.lib detours.lib"
+				OutputFile="C:\Program Files (x86)\Microsoft Games\Zoo Tycoon\res-EMU.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib&quot;"
 				GenerateDebugInformation="true"
@@ -313,10 +313,20 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
+		<Filter
+			Name="Microsoft Detours"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</File>
+			<File
+				RelativePath=".\detours\detours.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\detours\detours.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
