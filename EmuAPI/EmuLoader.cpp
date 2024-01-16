@@ -18,11 +18,13 @@
 #include "RegZooState.h"
 #include <ctime>
 #include "EmuScriptMgr.h"
-#include "ZUtilities.h"
+#include <detours.h>
 
+//------ Flags for console
 bool IsConsoleRunning = false;
 bool IsConsoleHiding = false;
 bool HasConsoleOpenedOnce = false; // to avoid conflicts when console has not been opened yet
+
 //------ Flags for keypresses
 bool ctrlMPressed = false;
 HWND consoleWindow; // contains console window handle
@@ -30,17 +32,19 @@ EmuScriptMgr sm;
 
 // ------ Function prototypes
 DWORD WINAPI ZooConsole(LPVOID lpParameter);
+typedef __int32 uint32_t;
 
-// ------ Set IAT hook for Sleep to run the main loop, RunEmu
-VOID WINAPI RunEmu();
-// typedef VOID (WINAPI *_origSleep)();
-// _origSleep originalSleep = (_origSleep)ZUtilities::SetIAT("WaitMessage", (DWORD)&RunEmu);;
+//------ Function pointers
+DWORD updateAddress = 0x00401644; // address of update function in game
+typedef void (__cdecl *_origUpdate)(unsigned int); // define original update function
 
+//------ Namespace and class aliases
 #define fs std::filesystem
 #define B EmuBase
 #define ZS ZooState
 
-VOID WINAPI RunEmu() {
+
+void RunEmu(unsigned int arg1) {
 
 
 	// main loop
@@ -51,19 +55,14 @@ VOID WINAPI RunEmu() {
 	char timestamp[80]; // timestamp buffer
 	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
 
-	// if (originalSleep == 0) {
-	// 	f << "[" << timestamp << "] " << "Sleep hook failed!" << std::endl;
-	// } else {
-	// 	f << "[" << timestamp << "] " << "Sleep hook success!" << std::endl;
-	// }
-
+	// f << "[" << timestamp << "] " << "EMU loop running..." << std::endl;
 
 	//---- CTRL + J
 	if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
-		f << "[" << timestamp << "] " << "Opening console..." << std::endl;
+		// f << "[" << timestamp << "] " << "Opening console..." << std::endl;
 		IsConsoleRunning = true;
 		HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
-		f << "[" << timestamp << "] " << "Console opened!" << std::endl;
+		// f << "[" << timestamp << "] " << "Console opened!" << std::endl;
 		CloseHandle(thread);
 	} else if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true) {
 		ShowWindow(consoleWindow, SW_SHOW);
@@ -81,16 +80,20 @@ VOID WINAPI RunEmu() {
 
 	// only run scripts while zoo is loaded and not in main menu
 	if ((int)ZS::object_ptr(0x0) > 0) {
+		f << "[" << timestamp << "] " << "Is no longer in main menu!" << std::endl;
 		if (ZS::IsZooLoaded() == true) {
+			f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
 			sm.executeScripts();
+			f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 		}
 		
 	}
 
-
-	// originalSleep();
-
+	//---- return to original update function
+	_origUpdate ogUpdate = (_origUpdate)updateAddress;
+	// f << "[" << timestamp << "] " << "EMU loop finished!" << std::endl;
 	f.close();
+	return ogUpdate(arg1);
 }
 
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
@@ -142,11 +145,11 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	LPVOID lpReserved) {
 
 
-	// std::ofstream f;
-	// f.open("out.log", std::ios_base::app);
-	// std::time_t t = std::time(0);
-	// char timestamp[80]; // timestamp buffer
-	// std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
+	std::ofstream f;
+	f.open("out.log", std::ios_base::app);
+	std::time_t t = std::time(0);
+	char timestamp[80]; // timestamp buffer
+	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
 
 	// Get the thread ID of the current thread
 	// DWORD mainThreadId = GetCurrentThreadId();
@@ -156,17 +159,27 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
 		{
-		//f << "[" << timestamp << "] " << "DLL attached!\n";
+		f << "[" << timestamp << "] " << "DLL attached!\n";
 		// HANDLE thread = CreateThread(NULL, 0, &RunEmu, NULL, 0, NULL);
 		 // CloseHandle(thread);
 		}
 		//------ Find/load script file directories with script manager
 		sm.findScripts();
 		sm.storeScripts();
-		ZUtilities::DetourFunction(0x41a6d1, (DWORD)&RunEmu);
+
+		//------ Detour update function to run emu and sync with main game thread
+		DetourTransactionBegin();
+		DetourUpdateThread(GetCurrentThread());
+		DetourAttach((PVOID*)&updateAddress, (PVOID)&RunEmu);
+		DetourTransactionCommit();
+		
 		break;
 	case DLL_PROCESS_DETACH:
-		//f << "[" << timestamp << "] " << "DLL detached!\n";
+		f << "[" << timestamp << "] " << "DLL detached!\n";
+		// DetourTransactionBegin();
+		// DetourUpdateThread(GetCurrentThread());
+		// DetourDetach(&(PVOID&)originalUpdate, (PVOID)&RunEmu);
+		// DetourTransactionCommit();
 		break;
 	case DLL_THREAD_ATTACH:
 		//f << "[" << timestamp << "] " << "Thread attached!\n";
@@ -180,6 +193,6 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		return FALSE;
 	}
 	
-	// f.close();
+	f.close();
 	return TRUE;
 }
