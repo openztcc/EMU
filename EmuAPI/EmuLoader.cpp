@@ -32,9 +32,8 @@ EmuScriptMgr sm;
 
 // ------ Function prototypes
 DWORD WINAPI ZooConsole(LPVOID lpParameter);
-typedef __int32 uint32_t;
 
-//------ Function pointers
+//------ Function pointers 
 DWORD updateAddress = 0x00401644; // address of update function in game
 typedef void (__cdecl *_origUpdate)(unsigned int); // define original update function
 
@@ -43,6 +42,21 @@ typedef void (__cdecl *_origUpdate)(unsigned int); // define original update fun
 #define B EmuBase
 #define ZS ZooState
 
+LRESULT CALLBACK HandleConsoleTermination(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	switch (msg) {
+		case WM_CLOSE:
+			IsConsoleRunning = false;
+			break;
+		case WM_DESTROY:
+			IsConsoleRunning = false;
+			break;
+		case WM_QUIT:
+			IsConsoleRunning = false;
+			break;
+		
+	}
+	return 0;
+}
 
 void RunEmu(unsigned int arg1) {
 
@@ -64,10 +78,7 @@ void RunEmu(unsigned int arg1) {
 		HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
 		// f << "[" << timestamp << "] " << "Console opened!" << std::endl;
 		CloseHandle(thread);
-	} else if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == true && HasConsoleOpenedOnce == true) {
-		ShowWindow(consoleWindow, SW_SHOW);
-		IsConsoleHiding = false;
-	}
+	} 
 	
 	//---- CTRL + M
 	if (B::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed) {
@@ -98,8 +109,10 @@ void RunEmu(unsigned int arg1) {
 
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
-	EmuConsole console; // new console object. needed to keep token state persistent.
+	std::vector<std::string> tokens;
+	EmuConsole console(tokens); // new console object. needed to keep token state persistent.
 	FILE* file_s;
+	
 
 	HasConsoleOpenedOnce = true;
 
@@ -117,25 +130,52 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 	}
 
 	consoleWindow = GetConsoleWindow();
-	// SetWindowLongPtr(consoleWindow, GWL_EXSTYLE, GetWindowLongPtr(consoleWindow, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
-    // SetWindowPos(consoleWindow, HWND_TOPMOST, 100, 100, 400, 200, SWP_SHOWWINDOW);
+
+	if (consoleWindow != NULL)
+	{
+		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+		int windowWidth = 400;
+		int windowHeight = 200;
+		LONG lStyle = GetWindowLong(consoleWindow, GWL_STYLE);
+		lStyle &= ~(WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
+		SetWindowLong(consoleWindow, GWL_STYLE, lStyle);
+
+		SetWindowPos(consoleWindow, HWND_TOPMOST, screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2, windowWidth, windowHeight, SWP_SHOWWINDOW);
+	}
 
 	std::cout << "Welcome to the EMU command console. Please enter your command below.\n\n:::IMPORTANT::: Do not close this console window if you do not want to lose your zoo progress, this will effectively force quit the game. If you would like to exit the console safely, type in the 'exit' command and wait for the message. You can then close the command console." << std::endl << std::endl;
 	
 	while (IsConsoleRunning)
 	{
-		// ------ Process the input tokens while console is running
-		console.processInput(IsConsoleRunning);
-		
-		if (IsConsoleHiding == false)
+		// ------ Tokenize the input
+		tokens.clear();
+		std::cout << ">> ";
+		console.tokenize();
+
+		if (tokens.empty() != true)
 		{
+			// ------ Process the input tokens while console is running
+			console.processInput(IsConsoleRunning);
+		}
+
+		
+		if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == false) {
 			ShowWindow(consoleWindow, SW_HIDE);
 			IsConsoleHiding = true;
+		} else if (B::DoubleKey(0x11, 0x4A) == false && IsConsoleHiding == true) {
+			ShowWindow(consoleWindow, SW_SHOW);
+			IsConsoleHiding = false;
 		}
 		
 		Sleep(10);
 	}
+
+	// ------ Close the console window
+	HasConsoleOpenedOnce = false;
 	FreeConsole();
+	Sleep(100);
+	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
 	return 1;
 }
 

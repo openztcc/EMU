@@ -12,12 +12,12 @@
 class EmuConsole
 {
 public:
-	EmuConsole();
+	EmuConsole(std::vector<std::string>&);
 	void processInput(bool&);
 	~EmuConsole();
-private:
 	void tokenize();
-	std::vector<std::string> tokens;
+private:
+	std::vector<std::string>& tokens;
 };
 
 #endif
