@@ -20,12 +20,12 @@ Drop the res-EMU.dll binary directly into your `C:\Program Files (x86)\Microsoft
 
 ### Command Console
 
-The API includes a command console not originally available in the vanilla game. It can be accessed via `CTRL + J`. It is currently not advisable to run any commands unless a zoo file has been loaded as it depends on the resources to have been allocated in memory.
+The API includes a command console not originally available in the vanilla game. It can be accessed via `CTRL + J`. Commands will not run unless a zoo is loaded.
 
-Console limitations to consider as of **EMU v1.0.0-alpha.3**:
+Console limitations to consider as of **EMU v1.0.0-alpha.4**:
 - The console is only visible in windowed mode and will not be accessible if you are full screen.
-- Do not immediately exit the console by hitting 'X' on the window UI as this will close your game without prompt to save your zoo. The `exit` command will allow you to hide the console from view.
 - Safety checks are not yet implemented so be careful to stray too far from the expected input.
+- Console stays ontop of the main game window (in windowed mode) and will stay ontop of other windows if game is minized. If it's obtrusive, close the console with `exit`.
 - This API makes use of multi-threading to run EMU and the console simultaneously with the game. On slower hardware you might see propagation of resources take longer between what you see in the game and what you see in a function return value. For example: `num-tiredguests` might say 10, but the game says 11 for a few milliseconds longer.
 - `list-privatedonations` has different values than what the game displays. The array is accurate down to the second that the month changes, but then the game adds an unknown value to the final recorded value on-screen. It is not known if this is a bug or if it is adding other donations like benefactor contributions. We keep it for analysis in the future.
 
@@ -33,7 +33,7 @@ Console limitations to consider as of **EMU v1.0.0-alpha.3**:
 
 | Command  | Description |
 | ------------- | ------------- |
-| exit  | Safely close the console thread. |
+| exit  | Safely close the console window. |
 | addtobudget \<float deposit\> | Deposit a discrete amount of cash into your zoo budget. |
 | getbudget | Returns the current budget. |
 | setbudget \<float new_budget\> | Set your current budget to a new amount. |
@@ -88,7 +88,7 @@ EMU adds scripting support to Zoo Tycoon 1. Currently scripting is limited to th
 | ConstructionCostByMonth() | Retrieve an array containing 12 elements, each representing the construction costs for a specific month. |
 | AnimalPurchaseCostsByMonth() | Retrieve an array containing 12 elements, each representing the animal adoption costs for a specific month. |
 
-Scripting considerations:
+Scripting info:
 - All Lua standard libraries as of Lua 5.3 are made available for your use.
 - Lua scripts must have the `.emu` extension.
 - As of the latest **EMU v1.0.0-alpha.4**, EMU can load any lua scripts inside of a `/scripts` folder inside of the root Zoo Tycoon 1 folder.
