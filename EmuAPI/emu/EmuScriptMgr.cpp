@@ -4,7 +4,12 @@
 //     // do not use default constructor
 // }
 
-EmuScriptMgr::EmuScriptMgr(std::ofstream& fs, char* ts) : f(fs), timestamp(ts) {
+EmuScriptMgr::EmuScriptMgr() : f(std::ofstream("out.log", std::ios_base::app)){
+	//------ Timestamp for logging
+	std::time_t t = std::time(0);
+	timestamp = new char[80]; // timestamp buffer
+	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
+
     //------ Initializing Lua
 	lua = luaL_newstate();  // Open Lua
 	int iErr = 0;
@@ -20,6 +25,9 @@ EmuScriptMgr::EmuScriptMgr(std::ofstream& fs, char* ts) : f(fs), timestamp(ts) {
 }
 
 EmuScriptMgr::~EmuScriptMgr() {
+    delete[] timestamp;
+    lua_close (lua);
+    f.close();
 }
 
 /// @brief Executes all emu scripts in a directory.
