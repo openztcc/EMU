@@ -113,6 +113,8 @@ void RunEmu(unsigned int arg1) {
 	return ogUpdate(arg1);
 }
 
+// ------ Hook the main window to keep the console window in place
+// ------ NOTE: This is not working as intended. The console window is not staying in place.
 LRESULT CALLBACK HookMainWindow(int nCode, WPARAM wParam, LPARAM lParam) {
 	if (nCode >= 0) {
 		CWPSTRUCT* msg = (CWPSTRUCT*)lParam;
