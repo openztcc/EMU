@@ -49,7 +49,6 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
     // Check for a special command to exit the program
     if (tokens[0] == "exit")
     {
-        std::cout << "You may now safely close the console window." << std::endl;
         IsConsoleRunning = false;
         return;
     }

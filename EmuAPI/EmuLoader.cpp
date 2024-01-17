@@ -27,8 +27,6 @@ bool HasConsoleOpenedOnce = false; // to avoid conflicts when console has not be
 
 //------ Flags for keypresses
 bool ctrlMPressed = false;
-HWND consoleWindow; // contains console window handle
-EmuScriptMgr sm;
 
 // ------ Function prototypes
 DWORD WINAPI ZooConsole(LPVOID lpParameter);
@@ -42,21 +40,29 @@ typedef void (__cdecl *_origUpdate)(unsigned int); // define original update fun
 #define B EmuBase
 #define ZS ZooState
 
-LRESULT CALLBACK HandleConsoleTermination(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	switch (msg) {
-		case WM_CLOSE:
-			IsConsoleRunning = false;
-			break;
-		case WM_DESTROY:
-			IsConsoleRunning = false;
-			break;
-		case WM_QUIT:
-			IsConsoleRunning = false;
-			break;
+//------ Global variables
+HHOOK hHook = NULL;
+HWND consoleWindow; // contains console window handle
+int consoleW = 400;
+int consoleH = 200;
+EmuScriptMgr sm;
+
+// LRESULT CALLBACK MainWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+
+// 	switch (uMsg) {
+// 		case WM_SIZE:
+// 			RECT rect;
+// 			GetWindowRect(hwnd, &rect);
+
+// 			int newX = rect.right - consoleW;
+// 			int newY = rect.top - 15;
+// 			SetWindowPos(consoleWindow, HWND_TOPMOST, newX, newY, consoleW, consoleH, SWP_SHOWWINDOW);
+// 			break;
+// 		default:
+// 			return DefWindowProc(hwnd, uMsg, wParam, lParam);
 		
-	}
-	return 0;
-}
+// 	}
+// }
 
 void RunEmu(unsigned int arg1) {
 
@@ -91,7 +97,7 @@ void RunEmu(unsigned int arg1) {
 
 	// only run scripts while zoo is loaded and not in main menu
 	if ((int)ZS::object_ptr(0x0) > 0) {
-		f << "[" << timestamp << "] " << "Is no longer in main menu!" << std::endl;
+		// f << "[" << timestamp << "] " << "Is no longer in main menu!" << std::endl;
 		if (ZS::IsZooLoaded() == true) {
 			f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
 			sm.executeScripts();
@@ -107,12 +113,33 @@ void RunEmu(unsigned int arg1) {
 	return ogUpdate(arg1);
 }
 
+LRESULT CALLBACK HookMainWindow(int nCode, WPARAM wParam, LPARAM lParam) {
+	if (nCode >= 0) {
+		CWPSTRUCT* msg = (CWPSTRUCT*)lParam;
+		if (msg->message == WM_SIZE || msg->message == WM_MOVE) {
+			RECT rect;
+			GetWindowRect(msg->hwnd, &rect);
+
+			int newX = rect.right - consoleW;
+			int newY = rect.top + 30;
+			SetWindowPos(consoleWindow, HWND_TOPMOST, newX, newY, consoleW, consoleH, SWP_SHOWWINDOW);
+		}
+	}
+	return CallNextHookEx(hHook, nCode, wParam, lParam);
+}
+
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
 	std::vector<std::string> tokens;
 	EmuConsole console(tokens); // new console object. needed to keep token state persistent.
 	FILE* file_s;
 	
+	std::ofstream f;
+	f.open("out.log", std::ios_base::app);
+	std::time_t t = std::time(0);
+	char timestamp[80]; // timestamp buffer
+	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
+
 
 	HasConsoleOpenedOnce = true;
 
@@ -129,22 +156,58 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 		return 1;
 	}
 
+	// ------ Set the console window title and position
 	consoleWindow = GetConsoleWindow();
+	SetConsoleTitle(TEXT("EMU Console")); // console title
+	// SetConsoleMode(consoleWindow, ENABLE_PROCESSED_INPUT | ENABLE_WINDOW_INPUT); // enable window input
 
 	if (consoleWindow != NULL)
 	{
+		RECT mainWindowRect;
+		HWND mainGameWindow = FindWindow(NULL, TEXT("Zoo Tycoon")); // find the main game window
+		GetWindowRect(mainGameWindow, &mainWindowRect);
+
+		// ------ Get screen dimensions
 		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 		int windowWidth = 400;
 		int windowHeight = 200;
+
+		// ------ Remove close, minimize and maximize buttons
 		LONG lStyle = GetWindowLong(consoleWindow, GWL_STYLE);
 		lStyle &= ~(WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
 		SetWindowLong(consoleWindow, GWL_STYLE, lStyle);
 
-		SetWindowPos(consoleWindow, HWND_TOPMOST, screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2, windowWidth, windowHeight, SWP_SHOWWINDOW);
+		// ------ Remove from taskbar
+		LONG lExStyle = GetWindowLong(consoleWindow, GWL_EXSTYLE);
+		lExStyle = (lExStyle | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW;
+		SetWindowLong(consoleWindow, GWL_EXSTYLE, lExStyle);
+
+		// ------ Set the window position
+		if (mainGameWindow != NULL)
+		{
+			// ------ Set the console window position
+			RECT mainGameWindowRect;
+			GetWindowRect(mainGameWindow, &mainGameWindowRect);
+			int windowWidth = 400;
+			int windowHeight = 200;
+
+			// ------ Calculate new position
+			int newWindowX = mainWindowRect.right - windowWidth;
+			int newWindowY = mainWindowRect.top + 30;
+
+			// SetWindowPos(consoleWindow, HWND_TOPMOST, mainGameWindowRect.left + 100, mainGameWindowRect.top + 100, windowWidth, windowHeight, SWP_SHOWWINDOW);
+			SetWindowPos(consoleWindow, HWND_TOPMOST, newWindowX, newWindowY, windowWidth, windowHeight, SWP_SHOWWINDOW);
+			hHook = SetWindowsHookEx(WH_CALLWNDPROC, HookMainWindow, GetModuleHandle(NULL), 0);
+			if (hHook == NULL) {
+				f << "[" << timestamp << "] " << "Main window hook failed!" << std::endl;
+			} else {
+				f << "[" << timestamp << "] " << "Main window hook successful!" << std::endl;
+			}
+		}	
 	}
 
-	std::cout << "Welcome to the EMU command console. Please enter your command below.\n\n:::IMPORTANT::: Do not close this console window if you do not want to lose your zoo progress, this will effectively force quit the game. If you would like to exit the console safely, type in the 'exit' command and wait for the message. You can then close the command console." << std::endl << std::endl;
+	std::cout << "Welcome to the EMU command console.\nAuthor: Eric \"Goosifer\" Galvan.\nSpecial thanks to: Finn, wowjinxy, Jay\n\nPlease enter your command below." << std::endl << std::endl;
 	
 	while (IsConsoleRunning)
 	{
@@ -159,13 +222,9 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 			console.processInput(IsConsoleRunning);
 		}
 
-		
-		if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleHiding == false) {
-			ShowWindow(consoleWindow, SW_HIDE);
-			IsConsoleHiding = true;
-		} else if (B::DoubleKey(0x11, 0x4A) == false && IsConsoleHiding == true) {
-			ShowWindow(consoleWindow, SW_SHOW);
-			IsConsoleHiding = false;
+		// ------ Check for CTRL + J to close the console
+		if (B::DoubleKey(0x11, 0x4A) == true) {
+			break;
 		}
 		
 		Sleep(10);
@@ -173,10 +232,13 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 
 	// ------ Close the console window
 	HasConsoleOpenedOnce = false;
+	IsConsoleRunning = false;
 	FreeConsole();
 	Sleep(100);
 	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
 	return 1;
+
+	f.close();
 }
 
 
