@@ -22,7 +22,7 @@
 
 //------ Flags for console
 bool IsConsoleRunning = false;
-bool IsConsoleHiding = false;
+bool CommandIsProcessing = false;
 bool HasConsoleOpenedOnce = false; // to avoid conflicts when console has not been opened yet
 
 //------ Flags for keypresses
@@ -37,8 +37,6 @@ typedef void (__cdecl *_origUpdate)(unsigned int); // define original update fun
 
 //------ Namespace and class aliases
 #define fs std::filesystem
-#define B EmuBase
-#define ZS ZooState
 
 //------ Global variables
 HHOOK hHook = NULL;
@@ -62,7 +60,7 @@ void RunEmu(unsigned int arg1) {
 	// f << "[" << timestamp << "] " << "EMU loop running..." << std::endl;
 
 	//---- CTRL + J
-	if (B::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
+	if (EmuBase::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
 		// f << "[" << timestamp << "] " << "Opening console..." << std::endl;
 		IsConsoleRunning = true;
 		HANDLE thread = CreateThread(NULL, 0, &ZooConsole, NULL, 0, NULL);
@@ -71,18 +69,18 @@ void RunEmu(unsigned int arg1) {
 	} 
 	
 	//---- CTRL + M
-	if (B::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed) {
+	if (EmuBase::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed) {
 		ctrlMPressed = true; // Set the flag
 		float mo_money = 1000000.00f;
-		ZS::AddToZooBudget(mo_money);
-	} else if (B::DoubleKey(0x11, 0x4D) == false) {
+		ZooState::AddToZooBudget(mo_money);
+	} else if (EmuBase::DoubleKey(0x11, 0x4D) == false) {
 		ctrlMPressed = false; // Reset the flag when the key is released
 	}
 
 	// only run scripts while zoo is loaded and not in main menu
-	if ((int)ZS::object_ptr(0x0) > 0) {
+	if ((int)ZooState::object_ptr(0x0) > 0) {
 		// f << "[" << timestamp << "] " << "Is no longer in main menu!" << std::endl;
-		if (ZS::IsZooLoaded() == true) {
+		if (ZooState::IsZooLoaded() == true) {
 			f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
 			sm.executeScripts();
 			f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
@@ -90,16 +88,13 @@ void RunEmu(unsigned int arg1) {
 		
 	}
 
-	if (tokens.empty() != true)
+	//---- Process the input tokens while console is running
+	if (!tokens.empty() && IsConsoleRunning == true)
 	{
-		// ------ Process the input tokens while console is running
 		console.processInput(IsConsoleRunning);
+		tokens.clear();
+		CommandIsProcessing = false; // reset flag to allow another command to be tokenized
 	}
-
-	// ------ Check for CTRL + J to close the console
-	if (B::DoubleKey(0x11, 0x4A) == true) {
-	}
-
 
 	//---- return to original update function
 	_origUpdate ogUpdate = (_origUpdate)updateAddress;
@@ -125,11 +120,14 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 	while (IsConsoleRunning)
 	{
 		// ------ Tokenize the input
-		tokens.clear();
-		std::cout << ">> ";
-		console.tokenize();
-		
+		if (!CommandIsProcessing)
+		{
+			std::cout << ">> ";
+			console.tokenize();
+			CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
+		}
 		Sleep(10);
+
 	}
 
 	// ------ Close the console window
@@ -137,10 +135,9 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 	IsConsoleRunning = false;
 	FreeConsole();
 	Sleep(100);
-	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
-	return 1;
-
+	PostMessage((HWND)&consoleWindow, WM_CLOSE, 0, 0);
 	f.close();
+	return 1;
 }
 
 
