@@ -9,6 +9,79 @@ EmuConsole::~EmuConsole(void)
 {
 }
 
+HWND& EmuConsole::createConsole()
+{
+    HWND consoleWindow; // contains console window handle
+
+    FILE* file_s;
+
+    // ------ Create a console window
+    AllocConsole();
+    if (freopen_s(&file_s, "CONOUT$", "w", stdout) != 0)
+	{
+		perror("freeopen_s");
+	}
+	if (freopen_s(&file_s, "CONIN$", "r", stdin) != 0)
+	{
+		perror("freeopen_s");
+	}
+
+	// ------ Set the console window title and position
+	consoleWindow = GetConsoleWindow();
+	SetConsoleTitle(TEXT("EMU Console")); // console title
+	// SetConsoleMode(consoleWindow, ENABLE_PROCESSED_INPUT | ENABLE_WINDOW_INPUT); // enable window input
+
+	if (consoleWindow != NULL)
+	{
+		RECT mainWindowRect;
+		HWND mainGameWindow = FindWindow(NULL, TEXT("Zoo Tycoon")); // find the main game window
+		GetWindowRect(mainGameWindow, &mainWindowRect);
+
+		// ------ Get screen dimensions
+		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+		int windowWidth = 400;
+		int windowHeight = 200;
+
+		// ------ Remove close, minimize and maximize buttons
+		LONG lStyle = GetWindowLong(consoleWindow, GWL_STYLE);
+		lStyle &= ~(WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
+		SetWindowLong(consoleWindow, GWL_STYLE, lStyle);
+
+		// ------ Remove from taskbar
+		LONG lExStyle = GetWindowLong(consoleWindow, GWL_EXSTYLE);
+		lExStyle = (lExStyle | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW;
+		SetWindowLong(consoleWindow, GWL_EXSTYLE, lExStyle);
+
+		// ------ Set the window position
+		if (mainGameWindow != NULL)
+		{
+			// ------ Set the console window position
+			RECT mainGameWindowRect;
+			GetWindowRect(mainGameWindow, &mainGameWindowRect);
+			int windowWidth = 400;
+			int windowHeight = 200;
+
+			// ------ Calculate new position
+			int newWindowX = mainWindowRect.right - windowWidth;
+			int newWindowY = mainWindowRect.top + 30;
+
+			// SetWindowPos(consoleWindow, HWND_TOPMOST, mainGameWindowRect.left + 100, mainGameWindowRect.top + 100, windowWidth, windowHeight, SWP_SHOWWINDOW);
+			SetWindowPos(consoleWindow, HWND_TOPMOST, newWindowX, newWindowY, windowWidth, windowHeight, SWP_SHOWWINDOW);
+			// hHook = SetWindowsHookEx(WH_CALLWNDPROC, HookMainWindow, GetModuleHandle(NULL), 0);
+			// if (hHook == NULL) {
+			// 	f << "[" << timestamp << "] " << "Main window hook failed!" << std::endl;
+			// } else {
+			// 	f << "[" << timestamp << "] " << "Main window hook successful!" << std::endl;
+			// }
+		}	
+	}
+
+	std::cout << "Welcome to the EMU command console.\nAuthor: Eric \"Goosifer\" Galvan.\nSpecial thanks to: Finn, wowjinxy, Jay\n\nPlease enter your command below." << std::endl << std::endl;
+
+    return consoleWindow;
+}
+
 /// <summary>
 /// Tokenizes buffer stream
 /// </summary>

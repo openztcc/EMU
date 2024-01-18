@@ -42,27 +42,11 @@ typedef void (__cdecl *_origUpdate)(unsigned int); // define original update fun
 
 //------ Global variables
 HHOOK hHook = NULL;
-HWND consoleWindow; // contains console window handle
-int consoleW = 400;
-int consoleH = 200;
-EmuScriptMgr sm;
-
-// LRESULT CALLBACK MainWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-
-// 	switch (uMsg) {
-// 		case WM_SIZE:
-// 			RECT rect;
-// 			GetWindowRect(hwnd, &rect);
-
-// 			int newX = rect.right - consoleW;
-// 			int newY = rect.top - 15;
-// 			SetWindowPos(consoleWindow, HWND_TOPMOST, newX, newY, consoleW, consoleH, SWP_SHOWWINDOW);
-// 			break;
-// 		default:
-// 			return DefWindowProc(hwnd, uMsg, wParam, lParam);
-		
-// 	}
-// }
+int consoleW = 400; // console window width
+int consoleH = 200; // console window height
+EmuScriptMgr sm; // script manager object
+std::vector<std::string> tokens; // contains tokens from console input
+EmuConsole console(tokens); // console object
 
 void RunEmu(unsigned int arg1) {
 
@@ -106,6 +90,17 @@ void RunEmu(unsigned int arg1) {
 		
 	}
 
+	if (tokens.empty() != true)
+	{
+		// ------ Process the input tokens while console is running
+		console.processInput(IsConsoleRunning);
+	}
+
+	// ------ Check for CTRL + J to close the console
+	if (B::DoubleKey(0x11, 0x4A) == true) {
+	}
+
+
 	//---- return to original update function
 	_origUpdate ogUpdate = (_origUpdate)updateAddress;
 	// f << "[" << timestamp << "] " << "EMU loop finished!" << std::endl;
@@ -113,28 +108,9 @@ void RunEmu(unsigned int arg1) {
 	return ogUpdate(arg1);
 }
 
-// ------ Hook the main window to keep the console window in place
-// ------ NOTE: This is not working as intended. The console window is not staying in place.
-LRESULT CALLBACK HookMainWindow(int nCode, WPARAM wParam, LPARAM lParam) {
-	if (nCode >= 0) {
-		CWPSTRUCT* msg = (CWPSTRUCT*)lParam;
-		if (msg->message == WM_SIZE || msg->message == WM_MOVE) {
-			RECT rect;
-			GetWindowRect(msg->hwnd, &rect);
-
-			int newX = rect.right - consoleW;
-			int newY = rect.top + 30;
-			SetWindowPos(consoleWindow, HWND_TOPMOST, newX, newY, consoleW, consoleH, SWP_SHOWWINDOW);
-		}
-	}
-	return CallNextHookEx(hHook, nCode, wParam, lParam);
-}
-
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
-	std::vector<std::string> tokens;
-	EmuConsole console(tokens); // new console object. needed to keep token state persistent.
-	FILE* file_s;
+	
 	
 	std::ofstream f;
 	f.open("out.log", std::ios_base::app);
@@ -142,74 +118,9 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 	char timestamp[80]; // timestamp buffer
 	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
 
-
 	HasConsoleOpenedOnce = true;
 
-	// ------ Create a console window
-    AllocConsole();
-    if (freopen_s(&file_s, "CONOUT$", "w", stdout) != 0)
-	{
-		perror("freeopen_s");
-		return 1;
-	}
-	if (freopen_s(&file_s, "CONIN$", "r", stdin) != 0)
-	{
-		perror("freeopen_s");
-		return 1;
-	}
-
-	// ------ Set the console window title and position
-	consoleWindow = GetConsoleWindow();
-	SetConsoleTitle(TEXT("EMU Console")); // console title
-	// SetConsoleMode(consoleWindow, ENABLE_PROCESSED_INPUT | ENABLE_WINDOW_INPUT); // enable window input
-
-	if (consoleWindow != NULL)
-	{
-		RECT mainWindowRect;
-		HWND mainGameWindow = FindWindow(NULL, TEXT("Zoo Tycoon")); // find the main game window
-		GetWindowRect(mainGameWindow, &mainWindowRect);
-
-		// ------ Get screen dimensions
-		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-		int windowWidth = 400;
-		int windowHeight = 200;
-
-		// ------ Remove close, minimize and maximize buttons
-		LONG lStyle = GetWindowLong(consoleWindow, GWL_STYLE);
-		lStyle &= ~(WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
-		SetWindowLong(consoleWindow, GWL_STYLE, lStyle);
-
-		// ------ Remove from taskbar
-		LONG lExStyle = GetWindowLong(consoleWindow, GWL_EXSTYLE);
-		lExStyle = (lExStyle | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW;
-		SetWindowLong(consoleWindow, GWL_EXSTYLE, lExStyle);
-
-		// ------ Set the window position
-		if (mainGameWindow != NULL)
-		{
-			// ------ Set the console window position
-			RECT mainGameWindowRect;
-			GetWindowRect(mainGameWindow, &mainGameWindowRect);
-			int windowWidth = 400;
-			int windowHeight = 200;
-
-			// ------ Calculate new position
-			int newWindowX = mainWindowRect.right - windowWidth;
-			int newWindowY = mainWindowRect.top + 30;
-
-			// SetWindowPos(consoleWindow, HWND_TOPMOST, mainGameWindowRect.left + 100, mainGameWindowRect.top + 100, windowWidth, windowHeight, SWP_SHOWWINDOW);
-			SetWindowPos(consoleWindow, HWND_TOPMOST, newWindowX, newWindowY, windowWidth, windowHeight, SWP_SHOWWINDOW);
-			hHook = SetWindowsHookEx(WH_CALLWNDPROC, HookMainWindow, GetModuleHandle(NULL), 0);
-			if (hHook == NULL) {
-				f << "[" << timestamp << "] " << "Main window hook failed!" << std::endl;
-			} else {
-				f << "[" << timestamp << "] " << "Main window hook successful!" << std::endl;
-			}
-		}	
-	}
-
-	std::cout << "Welcome to the EMU command console.\nAuthor: Eric \"Goosifer\" Galvan.\nSpecial thanks to: Finn, wowjinxy, Jay\n\nPlease enter your command below." << std::endl << std::endl;
+	HWND& consoleWindow = EmuConsole::createConsole();
 	
 	while (IsConsoleRunning)
 	{
@@ -217,17 +128,6 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 		tokens.clear();
 		std::cout << ">> ";
 		console.tokenize();
-
-		if (tokens.empty() != true)
-		{
-			// ------ Process the input tokens while console is running
-			console.processInput(IsConsoleRunning);
-		}
-
-		// ------ Check for CTRL + J to close the console
-		if (B::DoubleKey(0x11, 0x4A) == true) {
-			break;
-		}
 		
 		Sleep(10);
 	}
@@ -280,10 +180,6 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		break;
 	case DLL_PROCESS_DETACH:
 		f << "[" << timestamp << "] " << "DLL detached!\n";
-		// DetourTransactionBegin();
-		// DetourUpdateThread(GetCurrentThread());
-		// DetourDetach(&(PVOID&)originalUpdate, (PVOID)&RunEmu);
-		// DetourTransactionCommit();
 		break;
 	case DLL_THREAD_ATTACH:
 		//f << "[" << timestamp << "] " << "Thread attached!\n";
