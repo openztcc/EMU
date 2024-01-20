@@ -32,8 +32,8 @@ bool ctrlMPressed = false;
 DWORD WINAPI ZooConsole(LPVOID lpParameter);
 
 //------ Function pointers 
-DWORD updateAddress = 0x00401644; // address of update function in game
-typedef void (__cdecl *_origUpdate)(unsigned int); // define original update function
+DWORD updateAddress = 0x41a16b; // 0x00401644; // address of update function in game
+typedef void (__thiscall *_origUpdate)(void* thisptr); // define original update function
 
 //------ Namespace and class aliases
 #define fs std::filesystem
@@ -46,7 +46,7 @@ EmuScriptMgr sm; // script manager object
 std::vector<std::string> tokens; // contains tokens from console input
 EmuConsole console(tokens); // console object
 
-void RunEmu(unsigned int arg1) {
+void __fastcall RunEmu(void* thisptr) {
 
 
 	// main loop
@@ -99,8 +99,12 @@ void RunEmu(unsigned int arg1) {
 	//---- return to original update function
 	_origUpdate ogUpdate = (_origUpdate)updateAddress;
 	// f << "[" << timestamp << "] " << "EMU loop finished!" << std::endl;
+	
+	ogUpdate(thisptr);
+
+	f << "[" << timestamp << "] " << "ogUpdate(thisptr) called!" << std::endl;
+	
 	f.close();
-	return ogUpdate(arg1);
 }
 
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
