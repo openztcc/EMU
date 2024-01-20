@@ -127,8 +127,8 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 		if (!CommandIsProcessing)
 		{
 			std::cout << ">> ";
-			console.tokenize();
 			CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
+			console.tokenize(CommandIsProcessing);
 		}
 		Sleep(10);
 
