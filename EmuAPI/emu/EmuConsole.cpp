@@ -9,7 +9,7 @@ EmuConsole::~EmuConsole(void)
 {
 }
 
-HWND& EmuConsole::createConsole()
+HWND EmuConsole::createConsole()
 {
     HWND consoleWindow; // contains console window handle
 

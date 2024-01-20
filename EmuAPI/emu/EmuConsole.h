@@ -16,7 +16,7 @@ public:
 	void processInput(bool&);
 	~EmuConsole();
 	void tokenize();
-	static HWND& createConsole();
+	static HWND createConsole();
 private:
 	std::vector<std::string>& tokens;
 };

@@ -119,7 +119,7 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 
 	HasConsoleOpenedOnce = true;
 
-	HWND& consoleWindow = EmuConsole::createConsole();
+	HWND consoleWindow = EmuConsole::createConsole();
 	
 	while (IsConsoleRunning)
 	{
@@ -139,7 +139,7 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter)
 	IsConsoleRunning = false;
 	FreeConsole();
 	Sleep(100);
-	PostMessage((HWND)&consoleWindow, WM_CLOSE, 0, 0);
+	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
 	f.close();
 	return 1;
 }
