@@ -55,6 +55,7 @@ Console limitations to consider as of **EMU v1.0.0-alpha.5**:
 | list-zoorating | Return a calendar listing of zoo ratings. |
 | list-constructioncosts | Return a calendar listing with construction costs. |
 | list-animalpurchasecosts | Return a calendar listing of animal adoption costs. |
+| devmode \<boolean enable\> | Set to true to enable dev mode or false to disable. | 
 
 ### Lua Scripting
 
@@ -87,6 +88,9 @@ EMU adds scripting support to Zoo Tycoon 1. Currently scripting is limited to th
 | ZooRatingByMonth() | Retrieve an array containing 12 elements, each representing the zoo rating for a specific month. |
 | ConstructionCostByMonth() | Retrieve an array containing 12 elements, each representing the construction costs for a specific month. |
 | AnimalPurchaseCostsByMonth() | Retrieve an array containing 12 elements, each representing the animal adoption costs for a specific month. |
+| _globalAnimalRating | Global variable. Sets the animal rating per update. |
+| _globalZooRating | Global variable. Sets the zoo rating per update. |
+| _globalGuestRating | Global variable. Sets the guest rating per update. |
 
 Scripting info:
 - All Lua standard libraries as of Lua 5.3 are made available for your use.
