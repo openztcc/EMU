@@ -216,7 +216,19 @@ float* ZooState::ZooValueByMonth()
     return p;
 }
 
+void ZooState::EnableDevMode(bool input)
+{
+    DWORD ptr = (((DWORD)((LPVOID)0x63858A)));
+    bool* p = (bool*)ptr;
+    *p = input;
+}
 
+bool ZooState::IsDevModeEnabled()
+{
+    DWORD ptr = (((DWORD)((LPVOID)0x63858A)));
+    bool* p = (bool*)ptr;
+    return *p;
+}
 
 // float* ZooState::ZooValueByMonth()
 // {

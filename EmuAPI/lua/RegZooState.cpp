@@ -32,6 +32,8 @@ void RegZooState::register_zoo_state(lua_State* lua)
     lua_register(lua, "SetZooRating", RegZooState::lua_ZooState_SetZooRating);
     lua_register(lua, "SetGuestRating", RegZooState::lua_ZooState_SetGuestRating);
     lua_register(lua, "SetAnimalRating", RegZooState::lua_ZooState_SetAnimalRating);
+    lua_register(lua, "EnableDevMode", RegZooState::lua_ZooState_EnableDevMode);
+    lua_register(lua, "IsDevModeEnabled", RegZooState::lua_ZooState_IsDevModeEnabled);
 }
 
 int RegZooState::lua_ZooState_GetZooBudget(lua_State* lua)
@@ -432,5 +434,36 @@ int RegZooState::lua_ZooState_SetZooRating(lua_State* lua)
 
     // ret num of values to ret to lua (0 in this case)
     return 0;
+}
+
+int RegZooState::lua_ZooState_EnableDevMode(lua_State* lua)
+{
+    // obtain num of args taken from lua
+    int numArgs = lua_gettop(lua);
+    
+    // only one arg required
+    if (numArgs == 1)
+    {
+        // parameter is at Lua stack 1
+        #pragma warning(disable : 4800)
+        bool dev_mode = lua_toboolean(lua, 1);
+        #pragma warning(default : 4800)
+
+        // set new value
+        ZooState::EnableDevMode(dev_mode);
+    }
+    else
+    {
+        return luaL_error(lua, "Missing argument: dev mode state (true or false)");
+    }
+
+    // ret num of values to ret to lua (0 in this case)
+    return 0;
+}
+
+int RegZooState::lua_ZooState_IsDevModeEnabled(lua_State* lua)
+{
+    lua_pushboolean(lua, ZooState::IsDevModeEnabled());
+    return 1;
 }
 

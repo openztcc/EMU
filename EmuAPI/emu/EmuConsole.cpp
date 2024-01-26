@@ -403,6 +403,27 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // sets the animal rating
             // ZooState::SetAnimalRating(::atoi(tokens[1].c_str()));
         }
+        else if (tokens[0] == "devmode")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a boolean.\x1B[0m" << std::endl;
+                return;
+            }
+            // enable dev mode
+            if (tokens[1] == "true")
+            {
+                ZooState::EnableDevMode(true);
+            }
+            else if (tokens[1] == "false")
+            {
+                ZooState::EnableDevMode(false);
+            }
+            else
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a boolean.\x1B[0m" << std::endl;
+            }
+        }
         else
         {
             std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> does not exist.\x1B[0m" << std::endl;

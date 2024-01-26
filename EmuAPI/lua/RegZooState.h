@@ -39,6 +39,8 @@ class RegZooState
         static int lua_ZooState_SetZooRating(lua_State*);
         static int lua_ZooState_SetGuestRating(lua_State*);
         static int lua_ZooState_SetAnimalRating(lua_State*);
+        static int lua_ZooState_EnableDevMode(lua_State*);
+        static int lua_ZooState_IsDevModeEnabled(lua_State*);
         
         static ZooModels zoo_models;
         };
