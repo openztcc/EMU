@@ -92,6 +92,10 @@ EMU adds scripting support to Zoo Tycoon 1. Currently scripting is limited to th
 | _globalZooRating | Global variable. Sets the zoo rating per update. |
 | _globalGuestRating | Global variable. Sets the guest rating per update. |
 
+### How to Install EMU Scripts
+
+Create a new folder called `scripts` inside of your main Zoo Tycoon directory: `C:\Program Files (x86)\Microsoft Games\Zoo Tycoon`. Drop scripts inside of the scripts folder.
+
 Scripting info:
 - All Lua standard libraries as of Lua 5.3 are made available for your use.
 - Lua scripts must have the `.emu` extension.
