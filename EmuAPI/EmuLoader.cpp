@@ -88,7 +88,6 @@ void __fastcall RunEmu(void* thisptr) {
 		if (ZooState::IsZooLoaded() == true) {
 			// f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
 			*zoo_models = sm.executeScripts();
-			int x = 0;
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 		}
 		

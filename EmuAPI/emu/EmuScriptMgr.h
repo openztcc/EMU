@@ -30,9 +30,7 @@ private:
     std::vector<std::string> scripts;
     static int writer(const void*, size_t, void*);
 
-    char* timestamp;
     lua_State *lua;
-	std::ofstream& f;
 };
 
 #endif

@@ -4,18 +4,14 @@
 //     // do not use default constructor
 // }
 
-EmuScriptMgr::EmuScriptMgr() : f(std::ofstream("out.log", std::ios_base::app)){
-	//------ Timestamp for logging
-	std::time_t t = std::time(0);
-	timestamp = new char[80]; // timestamp buffer
-	std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
+EmuScriptMgr::EmuScriptMgr() {
 
     //------ Initializing Lua
 	lua = luaL_newstate();  // Open Lua
 	int iErr = 0;
-	if (!lua) {
-		f << "[" << timestamp << "] " << "Failed to create Lua state." << std::endl;
-	}
+	// if (!lua) {
+	// 	f << "[" << timestamp << "] " << "Failed to create Lua state." << std::endl;
+	// }
 
 	//------ Register API functions to Lua
 	RegZooState::register_zoo_state(lua);
@@ -25,21 +21,19 @@ EmuScriptMgr::EmuScriptMgr() : f(std::ofstream("out.log", std::ios_base::app)){
 }
 
 EmuScriptMgr::~EmuScriptMgr() {
-    delete[] timestamp;
     lua_close (lua);
-    f.close();
 }
 
 /// @brief Executes all emu scripts in a directory.
 ZooModels EmuScriptMgr::executeScripts() {
     ZooModels zoo_models;
 
-    for (int i = 0; i < scripts.size(); i++) {
+    for (size_t i = 0; i < scripts.size(); i++) {
         lua = luaL_newstate();  // Open Lua
     
         int iErr = 0;
         if (!lua) {
-            f << "[" << timestamp << "] " << "Failed to create Lua state." << std::endl;
+            // f << "[" << timestamp << "] " << "Failed to create Lua state." << std::endl;
         }
         //------ Register API functions to Lua
         RegZooState::register_zoo_state(lua);
@@ -59,23 +53,23 @@ ZooModels EmuScriptMgr::executeScripts() {
                         // // return 1;
                         lua_getglobal(lua, "_globalAnimalRating");
                         if (lua_isnumber(lua, -1)) {
-                            int animalRating = lua_tointeger(lua, -1);
+                            int animalRating = (int)lua_tointeger(lua, -1);
                             zoo_models._animalRating = animalRating;
                         }
                         lua_getglobal(lua, "_globalGuestRating");
                         if (lua_isnumber(lua, -1)) {
-                            int guestRating = lua_tointeger(lua, -1);
+                            int guestRating = (int)lua_tointeger(lua, -1);
                             zoo_models._guestRating = guestRating;
                         }
                         lua_getglobal(lua, "_globalZooRating");
                         if (lua_isnumber(lua, -1)) {
-                            int zooRating = lua_tointeger(lua, -1);
+                            int zooRating = (int)lua_tointeger(lua, -1);
                             zoo_models._zooRating = zooRating;
                         }
                         lua_pop(lua, 1);
                     }
                 } else {
-                    f << "[" << timestamp << "] " << "Function 'emu_run' not found or not callable" << std::endl;
+                    // f << "[" << timestamp << "] " << "Function 'emu_run' not found or not callable" << std::endl;
                     lua_close (lua);
                     // return 1;
                 }
@@ -83,7 +77,7 @@ ZooModels EmuScriptMgr::executeScripts() {
             } else {
                 // error handling
                 const char* error_message = lua_tostring(lua, -1);
-                f << "[" << timestamp << "] " << "Error executing Lua script " << i << ": " << error_message << std::endl;
+                // f << "[" << timestamp << "] " << "Error executing Lua script " << i << ": " << error_message << std::endl;
 
                 // remove err from stack
                 lua_pop(lua, 1);
@@ -93,7 +87,7 @@ ZooModels EmuScriptMgr::executeScripts() {
         } else {
             // error handling
             const char* error_message = lua_tostring(lua, -1);
-            f << "[" << timestamp << "] " << "Error loading Lua script " << i << ": " << error_message << std::endl;
+            // f << "[" << timestamp << "] " << "Error loading Lua script " << i << ": " << error_message << std::endl;
 
             // remove err from stack
             lua_pop(lua, 1);
@@ -110,7 +104,7 @@ ZooModels EmuScriptMgr::executeScripts() {
 /// @brief Stores all emu scripts in a directory in memory.
 void EmuScriptMgr::storeScripts() {
 
-    for (int i = 0; i < files.size(); i++) {
+    for (size_t i = 0; i < files.size(); i++) {
         //------ Read script file
         std::ifstream file(files[i].c_str());
         std::string script;
@@ -126,7 +120,7 @@ void EmuScriptMgr::storeScripts() {
             compiled_scripts.push_back(script_funct);
             lua_pop(lua, 1);
         } else {
-            f << "[" << timestamp << "] " << "Error loading script: " << files[i].substr(0, files[i].size() - (int)(files[i].size() * 0.30)) << " [..]" << std::endl;
+            // f << "[" << timestamp << "] " << "Error loading script: " << files[i].substr(0, files[i].size() - (int)(files[i].size() * 0.30)) << " [..]" << std::endl;
         }
     }
     lua_close (lua);
@@ -158,7 +152,7 @@ void EmuScriptMgr::findScripts() {
 	
     //------ If no .emu files found, log error
 	if  (hFind == INVALID_HANDLE_VALUE) {
-		f << "[" << timestamp << "] " << "Error finding path: " << file_found << std::endl;
+		// f << "[" << timestamp << "] " << "Error finding path: " << file_found << std::endl;
 	} else {
 		//------ Find the rest of the .emu files in the directory
 		do {
