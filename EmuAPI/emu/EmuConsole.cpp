@@ -373,6 +373,36 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         //     }
             
         // }
+        else if (tokens[0] == "setzoorating")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a rating.\x1B[0m" << std::endl;
+                return;
+            }
+            // sets the zoo rating
+            // ZooState::SetZooRating(::atoi(tokens[1].c_str()));
+        }
+        else if (tokens[0] == "setguestrating")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a rating.\x1B[0m" << std::endl;
+                return;
+            }
+            // sets the guest rating
+            // ZooState::SetGuestRating(::atoi(tokens[1].c_str()));
+        }
+        else if (tokens[0] == "setanimalrating")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a rating.\x1B[0m" << std::endl;
+                return;
+            }
+            // sets the animal rating
+            // ZooState::SetAnimalRating(::atoi(tokens[1].c_str()));
+        }
         else
         {
             std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> does not exist.\x1B[0m" << std::endl;

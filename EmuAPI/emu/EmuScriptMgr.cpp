@@ -31,8 +31,9 @@ EmuScriptMgr::~EmuScriptMgr() {
 }
 
 /// @brief Executes all emu scripts in a directory.
-int EmuScriptMgr::executeScripts() {
-    
+ZooModels EmuScriptMgr::executeScripts() {
+    ZooModels zoo_models;
+
     for (int i = 0; i < scripts.size(); i++) {
         lua = luaL_newstate();  // Open Lua
     
@@ -50,17 +51,33 @@ int EmuScriptMgr::executeScripts() {
                 lua_getglobal(lua, "emu_run");
                 // check if we can call function
                 if (lua_isfunction(lua, -1)) {
-                    if (lua_pcall(lua, 0, LUA_MULTRET, 0) != 0) {
-                        // errors if can't execute script
-                        const char* error_message = lua_tostring(lua, -1);
-                        f << "Error executing Lua function: " << error_message << std::endl;
-                        lua_close (lua);
-                        return 1;
+                    if (lua_pcall(lua, 0, LUA_MULTRET, 0) == 0) {
+                        // // errors if can't execute script
+                        // const char* error_message = lua_tostring(lua, -1);
+                        // f << "Error executing Lua function: " << error_message << std::endl;
+                        // lua_close (lua);
+                        // // return 1;
+                        lua_getglobal(lua, "_globalAnimalRating");
+                        if (lua_isnumber(lua, -1)) {
+                            int animalRating = lua_tointeger(lua, -1);
+                            zoo_models._animalRating = animalRating;
+                        }
+                        lua_getglobal(lua, "_globalGuestRating");
+                        if (lua_isnumber(lua, -1)) {
+                            int guestRating = lua_tointeger(lua, -1);
+                            zoo_models._guestRating = guestRating;
+                        }
+                        lua_getglobal(lua, "_globalZooRating");
+                        if (lua_isnumber(lua, -1)) {
+                            int zooRating = lua_tointeger(lua, -1);
+                            zoo_models._zooRating = zooRating;
+                        }
+                        lua_pop(lua, 1);
                     }
                 } else {
                     f << "[" << timestamp << "] " << "Function 'emu_run' not found or not callable" << std::endl;
                     lua_close (lua);
-                    return 1;
+                    // return 1;
                 }
                 lua_pop(lua, 1);
             } else {
@@ -71,7 +88,7 @@ int EmuScriptMgr::executeScripts() {
                 // remove err from stack
                 lua_pop(lua, 1);
                 lua_close (lua);
-                return 1;
+                // return 1;
             }
         } else {
             // error handling
@@ -81,12 +98,13 @@ int EmuScriptMgr::executeScripts() {
             // remove err from stack
             lua_pop(lua, 1);
             lua_close (lua);
-            return 1;
+            // return 1;
         }
         lua_close (lua);
     }
     
-    return 0;
+    // return 0;
+    return zoo_models;
 }
 
 /// @brief Stores all emu scripts in a directory in memory.

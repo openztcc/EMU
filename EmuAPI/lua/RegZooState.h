@@ -3,6 +3,7 @@
 
 #include "lua.hpp"
 #include "ZooState.h"
+#include "ZooModels.h"
 
 class RegZooState
 {
@@ -35,6 +36,11 @@ class RegZooState
         static int lua_ZooState_GetZooAdmissionCost(lua_State*);
         static int lua_ZooState_SetZooAdmissionCost(lua_State*);
         static int lua_ZooState_ZooValueByMonth(lua_State*);
-};
+        static int lua_ZooState_SetZooRating(lua_State*);
+        static int lua_ZooState_SetGuestRating(lua_State*);
+        static int lua_ZooState_SetAnimalRating(lua_State*);
+        
+        static ZooModels zoo_models;
+        };
 
 #endif
