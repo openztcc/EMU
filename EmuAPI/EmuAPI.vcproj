@@ -138,6 +138,8 @@
 				OutputFile="C:\Program Files (x86)\Microsoft Games\Zoo Tycoon\res-EMU.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib&quot;"
+				IgnoreAllDefaultLibraries="false"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -185,23 +187,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\emu\EmuController.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\emu\EmuGameLoop.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\EmuLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\emu\EmuMod.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\emu\EmuRegister.cpp"
 				>
 			</File>
 			<File
@@ -223,22 +209,6 @@
 				</File>
 				<File
 					RelativePath=".\emu\EmuConsole.h"
-					>
-				</File>
-				<File
-					RelativePath=".\emu\EmuController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\emu\EmuGameLoop.h"
-					>
-				</File>
-				<File
-					RelativePath=".\emu\EmuMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\emu\EmuRegister.h"
 					>
 				</File>
 				<File

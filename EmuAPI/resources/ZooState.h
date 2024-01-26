@@ -7,6 +7,11 @@
 #include "lua.hpp"
 #include <map>
 #include <functional>
+#include <fstream>
+#include "detours.h"
+#include "ZooModels.h"
+
+
 
 class ZooState
 {
@@ -49,8 +54,18 @@ public:
     static void SetZooAdmissionCost(float);
     static float* ZooValueByMonth();
 
+    static int SetZooRating(int);
+    static void SetGuestRating(int);
+    static void SetAnimalRating(int);
+    static void EnableDevMode(bool);
+    static bool IsDevModeEnabled();
+
+    static void print_month_to_console(float*, std::string);
+
     static void print_year_to_console(float*, std::string);
     static DWORD object_ptr(DWORD);
-};
+
+    ZooModels zoo_models;
+    }; 
 
 #endif

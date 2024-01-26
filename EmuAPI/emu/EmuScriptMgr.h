@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string.h>
 #include "RegZooState.h"
+#include "ZooModels.h"
 
 class EmuScriptMgr
 {
@@ -20,7 +21,7 @@ public:
     ~EmuScriptMgr();
     void findScripts();
     void storeScripts();
-    int executeScripts();
+    ZooModels executeScripts();
     
 private:
     std::vector<std::string> files;
@@ -29,9 +30,7 @@ private:
     std::vector<std::string> scripts;
     static int writer(const void*, size_t, void*);
 
-    char* timestamp;
     lua_State *lua;
-	std::ofstream& f;
 };
 
 #endif

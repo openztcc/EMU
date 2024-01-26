@@ -1,5 +1,7 @@
 #include "ZooState.h"
 
+
+
 //using LuaFunction = std::function<void(lua_State*)>;
 
 ZooState::ZooState()
@@ -214,6 +216,20 @@ float* ZooState::ZooValueByMonth()
     return p;
 }
 
+void ZooState::EnableDevMode(bool input)
+{
+    DWORD ptr = (((DWORD)((LPVOID)0x63858A)));
+    bool* p = (bool*)ptr;
+    *p = input;
+}
+
+bool ZooState::IsDevModeEnabled()
+{
+    DWORD ptr = (((DWORD)((LPVOID)0x63858A)));
+    bool* p = (bool*)ptr;
+    return *p;
+}
+
 // float* ZooState::ZooValueByMonth()
 // {
 //     float* p = ((float*)object_ptr(0x434));
@@ -248,3 +264,4 @@ void ZooState::print_year_to_console(float* p, std::string msg)
 
     std::cout << std::endl;
 }
+
