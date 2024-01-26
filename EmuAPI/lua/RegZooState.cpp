@@ -2,6 +2,7 @@
 
 void RegZooState::register_zoo_state(lua_State* lua)
 {
+    // create a new RegZooState object
     lua_register(lua, "GetZooBudget", RegZooState::lua_ZooState_GetZooBudget);
     lua_register(lua, "IsZooLoaded", RegZooState::lua_ZooState_IsZooLoaded);
     lua_register(lua, "PauseGame", RegZooState::lua_ZooState_PauseGame);
@@ -28,6 +29,11 @@ void RegZooState::register_zoo_state(lua_State* lua)
     lua_register(lua, "GetZooAdmissionCost", RegZooState::lua_ZooState_GetZooAdmissionCost);
     lua_register(lua, "SetZooAdmissionCost", RegZooState::lua_ZooState_SetZooAdmissionCost);
     lua_register(lua, "ZooValueByMonth", RegZooState::lua_ZooState_ZooValueByMonth);
+    lua_register(lua, "SetZooRating", RegZooState::lua_ZooState_SetZooRating);
+    lua_register(lua, "SetGuestRating", RegZooState::lua_ZooState_SetGuestRating);
+    lua_register(lua, "SetAnimalRating", RegZooState::lua_ZooState_SetAnimalRating);
+    lua_register(lua, "EnableDevMode", RegZooState::lua_ZooState_EnableDevMode);
+    lua_register(lua, "IsDevModeEnabled", RegZooState::lua_ZooState_IsDevModeEnabled);
 }
 
 int RegZooState::lua_ZooState_GetZooBudget(lua_State* lua)
@@ -355,3 +361,109 @@ int RegZooState::lua_ZooState_ZooValueByMonth(lua_State* lua)
     // return the Lua table (it's on top of the stack)
     return 1;
 }
+
+int RegZooState::lua_ZooState_SetAnimalRating(lua_State* lua)
+{
+    // obtain num of args taken from lua
+    int numArgs = lua_gettop(lua);
+    
+    // only one arg required
+    if (numArgs == 1)
+    {
+        ZooModels* instance = static_cast<ZooModels*>(lua_touserdata(lua, lua_upvalueindex(1)));
+        // parameter is at Lua stack 1
+        int rating = (int)lua_tonumber(lua, 1);
+        instance->_animalRating = rating;
+
+        return 1;
+    }
+    else
+    {
+        return luaL_error(lua, "Missing argument: new animal rating");
+    }
+
+    // ret num of values to ret to lua (0 in this case)
+    return 0;
+}
+
+int RegZooState::lua_ZooState_SetGuestRating(lua_State* lua)
+{
+    // obtain num of args taken from lua
+    int numArgs = lua_gettop(lua);
+    
+    // only one arg required
+    if (numArgs == 1)
+    {
+        ZooModels* instance = static_cast<ZooModels*>(lua_touserdata(lua, lua_upvalueindex(1)));
+        // parameter is at Lua stack 1
+        int rating = (int)lua_tonumber(lua, 1);
+        instance->_guestRating = rating;
+
+        // set new value
+        // ZooState::SetGuestRating(rating);
+    }
+    else
+    {
+        return luaL_error(lua, "Missing argument: new guest rating");
+    }
+
+    // ret num of values to ret to lua (0 in this case)
+    return 0;
+}
+
+int RegZooState::lua_ZooState_SetZooRating(lua_State* lua)
+{
+    // obtain num of args taken from lua
+    int numArgs = lua_gettop(lua);
+    
+    // only one arg required
+    if (numArgs == 1)
+    {
+        ZooModels* instance = static_cast<ZooModels*>(lua_touserdata(lua, lua_upvalueindex(1)));
+        // parameter is at Lua stack 1
+        int rating = (int)lua_tonumber(lua, 1);
+        instance->_zooRating = rating;
+
+        // set new value
+        // ZooState::SetZooRating(rating);
+    }
+    else
+    {
+        return luaL_error(lua, "Missing argument: new zoo rating");
+    }
+
+    // ret num of values to ret to lua (0 in this case)
+    return 0;
+}
+
+int RegZooState::lua_ZooState_EnableDevMode(lua_State* lua)
+{
+    // obtain num of args taken from lua
+    int numArgs = lua_gettop(lua);
+    
+    // only one arg required
+    if (numArgs == 1)
+    {
+        // parameter is at Lua stack 1
+        #pragma warning(disable : 4800)
+        bool dev_mode = lua_toboolean(lua, 1);
+        #pragma warning(default : 4800)
+
+        // set new value
+        ZooState::EnableDevMode(dev_mode);
+    }
+    else
+    {
+        return luaL_error(lua, "Missing argument: dev mode state (true or false)");
+    }
+
+    // ret num of values to ret to lua (0 in this case)
+    return 0;
+}
+
+int RegZooState::lua_ZooState_IsDevModeEnabled(lua_State* lua)
+{
+    lua_pushboolean(lua, ZooState::IsDevModeEnabled());
+    return 1;
+}
+

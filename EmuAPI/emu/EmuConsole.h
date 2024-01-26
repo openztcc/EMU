@@ -1,6 +1,10 @@
 #ifndef EMUCONSOLE_H
 #define EMUCONSOLE_H
 
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+
 #include <cstring>
 #include <iostream>
 #include <sstream>
@@ -8,6 +12,7 @@
 #include <vector>
 #include "ZooState.h"
 #include "ZooMiniMap.h"
+#include <windows.h>
 
 class EmuConsole
 {
@@ -15,9 +20,12 @@ public:
 	EmuConsole(std::vector<std::string>&);
 	void processInput(bool&);
 	~EmuConsole();
-	void tokenize();
+	void tokenize(bool&);
+	static HWND createConsole();
 private:
 	std::vector<std::string>& tokens;
+	static void EnableVirtualTerminalProcessing();
+	std::string HelpDefinition(std::string, std::string);
 };
 
 #endif

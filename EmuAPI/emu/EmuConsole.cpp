@@ -9,10 +9,104 @@ EmuConsole::~EmuConsole(void)
 {
 }
 
+// ---- Enables ANSI escape sequences for console
+void EmuConsole::EnableVirtualTerminalProcessing() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut == INVALID_HANDLE_VALUE) {
+        return;
+    }
+
+    DWORD dwMode = 0;
+    if (!GetConsoleMode(hOut, &dwMode)) {
+        return;
+    }
+
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    SetConsoleMode(hOut, dwMode);
+}
+
+HWND EmuConsole::createConsole()
+{
+    HWND consoleWindow; // contains console window handle
+
+    FILE* file_s;
+
+    // ------ Create a console window
+    AllocConsole();
+    if (freopen_s(&file_s, "CONOUT$", "w", stdout) != 0)
+	{
+		perror("freeopen_s");
+	}
+	if (freopen_s(&file_s, "CONIN$", "r", stdin) != 0)
+	{
+		perror("freeopen_s");
+	}
+
+	// ------ Set the console window title and position
+	consoleWindow = GetConsoleWindow();
+
+    EnableVirtualTerminalProcessing();
+
+
+	SetConsoleTitle(TEXT("EMU Console")); // console title
+	// SetConsoleMode(consoleWindow, ENABLE_PROCESSED_INPUT | ENABLE_WINDOW_INPUT); // enable window input
+
+	if (consoleWindow != NULL)
+	{
+		RECT mainWindowRect;
+		HWND mainGameWindow = FindWindow(NULL, TEXT("Zoo Tycoon")); // find the main game window
+		GetWindowRect(mainGameWindow, &mainWindowRect);
+
+		// ------ Get screen dimensions
+		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+		int windowWidth = 400;
+		int windowHeight = 200;
+
+		// ------ Remove close, minimize and maximize buttons
+		LONG lStyle = GetWindowLong(consoleWindow, GWL_STYLE);
+		lStyle &= ~(WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
+		SetWindowLong(consoleWindow, GWL_STYLE, lStyle);
+
+		// ------ Remove from taskbar
+		LONG lExStyle = GetWindowLong(consoleWindow, GWL_EXSTYLE);
+		lExStyle = (lExStyle | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW;
+		SetWindowLong(consoleWindow, GWL_EXSTYLE, lExStyle);
+
+		// ------ Set the window position
+		if (mainGameWindow != NULL)
+		{
+			// ------ Set the console window position
+			RECT mainGameWindowRect;
+			GetWindowRect(mainGameWindow, &mainGameWindowRect);
+			int windowWidth = 400;
+			int windowHeight = 200;
+
+			// ------ Calculate new position
+			int newWindowX = mainWindowRect.right - windowWidth;
+			int newWindowY = mainWindowRect.top + 30;
+
+			// SetWindowPos(consoleWindow, HWND_TOPMOST, mainGameWindowRect.left + 100, mainGameWindowRect.top + 100, windowWidth, windowHeight, SWP_SHOWWINDOW);
+			SetWindowPos(consoleWindow, HWND_TOPMOST, newWindowX, newWindowY, windowWidth, windowHeight, SWP_SHOWWINDOW);
+			// hHook = SetWindowsHookEx(WH_CALLWNDPROC, HookMainWindow, GetModuleHandle(NULL), 0);
+			// if (hHook == NULL) {
+			// 	f << "[" << timestamp << "] " << "Main window hook failed!" << std::endl;
+			// } else {
+			// 	f << "[" << timestamp << "] " << "Main window hook successful!" << std::endl;
+			// }
+		}	
+	}
+
+    std::cout << "\x1B[48;5;22m"; // background color
+	std::cout << "Welcome to the EMU command console.\nAuthor: Eric \"Goosifer\" Galvan.\nSpecial thanks to: Finn, wowjinxy, Jay\n\nPlease enter your command below. Enter 'help' for a list of commands, or 'exit' to exit." << std::endl << std::endl;
+    std::cout << "\x1B[0m"; // reset color
+    return consoleWindow;
+}
+
 /// <summary>
 /// Tokenizes buffer stream
 /// </summary>
-void EmuConsole::tokenize()
+void EmuConsole::tokenize(bool& CommandIsProcessing)
 { 
     std::string token = "";
     // TODO: fix try/catch. Crashes if error found.
@@ -23,7 +117,8 @@ void EmuConsole::tokenize()
     if (token.size() > 100)
     {
         // this limit will be increased, it's just a pre-emptive measure
-        std::cout << "100 char limit in buffer. Please try again." << std::endl;
+        std::cout << "\x1B[31mErr: Command too long.\x1B[0m" << std::endl;
+        CommandIsProcessing = false;
         // std::cin.ignore(32767, '\n');
     } else {
         std::istringstream iss(token);
@@ -35,6 +130,12 @@ void EmuConsole::tokenize()
     }
 
     
+}
+
+std::string EmuConsole::HelpDefinition(std::string command, std::string definition)
+{
+    std::string help = "\x1B[32m" + command + "\x1B[37m - " + definition;
+    return help;
 }
 
 /// <summary>
@@ -52,11 +153,53 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         IsConsoleRunning = false;
         return;
     }
-    if (ZooState::IsZooLoaded())
+    if (tokens[0] == "help")
+    {
+        std::cout << "==== \x1B[90mCommands\x1B[0m ====" << std::endl << std::endl;
+        std::cout << HelpDefinition("addtobudget <amount>", "Adds <amount> to the zoo budget.") << std::endl;
+        std::cout << HelpDefinition("getbudget", "Returns the current zoo budget.") << std::endl;
+        std::cout << HelpDefinition("setbudget <amount>", "Sets the zoo budget to <amount>.") << std::endl;
+        std::cout << HelpDefinition("pause", "Pauses the game.") << std::endl;
+        std::cout << HelpDefinition("resume", "Resumes the game.") << std::endl;
+        std::cout << HelpDefinition("num-animals", "Returns the current number of animals in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-species", "Returns the current number of animal species in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-guests", "Returns the current number of guests in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-tiredguests", "Returns the current number of tired guests in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-hungryguests", "Returns the current number of hungry guests in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-thirstyguests", "Returns the current number of thirsty guests in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-rstrmguests", "Returns the current number of guests that need to use the restroom in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-guestsfilter", "Returns the current number of guests in the guest filter.") << std::endl;
+        std::cout << HelpDefinition("getzooadmcost", "Returns the current zoo admission cost.") << std::endl;
+        std::cout << HelpDefinition("setzooadmcost <amount>", "Sets the zoo admission cost to <amount>.") << std::endl;
+        std::cout << HelpDefinition("list-admissionsincome", "Returns a full year list of admissions income by month.") << std::endl;
+        std::cout << HelpDefinition("list-concessionsbenefit", "Returns a full year list of concessions benefits by month.") << std::endl;
+        // std::cout << HelpDefinition("list-recyclingbenefit", "Returns a full year list of recycling benefits by month.") << std::endl;
+        std::cout << HelpDefinition("list-zooprofits", "Returns a full year list of zoo profits by month.") << std::endl;
+        std::cout << HelpDefinition("list-privatedonations", "Returns a full year list of private donations by month.") << std::endl;
+        std::cout << HelpDefinition("list-zoorating", "Returns a full year list of zoo rating by month.") << std::endl;
+        std::cout << HelpDefinition("list-constructioncosts", "Returns a full year list of construction costs by month.") << std::endl;
+        std::cout << HelpDefinition("list-animalpurchasecosts", "Returns a full year list of animal purchase costs by month.") << std::endl;
+        std::cout << HelpDefinition("list-researchcosts", "Returns a full year list of research costs by month.") << std::endl;
+        std::cout << HelpDefinition("list-zoovalue", "Returns a full year list of the zoo's value by month.") << std::endl;
+        // std::cout << HelpDefinition("setmmcursor <x> <y>", "Sets the mini map cursor to <x> and <y>.") << std::endl;
+        // std::cout << HelpDefinition("setmmcursor <size>", "Sets the mini map cursor to <size>.") << std::endl;
+        // std::cout << HelpDefinition("pefound", "Test command to check if PE header is valid or found.") << std::endl;
+        std::cout << HelpDefinition("exit", "Exits the console.") << std::endl;
+        std::cout << HelpDefinition("help", "Displays this help menu.") << std::endl;
+
+        std::cout << "\x1B[0m";
+
+    }
+    else if (ZooState::IsZooLoaded())
     { 
     
         if (tokens[0] == "addtobudget")
         {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires an amount.\x1B[0m" << std::endl;
+                return;
+            }
             // add to budget hook
             std::cout << "Budget has been updated. " << std::endl;
             ZooState::AddToZooBudget(static_cast<float>(::atof(tokens[1].c_str())));
@@ -69,6 +212,11 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         }
         else if (tokens[0] == "setbudget")
         {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires an amount.\x1B[0m" << std::endl;
+                return;
+            }
             // sets the budget
             ZooState::SetZooBudget(static_cast<float>(::atof(tokens[1].c_str())));
         }
@@ -131,6 +279,11 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         }
         else if (tokens[0] == "setzooadmcost")
         {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires an amount.\x1B[0m" << std::endl;
+                return;
+            }
             // sets the admissions cost
             ZooState::SetZooAdmissionCost(static_cast<float>(::atof(tokens[1].c_str())));
         }
@@ -220,14 +373,65 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         //     }
             
         // }
+        else if (tokens[0] == "setzoorating")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a rating.\x1B[0m" << std::endl;
+                return;
+            }
+            // sets the zoo rating
+            // ZooState::SetZooRating(::atoi(tokens[1].c_str()));
+        }
+        else if (tokens[0] == "setguestrating")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a rating.\x1B[0m" << std::endl;
+                return;
+            }
+            // sets the guest rating
+            // ZooState::SetGuestRating(::atoi(tokens[1].c_str()));
+        }
+        else if (tokens[0] == "setanimalrating")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a rating.\x1B[0m" << std::endl;
+                return;
+            }
+            // sets the animal rating
+            // ZooState::SetAnimalRating(::atoi(tokens[1].c_str()));
+        }
+        else if (tokens[0] == "devmode")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a boolean.\x1B[0m" << std::endl;
+                return;
+            }
+            // enable dev mode
+            if (tokens[1] == "true")
+            {
+                ZooState::EnableDevMode(true);
+            }
+            else if (tokens[1] == "false")
+            {
+                ZooState::EnableDevMode(false);
+            }
+            else
+            {
+                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a boolean.\x1B[0m" << std::endl;
+            }
+        }
         else
         {
-            std::cout << "Err: Command <" << tokens[0] << "> does not exist." << std::endl;
+            std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> does not exist.\x1B[0m" << std::endl;
         }
     }
     else
     {
-        std::cout << "Err: Not able to execute command until zoo has been loaded." << std::endl;
+        std::cout << "\x1B[31mErr: Not able to execute command until zoo has been loaded.\x1B[0m" << std::endl;
     }
 
     // tokens.clear();
