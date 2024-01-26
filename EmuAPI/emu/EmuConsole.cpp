@@ -98,7 +98,7 @@ HWND EmuConsole::createConsole()
 	}
 
     std::cout << "\x1B[48;5;22m"; // background color
-	std::cout << "Welcome to the EMU command console.\nAuthor: Eric \"Goosifer\" Galvan.\nSpecial thanks to: Finn, wowjinxy, Jay\n\nPlease enter your command below." << std::endl << std::endl;
+	std::cout << "Welcome to the EMU command console.\nAuthor: Eric \"Goosifer\" Galvan.\nSpecial thanks to: Finn, wowjinxy, Jay\n\nPlease enter your command below. Enter 'help' for a list of commands, or 'exit' to exit." << std::endl << std::endl;
     std::cout << "\x1B[0m"; // reset color
     return consoleWindow;
 }
