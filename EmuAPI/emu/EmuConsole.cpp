@@ -52,7 +52,49 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         IsConsoleRunning = false;
         return;
     }
+<<<<<<< Updated upstream
     if (ZooState::IsZooLoaded())
+=======
+    if (tokens[0] == "help")
+    {
+        std::cout << "==== \x1B[90mCommands\x1B[0m ====" << std::endl << std::endl;
+        std::cout << HelpDefinition("addtobudget <amount>", "Adds <amount> to the zoo budget.") << std::endl;
+        std::cout << HelpDefinition("getbudget", "Returns the current zoo budget.") << std::endl;
+        std::cout << HelpDefinition("setbudget <amount>", "Sets the zoo budget to <amount>.") << std::endl;
+        std::cout << HelpDefinition("pause", "Pauses the game.") << std::endl;
+        std::cout << HelpDefinition("resume", "Resumes the game.") << std::endl;
+        std::cout << HelpDefinition("num-animals", "Returns the current number of animals in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-species", "Returns the current number of animal species in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-guests", "Returns the current number of guests in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-tiredguests", "Returns the current number of tired guests in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-hungryguests", "Returns the current number of hungry guests in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-thirstyguests", "Returns the current number of thirsty guests in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-rstrmguests", "Returns the current number of guests that need to use the restroom in the zoo.") << std::endl;
+        std::cout << HelpDefinition("num-guestsfilter", "Returns the current number of guests in the guest filter.") << std::endl;
+        std::cout << HelpDefinition("getzooadmcost", "Returns the current zoo admission cost.") << std::endl;
+        std::cout << HelpDefinition("setzooadmcost <amount>", "Sets the zoo admission cost to <amount>.") << std::endl;
+        std::cout << HelpDefinition("list-admissionsincome", "Returns a full year list of admissions income by month.") << std::endl;
+        std::cout << HelpDefinition("list-concessionsbenefit", "Returns a full year list of concessions benefits by month.") << std::endl;
+        // std::cout << HelpDefinition("list-recyclingbenefit", "Returns a full year list of recycling benefits by month.") << std::endl;
+        std::cout << HelpDefinition("list-zooprofits", "Returns a full year list of zoo profits by month.") << std::endl;
+        std::cout << HelpDefinition("list-privatedonations", "Returns a full year list of private donations by month.") << std::endl;
+        std::cout << HelpDefinition("list-zoorating", "Returns a full year list of zoo rating by month.") << std::endl;
+        std::cout << HelpDefinition("list-constructioncosts", "Returns a full year list of construction costs by month.") << std::endl;
+        std::cout << HelpDefinition("list-animalpurchasecosts", "Returns a full year list of animal purchase costs by month.") << std::endl;
+        std::cout << HelpDefinition("list-researchcosts", "Returns a full year list of research costs by month.") << std::endl;
+        std::cout << HelpDefinition("list-zoovalue", "Returns a full year list of the zoo's value by month.") << std::endl;
+        // std::cout << HelpDefinition("setmmcursor <x> <y>", "Sets the mini map cursor to <x> and <y>.") << std::endl;
+        // std::cout << HelpDefinition("setmmcursor <size>", "Sets the mini map cursor to <size>.") << std::endl;
+        // std::cout << HelpDefinition("pefound", "Test command to check if PE header is valid or found.") << std::endl;
+        std::cout << HelpDefinition("exit", "Exits the console.") << std::endl;
+        std::cout << HelpDefinition("help", "Displays this help menu.") << std::endl;
+        std::cout << HelpDefinition("devmode <true/false>", "Enables or disables dev mode.") << std::endl;
+
+        std::cout << "\x1B[0m";
+
+    }
+    else if (ZooState::IsZooLoaded())
+>>>>>>> Stashed changes
     { 
     
         if (tokens[0] == "addtobudget")
