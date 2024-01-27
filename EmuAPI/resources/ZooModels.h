@@ -3,6 +3,9 @@
 
 struct ZooModels
 {
+    bool _emuAnimalRatingSet;
+    bool _emuGuestRatingSet;
+    bool _emuZooRatingSet;
     int _animalRating;
     int _guestRating;
     int _zooRating;

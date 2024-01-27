@@ -150,19 +150,25 @@ typedef void (__cdecl *_setGuestRating)(int); // define original setGuestRating 
 
 void __cdecl SetGuestRating(int rating) {
 	_setGuestRating ogSetGuestRating = (_setGuestRating)setGuestRatingAddress;
-    rating = zoo_models->_guestRating;
+	if (zoo_models->_emuGuestRatingSet == true) {
+		rating = zoo_models->_guestRating;
+	}
 	ogSetGuestRating(rating);
 }
 
 void __cdecl SetZooRating(int rating) {
 	_setZooRating ogSetZooRating = (_setZooRating)setZooRatingAddress;
-    rating = zoo_models->_zooRating;
+	if (zoo_models->_emuZooRatingSet == true) {
+		rating = zoo_models->_zooRating;
+	}
 	ogSetZooRating(rating);
 }
 
 void __cdecl SetAnimalRating(int rating) {
 	_setAnimalRating ogSetAnimalRating = (_setAnimalRating)setAnimalRatingAddress;
-    rating = zoo_models->_animalRating;
+	if (zoo_models->_emuAnimalRatingSet == true) {
+    	rating = zoo_models->_animalRating;
+	}
 	ogSetAnimalRating(rating);
 }
 

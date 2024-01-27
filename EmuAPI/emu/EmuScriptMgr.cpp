@@ -52,19 +52,31 @@ ZooModels EmuScriptMgr::executeScripts() {
                         // lua_close (lua);
                         // // return 1;
                         lua_getglobal(lua, "_globalAnimalRating");
-                        if (lua_isnumber(lua, -1)) {
+                        if (lua_isnil(lua, -1)) {
+                            zoo_models._emuAnimalRatingSet = false;
+                        }
+                        else if (lua_isnumber(lua, -1)) {
                             int animalRating = (int)lua_tointeger(lua, -1);
                             zoo_models._animalRating = animalRating;
+                            zoo_models._emuAnimalRatingSet = true;
                         }
                         lua_getglobal(lua, "_globalGuestRating");
-                        if (lua_isnumber(lua, -1)) {
+                        if (lua_isnil(lua, -1)) {
+                            zoo_models._emuGuestRatingSet = false;
+                        }
+                        else if (lua_isnumber(lua, -1)) {
                             int guestRating = (int)lua_tointeger(lua, -1);
                             zoo_models._guestRating = guestRating;
+                            zoo_models._emuGuestRatingSet = true;
                         }
                         lua_getglobal(lua, "_globalZooRating");
-                        if (lua_isnumber(lua, -1)) {
+                        if (lua_isnil(lua, -1)) {
+                            zoo_models._emuZooRatingSet = false;
+                        }
+                        else if (lua_isnumber(lua, -1)) {
                             int zooRating = (int)lua_tointeger(lua, -1);
                             zoo_models._zooRating = zooRating;
+                            zoo_models._emuZooRatingSet = true;
                         }
                         lua_pop(lua, 1);
                     }
