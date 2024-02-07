@@ -1,6 +1,12 @@
 #ifndef ZOOSTATE_H
 #define ZOOSTATE_H
 
+#ifndef EMU_EXPORTS
+#define EMU_API __declspec(dllexport)
+#else
+#define EMU_API __declspec(dllimport)
+#endif
+
 #include "EmuBase.h"
 #include <string>
 #include <iostream>
@@ -11,7 +17,16 @@
 #include "detours.h"
 #include "ZooModels.h"
 
-
+extern "C" {
+    EMU_API void FreezeGameState(bool);
+    EMU_API void PauseGame(bool);
+    EMU_API bool IsGamePaused();
+    EMU_API void SetZooBudget(float);
+    EMU_API float GetZooBudget();
+    EMU_API void AddToZooBudget(float);
+    EMU_API void EnableDevMode(bool);
+    EMU_API bool IsDevModeEnabled();
+}
 
 class ZooState
 {
