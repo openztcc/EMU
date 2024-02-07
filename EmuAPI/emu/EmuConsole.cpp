@@ -97,9 +97,8 @@ HWND EmuConsole::createConsole()
 		}	
 	}
 
-    std::cout << "\x1B[48;5;22m"; // background color
 	std::cout << "Welcome to the EMU command console.\nAuthor: Eric \"Goosifer\" Galvan.\nSpecial thanks to: Finn, wowjinxy, Jay\n\nPlease enter your command below. Enter 'help' for a list of commands, or 'exit' to exit." << std::endl << std::endl;
-    std::cout << "\x1B[0m"; // reset color
+    std::cout << ""; // reset color
     return consoleWindow;
 }
 
@@ -117,7 +116,7 @@ void EmuConsole::tokenize(bool& CommandIsProcessing)
     if (token.size() > 100)
     {
         // this limit will be increased, it's just a pre-emptive measure
-        std::cout << "\x1B[31mErr: Command too long.\x1B[0m" << std::endl;
+        std::cout << "Err: Command too long." << std::endl;
         CommandIsProcessing = false;
         // std::cin.ignore(32767, '\n');
     } else {
@@ -134,7 +133,7 @@ void EmuConsole::tokenize(bool& CommandIsProcessing)
 
 std::string EmuConsole::HelpDefinition(std::string command, std::string definition)
 {
-    std::string help = "\x1B[32m" + command + "\x1B[37m - " + definition;
+    std::string help = command + " - " + definition;
     return help;
 }
 
@@ -155,7 +154,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
     }
     if (tokens[0] == "help")
     {
-        std::cout << "==== \x1B[90mCommands\x1B[0m ====" << std::endl << std::endl;
+        std::cout << "==== Commands ====" << std::endl << std::endl;
         std::cout << HelpDefinition("addtobudget <amount>", "Adds <amount> to the zoo budget.") << std::endl;
         std::cout << HelpDefinition("getbudget", "Returns the current zoo budget.") << std::endl;
         std::cout << HelpDefinition("setbudget <amount>", "Sets the zoo budget to <amount>.") << std::endl;
@@ -187,7 +186,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         std::cout << HelpDefinition("exit", "Exits the console.") << std::endl;
         std::cout << HelpDefinition("help", "Displays this help menu.") << std::endl;
 
-        std::cout << "\x1B[0m";
+        std::cout << "";
 
     }
     else if (ZooState::IsZooLoaded())
@@ -197,7 +196,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         {
             if (tokens.size() < 2)
             {
-                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires an amount.\x1B[0m" << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> requires an amount." << std::endl;
                 return;
             }
             // add to budget hook
@@ -214,7 +213,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         {
             if (tokens.size() < 2)
             {
-                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires an amount.\x1B[0m" << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> requires an amount." << std::endl;
                 return;
             }
             // sets the budget
@@ -281,7 +280,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         {
             if (tokens.size() < 2)
             {
-                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires an amount.\x1B[0m" << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> requires an amount." << std::endl;
                 return;
             }
             // sets the admissions cost
@@ -377,7 +376,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         {
             if (tokens.size() < 2)
             {
-                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a rating.\x1B[0m" << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> requires a rating." << std::endl;
                 return;
             }
             // sets the zoo rating
@@ -387,7 +386,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         {
             if (tokens.size() < 2)
             {
-                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a rating.\x1B[0m" << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> requires a rating." << std::endl;
                 return;
             }
             // sets the guest rating
@@ -397,7 +396,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         {
             if (tokens.size() < 2)
             {
-                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a rating.\x1B[0m" << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> requires a rating." << std::endl;
                 return;
             }
             // sets the animal rating
@@ -407,7 +406,7 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         {
             if (tokens.size() < 2)
             {
-                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a boolean.\x1B[0m" << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> requires a boolean." << std::endl;
                 return;
             }
             // enable dev mode
@@ -421,17 +420,17 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             }
             else
             {
-                std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> requires a boolean.\x1B[0m" << std::endl;
+                std::cout << "Err: Command <" << tokens[0] << "> requires a boolean." << std::endl;
             }
         }
         else
         {
-            std::cout << "\x1B[31mErr: Command <" << tokens[0] << "> does not exist.\x1B[0m" << std::endl;
+            std::cout << "Err: Command <" << tokens[0] << "> does not exist." << std::endl;
         }
     }
     else
     {
-        std::cout << "\x1B[31mErr: Not able to execute command until zoo has been loaded.\x1B[0m" << std::endl;
+        std::cout << "Err: Not able to execute command until zoo has been loaded." << std::endl;
     }
 
     // tokens.clear();
