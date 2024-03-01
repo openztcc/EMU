@@ -1,11 +1,11 @@
 #ifndef EMUBASE_H
 #define EMUBASE_H
 
-#ifndef EMU_EXPORTS
-#define EMU_API __declspec(dllexport)
-#else
-#define EMU_API __declspec(dllimport)
-#endif
+// #ifndef EMU_EXPORTS
+// #define EMU_API __declspec(dllexport)
+// #else
+// #define EMU_API __declspec(dllimport)
+// #endif
 
 #include "Windows.h"
 #include <TlHelp32.h>
@@ -13,19 +13,19 @@
 #include <tchar.h>
 #include <stddef.h>
 
-extern "C" {
-    EMU_API bool SingleKey(const int key) {
-        return EmuBase::SingleKey(key);
-    }
+// extern "C" {
+//     EMU_API bool SingleKey(const int key) {
+//         return EmuBase::SingleKey(key);
+//     }
 
-    EMU_API bool DoubleKey(const int key1, const int key2) {
-        return EmuBase::DoubleKey(key1, key2);
-    }
+//     EMU_API bool DoubleKey(const int key1, const int key2) {
+//         return EmuBase::DoubleKey(key1, key2);
+//     }
 
-    EMU_API bool TripleKey(const int key1, const int key2, const int key3) {
-        return EmuBase::TripleKey(key1, key2, key3);
-    }
-}
+//     EMU_API bool TripleKey(const int key1, const int key2, const int key3) {
+//         return EmuBase::TripleKey(key1, key2, key3);
+//     }
+// }
 
 typedef __int32 uint32_t;
 

@@ -20,6 +20,7 @@
 #include "EmuScriptMgr.h"
 #include <detours.h>
 #include "ZooModels.h"
+#include "ZTGameMgr.h"
 
 //------ Flags for console
 bool IsConsoleRunning = false;
@@ -36,6 +37,9 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter);
 DWORD updateAddress = 0x41a16b; // 0x00401644; // address of update function in game
 typedef void (__thiscall *_origUpdate)(void* thisptr); // define original update function
 
+DWORD exitBuildingAddress = 0x4a75bb; // address of exit building function in the game
+// typedef void* (__thiscall *_origexitBuildingAddress)(void* thisptr, int *param_1); // define original update function
+
 //------ Namespace and class aliases
 #define fs std::filesystem
 
@@ -47,6 +51,10 @@ EmuScriptMgr sm; // script manager object
 std::vector<std::string> tokens; // contains tokens from console input
 EmuConsole console(tokens); // console object
 
+DWORD addCashAddress = 0x40f018; // address of addCash function in the game
+typedef void (__thiscall *_addCash)(void* thisptr, float amount); // define original addCash function
+
+
 //------ ZooModels object
 extern ZooModels* zoo_models;
 ZooModels* zoo_models = new ZooModels();
@@ -56,6 +64,11 @@ DWORD setZooRatingAddress = 0x0041D22F;
 DWORD setGuestRatingAddress = 0x0041D15D;
 
 //------ Function definitions
+
+void __fastcall addCash_Detour(void* ptr, float amount) {
+    // detour function for adding cash to the game
+    ZTGameMgr::shared_instance().addCash(amount);
+}
 
 void __fastcall RunEmu(void* thisptr) { 
 
@@ -148,6 +161,7 @@ typedef void (__cdecl *_setAnimalRating)(int); // define original setAnimalRatin
 typedef void (__cdecl *_setZooRating)(int); // define original setZooRating function
 typedef void (__cdecl *_setGuestRating)(int); // define original setGuestRating function
 
+
 void __cdecl SetGuestRating(int rating) {
 	_setGuestRating ogSetGuestRating = (_setGuestRating)setGuestRatingAddress;
 	if (zoo_models->_emuGuestRatingSet == true) {
@@ -171,6 +185,17 @@ void __cdecl SetAnimalRating(int rating) {
 	}
 	ogSetAnimalRating(rating);
 }
+
+// void* __fastcall exitBuilding(void* thisptr, unsigned int edx, int *param_1) {
+// 	// std::ofstream f;
+// 	// f.open("emu.log", std::ios_base::app);
+// 	// f << "Exit building called!" << std::endl;
+// 	// f << "thisptr: " << thisptr << std::endl;
+// 	// f << "param_1: " << param_1 << std::endl;
+// 	// f.close();
+// 	_origexitBuildingAddress ogexitBuilding = (_origexitBuildingAddress)exitBuildingAddress;
+// 	return ogexitBuilding(thisptr, param_1);
+// }
 
 
 // ------ DllMain
@@ -201,10 +226,13 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		//------ Detour update function to run emu and sync with main game thread
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
+		// ZTGameMgr::init();
 		DetourAttach((PVOID*)&updateAddress, (PVOID)&RunEmu);
 		DetourAttach((PVOID*)&setAnimalRatingAddress, (PVOID)&SetAnimalRating);
 		DetourAttach((PVOID*)&setZooRatingAddress, (PVOID)&SetZooRating);
 		DetourAttach((PVOID*)&setGuestRatingAddress, (PVOID)&SetGuestRating);
+		DetourAttach((PVOID*)&addCashAddress, (PVOID)&addCash_Detour);
+		//DetourAttach((PVOID*)&exitBuildingAddress, (PVOID)&exitBuilding);
 
 		DetourTransactionCommit();
 		

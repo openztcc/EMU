@@ -115,7 +115,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;&quot;$(ProjectDir)\resources&quot;;&quot;$(ProjectDir)\lua\&quot;;&quot;$(ProjectDir)\detours\&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;&quot;$(ProjectDir)\resources&quot;;&quot;$(ProjectDir)\lua\&quot;;&quot;$(ProjectDir)\detours\&quot;;&quot;$(ProjectDir)\reimp\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EMUAPI_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -286,6 +286,18 @@
 			</File>
 			<File
 				RelativePath=".\detours\detours.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Reimps"
+			>
+			<File
+				RelativePath=".\reimp\ZTGameMgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTGameMgr.h"
 				>
 			</File>
 		</Filter>
