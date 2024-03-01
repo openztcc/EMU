@@ -7,6 +7,8 @@
 
 
 typedef __int32 int32_t;
+typedef void (__thiscall *_addCash)(void* thisptr, float amount); // define original addCash function
+
 
 class ZTGameMgr
 {
@@ -73,7 +75,9 @@ public:
     ZTGameMgr();
     ~ZTGameMgr();
     void addCash(float);
-
+	void ZTUIMainSetMoneyText();
+	static void __fastcall addCash_Detour(void* ptr, float amount);
+	static void __fastcall BFUIMgrSetControlForeColor_Detour(void* ptr, int param_1, int32_t color);
 	static void init();
 	static ZTGameMgr &shared_instance() {
 		static ZTGameMgr instance;

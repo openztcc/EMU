@@ -51,8 +51,6 @@ EmuScriptMgr sm; // script manager object
 std::vector<std::string> tokens; // contains tokens from console input
 EmuConsole console(tokens); // console object
 
-DWORD addCashAddress = 0x40f018; // address of addCash function in the game
-typedef void (__thiscall *_addCash)(void* thisptr, float amount); // define original addCash function
 
 
 //------ ZooModels object
@@ -65,10 +63,10 @@ DWORD setGuestRatingAddress = 0x0041D15D;
 
 //------ Function definitions
 
-void __fastcall addCash_Detour(void* ptr, float amount) {
-    // detour function for adding cash to the game
-    ZTGameMgr::shared_instance().addCash(amount);
-}
+// void __fastcall addCash_Detour(void* ptr, float amount) {
+//     // detour function for adding cash to the game
+//     ZTGameMgr::shared_instance().addCash(amount);
+// }
 
 void __fastcall RunEmu(void* thisptr) { 
 
@@ -226,15 +224,16 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		//------ Detour update function to run emu and sync with main game thread
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
-		// ZTGameMgr::init();
+		
 		DetourAttach((PVOID*)&updateAddress, (PVOID)&RunEmu);
 		DetourAttach((PVOID*)&setAnimalRatingAddress, (PVOID)&SetAnimalRating);
 		DetourAttach((PVOID*)&setZooRatingAddress, (PVOID)&SetZooRating);
 		DetourAttach((PVOID*)&setGuestRatingAddress, (PVOID)&SetGuestRating);
-		DetourAttach((PVOID*)&addCashAddress, (PVOID)&addCash_Detour);
+		//DetourAttach((PVOID*)&addCashAddress, (PVOID)&addCash_Detour);
 		//DetourAttach((PVOID*)&exitBuildingAddress, (PVOID)&exitBuilding);
 
 		DetourTransactionCommit();
+		ZTGameMgr::init();
 		
 		break;
 	case DLL_PROCESS_DETACH:
