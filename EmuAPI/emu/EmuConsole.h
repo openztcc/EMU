@@ -13,6 +13,7 @@
 #include "ZooState.h"
 #include "ZooMiniMap.h"
 #include <windows.h>
+#include "ZTUI.h"
 
 class EmuConsole
 {

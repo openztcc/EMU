@@ -9,6 +9,8 @@ class ZTMapView {
         static ZTMapView instance = *ztmapview;
         return instance;
     }
+
+    static void zoomMap(int, int);
 };
 
 #endif // ZTMAPVIEW_H

@@ -17,7 +17,7 @@ namespace ZTUI {
     class general {
         public:
         static ZTMapView* getMapView();
-        static DWORD getSelectedEntity();
+        static DWORD* getSelectedEntity();
     };
 };
 

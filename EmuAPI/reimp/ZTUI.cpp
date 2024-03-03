@@ -14,12 +14,14 @@ ZTMapView* ZTUI::general::getMapView(void) {
     return ztmapview;
 }
 
-DWORD ZTUI::general::getSelectedEntity(void) {
-    ZTMapView *pZTMapView = ZTUI::general::getMapView();
+DWORD* ZTUI::general::getSelectedEntity(void) {
+    ZTMapView *pZTMapView = (ZTUI::general::getMapView());
+    unsigned char* baseAddr = reinterpret_cast<unsigned char*>(pZTMapView);    
+    DWORD* addressAtOffset = reinterpret_cast<DWORD*>(baseAddr + (1084 * sizeof(DWORD)));
     if (pZTMapView == 0) {
         return 0;
     } else {
-        return reinterpret_cast<DWORD>(pZTMapView[1084]);
+        return addressAtOffset;
     }
 }
 

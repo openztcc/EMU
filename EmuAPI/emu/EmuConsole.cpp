@@ -423,6 +423,10 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
                 std::cout << "Err: Command <" << tokens[0] << "> requires a boolean." << std::endl;
             }
         }
+        else if (tokens[0] == "getselentity") {
+            // return selected entity
+            std::cout << "The selected entity is: " << ZTUI::general::getSelectedEntity() << std::endl;
+        }
         else
         {
             std::cout << "Err: Command <" << tokens[0] << "> does not exist." << std::endl;
