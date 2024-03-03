@@ -427,6 +427,19 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             // return selected entity
             std::cout << "The selected entity is: " << ZTUI::general::getSelectedEntity() << std::endl;
         }
+        else if (tokens[0] == "setmapzoom") {
+            if (tokens.size() < 2)
+            {
+                std::cout << "Err: Command <" << tokens[0] << "> requires a zoom level." << std::endl;
+                return;
+            }
+            ZTMapView::zoomMap(::atoi(tokens[1].c_str()));
+            std::cout << "Map zoom level set to: " << tokens[1] << std::endl;
+        }
+        else if (tokens[0] == "clickzoomout") {
+            ZTMapView::clickZoomOut();
+            std::cout << "Clicked zoom out." << std::endl;
+        }
         else
         {
             std::cout << "Err: Command <" << tokens[0] << "> does not exist." << std::endl;

@@ -14,6 +14,7 @@
 #include "ZooMiniMap.h"
 #include <windows.h>
 #include "ZTUI.h"
+#include "ZTMapView.h"
 
 class EmuConsole
 {

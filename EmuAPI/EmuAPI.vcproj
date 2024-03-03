@@ -293,6 +293,14 @@
 			Name="Reimps"
 			>
 			<File
+				RelativePath=".\reimp\BFEntityType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\BFOverlayType.h"
+				>
+			</File>
+			<File
 				RelativePath=".\reimp\BFUIMgr.cpp"
 				>
 			</File>
@@ -301,7 +309,35 @@
 				>
 			</File>
 			<File
+				RelativePath=".\reimp\BFUnitType.h"
+				>
+			</File>
+			<File
 				RelativePath=".\reimp\UIMessageQueue.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTAmbientType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTAnimalType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTBuildingType.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTBuildingType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTFenceType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTFoodType.h"
 				>
 			</File>
 			<File
@@ -313,6 +349,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\reimp\ZTGuestType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTGuideType.h"
+				>
+			</File>
+			<File
 				RelativePath=".\reimp\ZTHabitatMgr.cpp"
 				>
 			</File>
@@ -321,11 +365,67 @@
 				>
 			</File>
 			<File
+				RelativePath=".\reimp\ZTHelicopterType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTKeeperType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTMainType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTMapView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTMapView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTPathType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTRubbleType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTSceneryType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTStaffType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTTankFilterType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTTankWallType.h"
+				>
+			</File>
+			<File
 				RelativePath=".\reimp\ZTUI.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\reimp\ZTUI.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTUnitType.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTWorldMgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTWorldMgr.h"
 				>
 			</File>
 		</Filter>

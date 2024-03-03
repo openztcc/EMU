@@ -5,8 +5,8 @@
 #include "BFUIMgr.h"
 
 typedef unsigned int (*_saveGame)(void); // define original saveGame function
-typedef ZTMapView (*_getMapView)(void); // define original getMapView function
-typedef void* (*_getSelectedEntity)(void); // define original getSelectedEntity function
+// typedef ZTMapView (*_getMapView)(void); // define original getMapView function
+// typedef void* (*_getSelectedEntity)(void); // define original getSelectedEntity function
 
 namespace ZTUI {
     class gameopts {
