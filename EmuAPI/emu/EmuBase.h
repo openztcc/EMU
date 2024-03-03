@@ -12,6 +12,8 @@
 #include <Psapi.h>
 #include <tchar.h>
 #include <stddef.h>
+#include <ctime>
+#include <fstream>
 
 // extern "C" {
 //     EMU_API bool SingleKey(const int key) {
@@ -45,6 +47,7 @@ public:
 
 	static DWORD getModuleBaseAddress();
 	static DWORD callHook(DWORD hookAt, DWORD newFunc);
+	static void logToFile(std::string log, std::ios::openmode);
 
 	static uint32_t floatToUint(float);
 	static float uintToFloat(uint32_t);

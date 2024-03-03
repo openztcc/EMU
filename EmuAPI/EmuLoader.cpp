@@ -16,11 +16,11 @@
 #include <cstdio>
 #include "ZooState.h"
 #include "RegZooState.h"
-#include <ctime>
 #include "EmuScriptMgr.h"
 #include <detours.h>
 #include "ZooModels.h"
 #include "ZTGameMgr.h"
+#include "BFUIMgr.h"
 
 //------ Flags for console
 bool IsConsoleRunning = false;
@@ -36,6 +36,11 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter);
 //------ Function pointers 
 DWORD updateAddress = 0x41a16b; // 0x00401644; // address of update function in game
 typedef void (__thiscall *_origUpdate)(void* thisptr); // define original update function
+
+DWORD BFUIMgrSetControlForeColorAddress = 0x0040ee08; // address of BFUIMgrSetControlForeColor function in the game
+DWORD BFInternatSetMoneyTextAddress = 0x0040ed88; // address of BFInternatSetMoneyText function in the game
+
+
 
 DWORD exitBuildingAddress = 0x4a75bb; // address of exit building function in the game
 // typedef void* (__thiscall *_origexitBuildingAddress)(void* thisptr, int *param_1); // define original update function
@@ -72,8 +77,16 @@ void __fastcall RunEmu(void* thisptr) {
 
 	// main loop
 
+	if (EmuBase::DoubleKey(0x11, 0x54) == true) {
+		// BFUIMgr::shared_instance().getElement(0x3f8);
+		BFUIMgr::clickSave();
 
-	// f << "[" << timestamp << "] " << "EMU loop running..." << std::endl;
+		// std::ofstream f;
+		// f.open("getelement.log", std::ios_base::app);
+		// f << "x: " << x << std::endl;
+		// f.close();
+	}
+	
 
 	//---- CTRL + J
 	if (EmuBase::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
@@ -100,6 +113,8 @@ void __fastcall RunEmu(void* thisptr) {
 			// f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
 			*zoo_models = sm.executeScripts();
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
+
+
 		}
 		
 	}
@@ -121,6 +136,24 @@ void __fastcall RunEmu(void* thisptr) {
 	// f << "[" << timestamp << "] " << "ogUpdate(thisptr) called!" << std::endl;
 	
 }
+
+// void __cdecl BFInternatSetMoneyText_Detour(int param_1, float param_2, char param_3) {
+//     // detour function for setting money text
+//     // set money text
+// 	// ZTGameMgr::BFInternatSetMoneyText(0x3f8, param_2, '\x01');
+// 	_BFInternatSetMoneyText og_BFInternatSetMoneyText = (_BFInternatSetMoneyText)BFInternatSetMoneyTextAddress;
+// 	og_BFInternatSetMoneyText(param_1, param_2, param_3);
+// }
+
+// void __fastcall BFUIMgrSetControlForeColor_Detour(void* ptr, int param_1, DWORD color) {
+//     // detour function for setting control forecolor
+//     // set control forecolor
+// 	// ZTGameMgr::BFUIMgrSetControlForeColor(ptr, param_1, color);
+
+// 	_BFUIMgrSetControlForeColor og_BFUIMgrSetControlForeColor = (_BFUIMgrSetControlForeColor)BFUIMgrSetControlForeColorAddress;
+// 	og_BFUIMgrSetControlForeColor(ptr, param_1, color);
+// }
+
 
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
@@ -231,6 +264,8 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		DetourAttach((PVOID*)&setGuestRatingAddress, (PVOID)&SetGuestRating);
 		//DetourAttach((PVOID*)&addCashAddress, (PVOID)&addCash_Detour);
 		//DetourAttach((PVOID*)&exitBuildingAddress, (PVOID)&exitBuilding);
+		// DetourAttach((PVOID*)&BFUIMgrSetControlForeColorAddress, (PVOID)&BFUIMgrSetControlForeColor_Detour);
+		// DetourAttach((PVOID*)&BFInternatSetMoneyTextAddress, (PVOID)&BFInternatSetMoneyText_Detour);
 
 		DetourTransactionCommit();
 		ZTGameMgr::init();

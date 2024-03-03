@@ -127,3 +127,16 @@ bool EmuBase::TripleKey(const int VK_IKEY, const int VK_SKEY, const int VK_TKEY)
     }
     return false;
 }
+
+/// @brief Print out to log file
+/// @param log
+/// @param file
+/// @return
+void EmuBase::logToFile(std::string log, std::ios::openmode mode)
+{
+	std::ofstream f;
+	f.open("getelement.log", mode);
+	const char* cstr = log.c_str();
+	f << "[" << __TIMESTAMP__ << "] " << cstr << std::endl;
+	f.close();
+}

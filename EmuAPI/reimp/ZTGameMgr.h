@@ -4,12 +4,13 @@
 #include <Windows.h> // must always be above detours.h
 #include <detours.h>
 #include "EmuBase.h"
-
+#include "BFUIMgr.h"
 
 typedef __int32 int32_t;
 typedef void (__thiscall *_addCash)(void* thisptr, float amount); // define original addCash function
 typedef void (__thiscall *_BFUIMgrSetControlForeColor)(void*, int, DWORD); // define original BFUIMgrSetControlForeColor function
-typedef void (__cdecl *_BFInternatSetMoneyText)(int, float, char); // define original BFUIMgrSetControlForeColor function
+typedef void (__cdecl *_BFInternatSetMoneyText)(int, int, char); // define original BFUIMgrSetControlForeColor function
+
 
 struct GXRGB {
     int r;
@@ -84,8 +85,8 @@ public:
     void addCash(float);
 	void ZTUIMainSetMoneyText();
 	static void __fastcall addCash_Detour(void* ptr, float amount);
-	static void __fastcall BFUIMgrSetControlForeColor_Detour(void* ptr, int param_1, DWORD color);
-	static void __cdecl BFInternatSetMoneyText_Detour(int, float, char);
+	static void BFUIMgrSetControlForeColor(void* ptr, int param_1, DWORD color);
+	static void BFInternatSetMoneyText(int, int, char);
 	static void init();
 	static ZTGameMgr &shared_instance() {
 		static ZTGameMgr instance;

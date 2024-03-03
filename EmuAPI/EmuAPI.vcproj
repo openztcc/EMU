@@ -293,11 +293,39 @@
 			Name="Reimps"
 			>
 			<File
+				RelativePath=".\reimp\BFUIMgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\BFUIMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\UIMessageQueue.h"
+				>
+			</File>
+			<File
 				RelativePath=".\reimp\ZTGameMgr.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\reimp\ZTGameMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTHabitatMgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTHabitatMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTUI.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTUI.h"
 				>
 			</File>
 		</Filter>
