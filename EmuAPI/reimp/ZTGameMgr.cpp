@@ -21,49 +21,38 @@ void ZTGameMgr::init() {
     DetourUpdateThread(GetCurrentThread());
     DetourAttach((PVOID*)&addCashAddress, (PVOID)&ZTGameMgr::addCash_Detour);
     DetourTransactionCommit();
+    // DWORD _ztGameMgr = *(DWORD*)((LPVOID)0x00638048);
+    // ZTGameMgr::shared_instance() = *(ZTGameMgr*)(_ztGameMgr);
+
+    EmuBase::callHook(0x0050A245, (DWORD)&ZTGameMgr::addCash_Detour); // from removeEntityFromMap
+    EmuBase::callHook(0x00613f61, (DWORD)&ZTGameMgr::addCash_Detour); // from ZooStatus::fGrantDonation
+    EmuBase::callHook(0x0060d9d3, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 0060d8e3
+    EmuBase::callHook(0x0060cccd, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 433ae0
+    EmuBase::callHook(0x00613f61, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 433b00
+    EmuBase::callHook(0x006089fc, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at cls_0x40f018::meth_0x6089e8
+    EmuBase::callHook(0x00607299, (DWORD)&ZTGameMgr::addCash_Detour); // from georgeW
+    EmuBase::callHook(0x0060d9d3, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 0060d8e3
+    EmuBase::callHook(0x005b0f2d, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 005b0f17
+    EmuBase::callHook(0x005a1679, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTScenarioSimpleGoal::trigger03
+    EmuBase::callHook(0x004f7031, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at cls_0x41f881::meth_0x4f6e3c
+    EmuBase::callHook(0x004d920f , (DWORD)&ZTGameMgr::addCash_Detour); // from ZTMapView::placeEntityOnMap
+    EmuBase::callHook(0x004a2f97, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTGameMgr::removedZooDoo
+    EmuBase::callHook(0x00484047, (DWORD)&ZTGameMgr::addCash_Detour); // from ZooStatus::financeChecks
+    EmuBase::callHook(0x0042ec81, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTHabitat::acceptDonation
+    EmuBase::callHook(0x0042d93f, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTBuilding::removeUser
+    EmuBase::callHook(0x005a981c, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTBuilding::addUser
 }
 
 void ZTGameMgr::addCash(float amount) {
     // add cash to the game
     this->zoo_budget += amount;
-    ZTUIMainSetMoneyText(); // update money text in the UI
+    ZTUI::main::setMoneyText(); // update money text in the UI
 }
 
 
 void __fastcall ZTGameMgr::addCash_Detour(void* ptr, float amount) {
     // detour function for adding cash to the game
     ZTGameMgr::shared_instance().addCash(amount);
-}
-
-void ZTGameMgr::BFUIMgrSetControlForeColor(void* ptr, int param_1, DWORD color) {
-    _BFUIMgrSetControlForeColor og_BFUIMgrSetControlForeColor = (_BFUIMgrSetControlForeColor)0x0040ee08;
-
-    // void* deref_ptr = *(void**)ptr;
-
-    // BFUIMgr *pBFUIMgr = reinterpret_cast<BFUIMgr*>(ptr);
-
-    og_BFUIMgrSetControlForeColor(ptr, param_1, color);
-
-}
-void ZTGameMgr::BFInternatSetMoneyText(int param_1, int param_2, char param_3) {
-    _BFInternatSetMoneyText og_BFInternatSetMoneyText = (_BFInternatSetMoneyText)0x0040ed88;
-
-   og_BFInternatSetMoneyText(param_1, param_2, param_3);
-}
-
-void ZTGameMgr::ZTUIMainSetMoneyText() {
-    // set money text show in the UI
-    float money = this->zoo_budget;
-    DWORD uVar1; // local variable
-
-    // void* pBFUIMgr = *(void**)0x00638de0;
-    BFUIMgr *pBFUIMgr = reinterpret_cast<BFUIMgr*>(0x00638de0);
-
-    // GXRGB color = {0, 0, 0}; // set color to black
-
-    // float money_to_display = (float)((int)money); // round down to nearest integer
-    BFUIMgrSetControlForeColor(pBFUIMgr, 0x3f8, 0xf44bda); // set control forecolor   
-    BFInternatSetMoneyText(0x3f8, (int)(this->zoo_budget), '\x01'); // set money text
 }
 
 ZTGameMgr::~ZTGameMgr() {

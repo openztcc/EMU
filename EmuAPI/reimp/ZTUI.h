@@ -19,6 +19,11 @@ namespace ZTUI {
         static ZTMapView* getMapView();
         static DWORD* getSelectedEntity();
     };
+
+    class main {
+        public:
+        static void setMoneyText();
+    };
 };
 
 #endif /* ZTUI_H */

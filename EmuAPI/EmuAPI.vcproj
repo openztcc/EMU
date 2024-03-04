@@ -297,6 +297,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\reimp\bfinternat.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\bfinternat.h"
+				>
+			</File>
+			<File
 				RelativePath=".\reimp\BFOverlayType.h"
 				>
 			</File>

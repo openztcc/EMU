@@ -16,7 +16,7 @@ BFUIMgr::~BFUIMgr() {
 //     return _getElementAdd(pThis, param_1);
 // }
 
-int* BFUIMgr::getElement(int param_1) {
+BFUIMgr* BFUIMgr::getElement(int param_1) {
     _getElement _oggetElement = (_getElement)0x0040157d;
     // DWORD ptr_ZTMapView = *((DWORD*)((LPVOID)0x00638de0));
 
@@ -40,4 +40,10 @@ DWORD BFUIMgr::getUIMgr() {
 
 DWORD BFUIMgr::getOffset(DWORD offset) {
     return (*((DWORD*)((LPVOID)0x00638de0)) + offset);
+}
+
+void BFUIMgr::setControlForeColor(void* ptr, int param_1, DWORD color) {
+    _setControlForeColor og_setControlForeColor = (_setControlForeColor)0x0040ee08;
+
+    og_setControlForeColor(ptr, param_1, color);
 }

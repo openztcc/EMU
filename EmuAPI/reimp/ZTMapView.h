@@ -6,6 +6,7 @@
 
 
 typedef void (__thiscall *_zoomMap)(void*, int); // define original zoomMap function
+typedef void (*_timeTicker)(); // define original timeTicker function
 
 class ZTMapView {
     public:

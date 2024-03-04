@@ -1,5 +1,6 @@
 #include "EmuConsole.h"
 #include <iomanip>
+#include "ZTGameMgr.h"
 
 EmuConsole::EmuConsole(std::vector<std::string>& tokes) : tokens(tokes)
 {
@@ -439,6 +440,13 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         else if (tokens[0] == "clickzoomout") {
             ZTMapView::clickZoomOut();
             std::cout << "Clicked zoom out." << std::endl;
+        }
+        else if (tokens[0] == "ztgr") {
+            std::cout << ZTGameMgr::shared_instance().zoo_budget << std::endl;
+            std::cout << ZTGameMgr::shared_instance().num_animals << std::endl;
+            std::cout << ZTGameMgr::shared_instance().num_species << std::endl;
+            std::cout << ZTGameMgr::shared_instance().guest_count << std::endl;
+            std::cout << ZTGameMgr::shared_instance().animal_purchase_costs[0] << std::endl;
         }
         else
         {
