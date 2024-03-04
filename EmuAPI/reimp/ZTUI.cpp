@@ -39,7 +39,7 @@ void ZTUI::main::setMoneyText() {
     // GXRGB color = {0, 0, 0}; // set color to black
 
     // float money_to_display = (float)((int)money); // round down to nearest integer
-    BFUIMgr::setControlForeColor((LPVOID)pBFUIMgr, 0x3f8, 0x3fd2c7); // set control forecolor
+    BFUIMgr::setControlForeColor((LPVOID)pBFUIMgr, 0x3f8, 0x001ac5ff); // set control forecolor
     bfinternat::setMoneyText(0x3f8, (int)money, '\x01'); // set money text
 }
 
