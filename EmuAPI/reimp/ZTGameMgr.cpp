@@ -41,10 +41,33 @@ void ZTGameMgr::init() {
     EmuBase::callHook(0x0042ec81, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTHabitat::acceptDonation
     EmuBase::callHook(0x0042d93f, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTBuilding::removeUser
     EmuBase::callHook(0x005a981c, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTBuilding::addUser
+
     EmuBase::callHook(0x004cb64f, (DWORD)&ZTGameMgr::setCash_Detour); // from showMapSelect
     EmuBase::callHook(0x006163ab, (DWORD)&ZTGameMgr::setCash_Detour); // from clickCashUp
     EmuBase::callHook(0x0061640d, (DWORD)&ZTGameMgr::setCash_Detour); // from clickCashDown
     EmuBase::callHook(0x006165ce, (DWORD)&ZTGameMgr::setCash_Detour); // from editStartingCash
+
+    EmuBase::callHook(0x0041f284, (DWORD)&ZTGameMgr::subtractCash_Detour); // from update
+    EmuBase::callHook(0x0041f304, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0041f304
+    EmuBase::callHook(0x00469281, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 00469281
+    EmuBase::callHook(0x0046944c, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0046944c
+    EmuBase::callHook(0x004702e3, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 004702e3
+    EmuBase::callHook(0x0047c043, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0047c043
+    EmuBase::callHook(0x004841a3, (DWORD)&ZTGameMgr::subtractCash_Detour); // from financeChecks
+    EmuBase::callHook(0x00484230, (DWORD)&ZTGameMgr::subtractCash_Detour); // from financeChecks
+    EmuBase::callHook(0x00488e9d, (DWORD)&ZTGameMgr::subtractCash_Detour); // from fn at virt_meth_0x4da252:00488e9d
+    EmuBase::callHook(0x0048a021, (DWORD)&ZTGameMgr::subtractCash_Detour); // from virt_meth_0x489fcd
+    EmuBase::callHook(0x0048f76c, (DWORD)&ZTGameMgr::subtractCash_Detour); // from virt_meth_0x48f624
+    EmuBase::callHook(0x0049befe, (DWORD)&ZTGameMgr::subtractCash_Detour); // from meth_0x49bec7
+    EmuBase::callHook(0x004a099a, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    EmuBase::callHook(0x004d8eda, (DWORD)&ZTGameMgr::subtractCash_Detour); // from placeEntityOnMap
+    EmuBase::callHook(0x004deb1b, (DWORD)&ZTGameMgr::subtractCash_Detour); // from FUN_005b6710
+    EmuBase::callHook(0x004efd66, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    EmuBase::callHook(0x005ce004, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    EmuBase::callHook(0x005ce042, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    EmuBase::callHook(0x005ce068, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    EmuBase::callHook(0x00611666, (DWORD)&ZTGameMgr::subtractCash_Detour); // from FUN_006115f2
+
 
 }
 
@@ -52,6 +75,17 @@ void ZTGameMgr::addCash(float amount) {
     // add cash to the game
     this->zoo_budget += amount;
     ZTUI::main::setMoneyText(); // update money text in the UI
+}
+
+void ZTGameMgr::subtractCash(int amount) {
+    // subtract cash from the game
+    this->zoo_budget -= amount;
+    ZTUI::main::setMoneyText(); // update money text in the UI
+}
+
+void ZTGameMgr::subtractCash_Detour(int amount) {
+    // detour function for subtracting cash from the game
+    ZTGameMgr::shared_instance().subtractCash(amount);
 }
 
 void ZTGameMgr::setCash_Detour(int amount) {
