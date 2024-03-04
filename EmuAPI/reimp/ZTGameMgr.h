@@ -53,10 +53,10 @@ public:
     ~ZTGameMgr();
     void addCash(float);
 	void setCash(int);
-	void subtractCash(int);
+	void subtractCash(float);
 	static void __fastcall addCash_Detour(void* ptr, float amount);
 	static void __cdecl setCash_Detour(int amount);
-	static void __fastcall subtractCash_Detour(int amount);
+	static void __fastcall subtractCash_Detour(void* ptr, float amount);
 	static void BFInternatSetMoneyText(int, int, char);
 	static void init();
 	static ZTGameMgr &shared_instance() {

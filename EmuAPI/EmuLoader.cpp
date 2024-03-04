@@ -21,6 +21,7 @@
 #include "ZooModels.h"
 #include "ZTGameMgr.h"
 #include "BFUIMgr.h"
+#include "ZTUI.h"
 
 //------ Flags for console
 bool IsConsoleRunning = false;
@@ -269,6 +270,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 		DetourTransactionCommit();
 		ZTGameMgr::init();
+		ZTUI::main::init();
 		
 		break;
 	case DLL_PROCESS_DETACH:

@@ -1,6 +1,7 @@
 #include "ZTUI.h"
 #include "ZTGameMgr.h"
 #include "bfinternat.h"
+#include "EmuBase.h"
 
 unsigned int ZTUI::gameopts::saveGame(void) {
     _saveGame _ogsaveGame = (_saveGame)0x004769ac;
@@ -38,7 +39,22 @@ void ZTUI::main::setMoneyText() {
     // GXRGB color = {0, 0, 0}; // set color to black
 
     // float money_to_display = (float)((int)money); // round down to nearest integer
-    BFUIMgr::setControlForeColor((LPVOID)pBFUIMgr, 0x3f8, 0xf44bda); // set control forecolor
+    BFUIMgr::setControlForeColor((LPVOID)pBFUIMgr, 0x3f8, 0x3fd2c7); // set control forecolor
     bfinternat::setMoneyText(0x3f8, (int)money, '\x01'); // set money text
+}
+
+void ZTUI::main::init() {
+    // initialize the UI
+    // setMoneyText();
+
+    EmuBase::callHook(0x0040f02e, (DWORD)&ZTUI::main::setMoneyText_Detour); // from addCash
+    EmuBase::callHook(0x0041d38d, (DWORD)&ZTUI::main::setMoneyText_Detour); // from updateSim
+    EmuBase::callHook(0x0041ef7e, (DWORD)&ZTUI::main::setMoneyText_Detour); // from subtractCash
+    EmuBase::callHook(0x00519c1c, (DWORD)&ZTUI::main::setMoneyText_Detour); // from init
+}
+
+void ZTUI::main::setMoneyText_Detour() {
+    // detour function for setting money text in the UI
+    ZTUI::main::setMoneyText();
 }
 

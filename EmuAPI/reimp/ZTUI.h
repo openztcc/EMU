@@ -23,6 +23,9 @@ namespace ZTUI {
     class main {
         public:
         static void setMoneyText();
+        static void init();
+
+        static void __cdecl setMoneyText_Detour();
     };
 };
 

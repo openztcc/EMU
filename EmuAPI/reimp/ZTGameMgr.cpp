@@ -47,8 +47,8 @@ void ZTGameMgr::init() {
     EmuBase::callHook(0x0061640d, (DWORD)&ZTGameMgr::setCash_Detour); // from clickCashDown
     EmuBase::callHook(0x006165ce, (DWORD)&ZTGameMgr::setCash_Detour); // from editStartingCash
 
-    EmuBase::callHook(0x0041f284, (DWORD)&ZTGameMgr::subtractCash_Detour); // from update
-    EmuBase::callHook(0x0041f304, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0041f304
+    // EmuBase::callHook(0x0041f284, (DWORD)&ZTGameMgr::subtractCash_Detour); // from ZTResearchBranch::update <--- crashes, not sure why
+    // EmuBase::callHook(0x0041f304, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0041f304 <--- crashes, not sure why
     EmuBase::callHook(0x00469281, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 00469281
     EmuBase::callHook(0x0046944c, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0046944c
     EmuBase::callHook(0x004702e3, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 004702e3
@@ -77,13 +77,13 @@ void ZTGameMgr::addCash(float amount) {
     ZTUI::main::setMoneyText(); // update money text in the UI
 }
 
-void ZTGameMgr::subtractCash(int amount) {
+void ZTGameMgr::subtractCash(float amount) {
     // subtract cash from the game
     this->zoo_budget -= amount;
     ZTUI::main::setMoneyText(); // update money text in the UI
 }
 
-void ZTGameMgr::subtractCash_Detour(int amount) {
+void ZTGameMgr::subtractCash_Detour(void* ptr, float amount) {
     // detour function for subtracting cash from the game
     ZTGameMgr::shared_instance().subtractCash(amount);
 }
