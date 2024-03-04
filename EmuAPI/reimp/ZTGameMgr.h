@@ -9,6 +9,7 @@
 
 typedef __int32 int32_t;
 typedef void (__thiscall *_addCash)(void* thisptr, float amount); // define original addCash function
+typedef void (__cdecl *_setCash)(int); // define original setCash function
 
 struct GXRGB {
     int r;
@@ -51,14 +52,16 @@ public:
     ZTGameMgr();
     ~ZTGameMgr();
     void addCash(float);
+	void setCash(int);
 	static void __fastcall addCash_Detour(void* ptr, float amount);
+	static void __cdecl setCash_Detour(int amount);
 	static void BFInternatSetMoneyText(int, int, char);
 	static void init();
 	static ZTGameMgr &shared_instance() {
 		static ZTGameMgr instance;
 		return instance;
 	}
-	
+
 
 }; //Size: 0x10B4 4528
 
