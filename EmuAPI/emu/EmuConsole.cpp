@@ -448,6 +448,11 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             std::cout << ZTGameMgr::shared_instance().guest_count << std::endl;
             std::cout << ZTGameMgr::shared_instance().animal_purchase_costs[0] << std::endl;
         }
+        else if (tokens[0] == "playmenumusic") {
+
+                ZTGameMgr::shared_instance().startMenuMusic();
+                std::cout << "Menu music played." << std::endl;
+        }
         else
         {
             std::cout << "Err: Command <" << tokens[0] << "> does not exist." << std::endl;

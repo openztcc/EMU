@@ -2,10 +2,24 @@
 #include "ZTGameMgr.h"
 #include "bfinternat.h"
 #include "EmuBase.h"
+#include <ostream>
+#include "Windows.h"
+#include "detours.h"
 
 unsigned int ZTUI::gameopts::saveGame(void) {
     _saveGame _ogsaveGame = (_saveGame)0x004769ac;
     return _ogsaveGame();
+}
+
+// hooked but filestr is not readable yet
+unsigned int ZTUI::gameopts::loadFile(char **filestr) {
+    _loadFile _ogloadFile = (_loadFile)0x00453000;
+    // std::ofstream logFile("filename.txt");
+    // if (logFile.is_open()) {
+    //     logFile << *filename << std::endl;
+    //     logFile.close();
+    // }
+    return _ogloadFile(filestr);
 }
 
 ZTMapView* ZTUI::general::getMapView(void) {
@@ -51,6 +65,11 @@ void ZTUI::main::init() {
     EmuBase::callHook(0x0041d38d, (DWORD)&ZTUI::main::setMoneyText_Detour); // from updateSim
     EmuBase::callHook(0x0041ef7e, (DWORD)&ZTUI::main::setMoneyText_Detour); // from subtractCash
     EmuBase::callHook(0x00519c1c, (DWORD)&ZTUI::main::setMoneyText_Detour); // from init
+
+    EmuBase::callHook(0x00485d9c, (DWORD)&ZTUI::gameopts::loadFile); // from clickContinue
+    EmuBase::callHook(0x004c9a13, (DWORD)&ZTUI::gameopts::loadFile); // from beginScenario
+    EmuBase::callHook(0x004cc462, (DWORD)&ZTUI::gameopts::loadFile); // from loadGame
+    EmuBase::callHook(0x005c1d28, (DWORD)&ZTUI::gameopts::loadFile); // from ZTApp::iniInstance
 }
 
 void ZTUI::main::setMoneyText_Detour() {
@@ -67,3 +86,4 @@ void ZTUI::main::pauseGame() {
     _pauseGame _ogpauseGame = (_pauseGame)0x0059c6b8;
     _ogpauseGame();
 }
+

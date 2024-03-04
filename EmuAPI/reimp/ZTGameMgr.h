@@ -9,6 +9,7 @@
 typedef __int32 int32_t;
 typedef void (__thiscall *_addCash)(void* thisptr, float amount); // define original addCash function
 typedef void (__cdecl *_setCash)(int); // define original setCash function
+typedef void (__fastcall *_startMenuMusic)(void*); // define original startMenuMusic function
 
 struct GXRGB {
     int r;
@@ -73,7 +74,9 @@ public:
 	static void __fastcall addCash_Detour(void* ptr, float amount);
 	static void __cdecl setCash_Detour(int amount);
 	static void __fastcall subtractCash_Detour(void* ptr, float amount);
+	static void __fastcall startMenuMusic_Detour(int param_1);
 	static void init();
+	static DWORD getZTGameMgr();
 	static ZTGameMgr &shared_instance() {
 		static ZTGameMgr instance;
 		return instance;

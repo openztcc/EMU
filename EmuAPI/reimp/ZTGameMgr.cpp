@@ -17,6 +17,7 @@ void ZTGameMgr::init() {
     // initialize detour function pointers
     DWORD addCashAddress = 0x40f018; // address of addCash function in the game
     DWORD getDateAddress = 0x0040e7e0; // address of getDate function in the game
+    DWORD getStartMenuMusicAddress = 0x004bded9; // address of startMenuMusic function in the game
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
     DetourAttach((PVOID*)&addCashAddress, (PVOID)&ZTGameMgr::addCash_Detour);
@@ -84,6 +85,19 @@ void ZTGameMgr::subtractCash(float amount) {
     ZTUI::main::setMoneyText(); // update money text in the UI
 }
 
+// void ZTGameMgr::startMenuMusic() {
+//     // start the menu music
+//     _startMenuMusic _ogstartMenuMusic = (_startMenuMusic)0x004bded9;
+//     _ogstartMenuMusic(pZTGameMgr);
+// }
+
+
+DWORD ZTGameMgr::getZTGameMgr() {
+    // get the instance of ZTGameMgr
+    DWORD _ztGameMgr = *(DWORD*)((LPVOID)0x00638048);
+    return *(DWORD*)(_ztGameMgr);
+}
+
 _FILETIME* ZTGameMgr::getDate_Detour(void* ptr, _FILETIME* date) {
     // detour function for getting the current date from the game
     return ZTGameMgr::shared_instance().getDate(date);
@@ -115,6 +129,7 @@ void __fastcall ZTGameMgr::addCash_Detour(void* ptr, float amount) {
     // detour function for adding cash to the game
     ZTGameMgr::shared_instance().addCash(amount);
 }
+
 
 ZTGameMgr::~ZTGameMgr() {
     // destructor
