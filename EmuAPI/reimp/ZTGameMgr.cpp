@@ -1,7 +1,6 @@
 #include "ZTGameMgr.h"
 #include <ostream>
 
-
 ZTGameMgr::ZTGameMgr() {
     // constructor
     this->zoo_budget = 0.0;
@@ -17,9 +16,11 @@ void ZTGameMgr::init() {
     // initialize instance of ZTGameMgr
     // initialize detour function pointers
     DWORD addCashAddress = 0x40f018; // address of addCash function in the game
+    DWORD getDateAddress = 0x0040e7e0; // address of getDate function in the game
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
     DetourAttach((PVOID*)&addCashAddress, (PVOID)&ZTGameMgr::addCash_Detour);
+    // DetourAttach((PVOID*)&getDateAddress, (PVOID)&ZTGameMgr::getDate_Detour);
     DetourTransactionCommit();
     // DWORD _ztGameMgr = *(DWORD*)((LPVOID)0x00638048);
     // ZTGameMgr::shared_instance() = *(ZTGameMgr*)(_ztGameMgr);
@@ -83,6 +84,11 @@ void ZTGameMgr::subtractCash(float amount) {
     ZTUI::main::setMoneyText(); // update money text in the UI
 }
 
+_FILETIME* ZTGameMgr::getDate_Detour(void* ptr, _FILETIME* date) {
+    // detour function for getting the current date from the game
+    return ZTGameMgr::shared_instance().getDate(date);
+}
+
 void ZTGameMgr::subtractCash_Detour(void* ptr, float amount) {
     // detour function for subtracting cash from the game
     ZTGameMgr::shared_instance().subtractCash(amount);
@@ -113,4 +119,11 @@ void __fastcall ZTGameMgr::addCash_Detour(void* ptr, float amount) {
 ZTGameMgr::~ZTGameMgr() {
     // destructor
     // clean up detour function pointers
+}
+
+// address: 0x0040e7e0. _FILETIME* return value likely incorrect.
+// game has it as a long long, which would have been the same number of bytes as a FILETIME
+_FILETIME* ZTGameMgr::getDate(_FILETIME* date) {
+    SystemTimeToFileTime(&current_date, date);
+    return date;
 }

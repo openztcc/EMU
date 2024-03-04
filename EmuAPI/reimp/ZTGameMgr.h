@@ -6,7 +6,6 @@
 #include "EmuBase.h"
 #include "BFUIMgr.h"
 
-
 typedef __int32 int32_t;
 typedef void (__thiscall *_addCash)(void* thisptr, float amount); // define original addCash function
 typedef void (__cdecl *_setCash)(int); // define original setCash function
@@ -40,7 +39,8 @@ public:
 	float zoo_ratings[12]; //0x0464
 	char pad_0494[384]; //0x0494
 	float number_of_guests[12]; //0x0614
-	char pad_0644[2928]; //0x0644
+	char pad_0644[2928]; //0x0644 TODO: subtract current date
+	SYSTEMTIME current_date; //0x1194 (8 bytes)
 	// virtual ~ZTGameMgr();
 	// virtual void setNewGameDefaults(void*, char) {};
 	// virtual void save(char**) {};
@@ -54,6 +54,9 @@ public:
     void addCash(float);
 	void setCash(int);
 	void subtractCash(float);
+	_FILETIME* getDate(_FILETIME* date);
+
+	static _FILETIME* __fastcall getDate_Detour(void* ptr, _FILETIME* date);
 	static void __fastcall addCash_Detour(void* ptr, float amount);
 	static void __cdecl setCash_Detour(int amount);
 	static void __fastcall subtractCash_Detour(void* ptr, float amount);
