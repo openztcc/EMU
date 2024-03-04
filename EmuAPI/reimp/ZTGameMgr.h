@@ -18,6 +18,12 @@ struct GXRGB {
 
 class ZTGameMgr
 {
+	class MenuMusicHandler 
+	{
+		// 20 bytes
+		void update(unsigned int); // 0x41a13a
+
+	};
 public:
 	char pad_0004[12];
 	float zoo_budget; //0x000C
@@ -55,12 +61,18 @@ public:
 	void setCash(int);
 	void subtractCash(float);
 	_FILETIME* getDate(_FILETIME* date);
+	void startMenuMusic(); // 0x004bded9
+	void startMenuMusicFade(int); // 0x004cc59d
+	unsigned int save(char**); // 0x47acc5
+	void setNewGameDefaults(void*, char); // 0x0058f39c
+	void stop(int); // 0x004fa123
+
+
 
 	static _FILETIME* __fastcall getDate_Detour(void* ptr, _FILETIME* date);
 	static void __fastcall addCash_Detour(void* ptr, float amount);
 	static void __cdecl setCash_Detour(int amount);
 	static void __fastcall subtractCash_Detour(void* ptr, float amount);
-	static void BFInternatSetMoneyText(int, int, char);
 	static void init();
 	static ZTGameMgr &shared_instance() {
 		static ZTGameMgr instance;

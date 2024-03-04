@@ -58,3 +58,12 @@ void ZTUI::main::setMoneyText_Detour() {
     ZTUI::main::setMoneyText();
 }
 
+void ZTUI::main::unpauseGame() {
+    _unpauseGame _ogunpauseGame = (_unpauseGame)0x0059c7a9;
+    _ogunpauseGame();
+}
+
+void ZTUI::main::pauseGame() {
+    _pauseGame _ogpauseGame = (_pauseGame)0x0059c6b8;
+    _ogpauseGame();
+}

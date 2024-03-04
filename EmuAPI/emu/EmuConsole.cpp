@@ -224,13 +224,13 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         {
             // number of animals hook
             std::cout << "Pausing..." << std::endl;
-            ZooState::PauseGame(true);
+            ZTUI::main::pauseGame();
         }
         else if (tokens[0] == "resume")
         {
             // number of animals hook
             std::cout << "Resuming game..." << std::endl;
-            ZooState::PauseGame(false);
+            ZTUI::main::unpauseGame();
         }
         else if (tokens[0] == "num-animals")
         {
