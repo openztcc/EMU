@@ -31,15 +31,18 @@ ZTMapView* ZTUI::general::getMapView(void) {
     return ztmapview;
 }
 
-DWORD* ZTUI::general::getSelectedEntity(void) {
-    ZTMapView *pZTMapView = (ZTUI::general::getMapView());
-    unsigned char* baseAddr = reinterpret_cast<unsigned char*>(pZTMapView);    
-    DWORD* addressAtOffset = reinterpret_cast<DWORD*>(baseAddr + (1084 * sizeof(DWORD)));
-    if (pZTMapView == 0) {
-        return 0;
-    } else {
-        return addressAtOffset;
-    }
+void* ZTUI::general::getSelectedEntity(void) {
+    // ZTMapView *pZTMapView = (ZTUI::general::getMapView());
+    // unsigned char* baseAddr = reinterpret_cast<unsigned char*>(pZTMapView);    
+    // // DWORD* addressAtOffset = reinterpret_cast<DWORD*>(baseAddr + (1084 * sizeof(DWORD)));
+    // if (pZTMapView == 0) {
+    //     return 0;
+    // } else {
+    //     return addressAtOffset;
+    // }
+
+    _getSelectedEntity _oggetSelectedEntity = (_getSelectedEntity)0x00410f84;
+    return _oggetSelectedEntity();
 }
 
 void ZTUI::main::setMoneyText() {

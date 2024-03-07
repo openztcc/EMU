@@ -9,7 +9,7 @@ typedef void (*_unpauseGame)(void); // define original unpauseGame function
 typedef void (*_pauseGame)(void); // define original pauseGame function
 typedef unsigned int (__cdecl *_loadFile)(char **filename); // define original loadFile function
 // typedef ZTMapView (*_getMapView)(void); // define original getMapView function
-// typedef void* (*_getSelectedEntity)(void); // define original getSelectedEntity function
+typedef void* (*_getSelectedEntity)(void); // define original getSelectedEntity function
 
 namespace ZTUI {
     class gameopts {
@@ -21,7 +21,7 @@ namespace ZTUI {
     class general {
         public:
         static ZTMapView* getMapView();
-        static DWORD* getSelectedEntity();
+        static void* getSelectedEntity();
     };
 
     class main {

@@ -424,9 +424,9 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
                 std::cout << "Err: Command <" << tokens[0] << "> requires a boolean." << std::endl;
             }
         }
-        else if (tokens[0] == "getselentity") {
+        else if (tokens[0] == "getent") {
             // return selected entity
-            std::cout << "The selected entity is: " << ZTUI::general::getSelectedEntity() << std::endl;
+            std::cout << "The selected entity is: " << std::hex << reinterpret_cast<DWORD>(ZTUI::general::getSelectedEntity()) << std::endl;
         }
         else if (tokens[0] == "setmapzoom") {
             if (tokens.size() < 2)
@@ -447,11 +447,6 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             std::cout << ZTGameMgr::shared_instance().num_species << std::endl;
             std::cout << ZTGameMgr::shared_instance().guest_count << std::endl;
             std::cout << ZTGameMgr::shared_instance().animal_purchase_costs[0] << std::endl;
-        }
-        else if (tokens[0] == "playmenumusic") {
-
-                ZTGameMgr::shared_instance().startMenuMusic();
-                std::cout << "Menu music played." << std::endl;
         }
         else
         {

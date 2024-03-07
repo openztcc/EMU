@@ -22,6 +22,8 @@
 #include "ZTGameMgr.h"
 #include "BFUIMgr.h"
 #include "ZTUI.h"
+#include "BFMap.h"	
+#include "ZTWorldMgr.h"
 
 //------ Flags for console
 bool IsConsoleRunning = false;
@@ -38,12 +40,8 @@ DWORD WINAPI ZooConsole(LPVOID lpParameter);
 DWORD updateAddress = 0x41a16b; // 0x00401644; // address of update function in game
 typedef void (__thiscall *_origUpdate)(void* thisptr); // define original update function
 
-DWORD BFUIMgrSetControlForeColorAddress = 0x0040ee08; // address of BFUIMgrSetControlForeColor function in the game
-DWORD BFInternatSetMoneyTextAddress = 0x0040ed88; // address of BFInternatSetMoneyText function in the game
 
-
-
-DWORD exitBuildingAddress = 0x4a75bb; // address of exit building function in the game
+// DWORD exitBuildingAddress = 0x4a75bb; // address of exit building function in the game
 // typedef void* (__thiscall *_origexitBuildingAddress)(void* thisptr, int *param_1); // define original update function
 
 //------ Namespace and class aliases
@@ -58,7 +56,6 @@ std::vector<std::string> tokens; // contains tokens from console input
 EmuConsole console(tokens); // console object
 
 
-
 //------ ZooModels object
 extern ZooModels* zoo_models;
 ZooModels* zoo_models = new ZooModels();
@@ -67,12 +64,6 @@ DWORD setAnimalRatingAddress = 0x0041D08B;
 DWORD setZooRatingAddress = 0x0041D22F;
 DWORD setGuestRatingAddress = 0x0041D15D;
 
-//------ Function definitions
-
-// void __fastcall addCash_Detour(void* ptr, float amount) {
-//     // detour function for adding cash to the game
-//     ZTGameMgr::shared_instance().addCash(amount);
-// }
 
 void __fastcall RunEmu(void* thisptr) { 
 
@@ -80,7 +71,13 @@ void __fastcall RunEmu(void* thisptr) {
 
 	if (EmuBase::DoubleKey(0x11, 0x54) == true) {
 		// BFUIMgr::shared_instance().getElement(0x3f8);
-		BFUIMgr::clickSave();
+		// BFGameApp::incSimSpeed();
+		DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x80));
+    	DWORD* end = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x84));
+		int ids[] = {9313, 9314, NULL};
+
+		std::vector<DWORD*> entities = ZTWorldMgr::getAllEntitiesOfType(begin, end, ids);
+		ZTWorldMgr::makeInvisible(entities);
 
 		// std::ofstream f;
 		// f.open("getelement.log", std::ios_base::app);
@@ -137,24 +134,6 @@ void __fastcall RunEmu(void* thisptr) {
 	// f << "[" << timestamp << "] " << "ogUpdate(thisptr) called!" << std::endl;
 	
 }
-
-// void __cdecl BFInternatSetMoneyText_Detour(int param_1, float param_2, char param_3) {
-//     // detour function for setting money text
-//     // set money text
-// 	// ZTGameMgr::BFInternatSetMoneyText(0x3f8, param_2, '\x01');
-// 	_BFInternatSetMoneyText og_BFInternatSetMoneyText = (_BFInternatSetMoneyText)BFInternatSetMoneyTextAddress;
-// 	og_BFInternatSetMoneyText(param_1, param_2, param_3);
-// }
-
-// void __fastcall BFUIMgrSetControlForeColor_Detour(void* ptr, int param_1, DWORD color) {
-//     // detour function for setting control forecolor
-//     // set control forecolor
-// 	// ZTGameMgr::BFUIMgrSetControlForeColor(ptr, param_1, color);
-
-// 	_BFUIMgrSetControlForeColor og_BFUIMgrSetControlForeColor = (_BFUIMgrSetControlForeColor)BFUIMgrSetControlForeColorAddress;
-// 	og_BFUIMgrSetControlForeColor(ptr, param_1, color);
-// }
-
 
 DWORD WINAPI ZooConsole(LPVOID lpParameter)
 {
@@ -263,14 +242,12 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		DetourAttach((PVOID*)&setAnimalRatingAddress, (PVOID)&SetAnimalRating);
 		DetourAttach((PVOID*)&setZooRatingAddress, (PVOID)&SetZooRating);
 		DetourAttach((PVOID*)&setGuestRatingAddress, (PVOID)&SetGuestRating);
-		//DetourAttach((PVOID*)&addCashAddress, (PVOID)&addCash_Detour);
-		//DetourAttach((PVOID*)&exitBuildingAddress, (PVOID)&exitBuilding);
-		// DetourAttach((PVOID*)&BFUIMgrSetControlForeColorAddress, (PVOID)&BFUIMgrSetControlForeColor_Detour);
-		// DetourAttach((PVOID*)&BFInternatSetMoneyTextAddress, (PVOID)&BFInternatSetMoneyText_Detour);
 
 		DetourTransactionCommit();
 		ZTGameMgr::init();
 		ZTUI::main::init();
+		// EmuBase::callHook(0x00452ea5, (DWORD)&generateMap);
+		// BFMap::init();
 		
 		break;
 	case DLL_PROCESS_DETACH:

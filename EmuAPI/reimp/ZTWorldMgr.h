@@ -2,7 +2,7 @@
 #define ZTWORDLMGR_H
 
 #include "Windows.h"
-
+#include <vector>
 
 class ZTWorldMgr {
     public:
@@ -12,6 +12,9 @@ class ZTWorldMgr {
 
     static DWORD getWorldMgr();
     static DWORD getOffset(DWORD);
+
+    static std::vector<DWORD*> getAllEntitiesOfType(DWORD*, DWORD*, int ids[]);
+    static void makeInvisible(std::vector<DWORD*>);
 };
 
 #endif // ZTWORDLMGR_H

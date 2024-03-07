@@ -51,24 +51,24 @@ void ZTGameMgr::init() {
 
     // EmuBase::callHook(0x0041f284, (DWORD)&ZTGameMgr::subtractCash_Detour); // from ZTResearchBranch::update <--- crashes, not sure why
     // EmuBase::callHook(0x0041f304, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0041f304 <--- crashes, not sure why
-    EmuBase::callHook(0x00469281, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 00469281
-    EmuBase::callHook(0x0046944c, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0046944c
-    EmuBase::callHook(0x004702e3, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 004702e3
-    EmuBase::callHook(0x0047c043, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0047c043
-    EmuBase::callHook(0x004841a3, (DWORD)&ZTGameMgr::subtractCash_Detour); // from financeChecks
-    EmuBase::callHook(0x00484230, (DWORD)&ZTGameMgr::subtractCash_Detour); // from financeChecks
-    EmuBase::callHook(0x00488e9d, (DWORD)&ZTGameMgr::subtractCash_Detour); // from fn at virt_meth_0x4da252:00488e9d
-    EmuBase::callHook(0x0048a021, (DWORD)&ZTGameMgr::subtractCash_Detour); // from virt_meth_0x489fcd
-    EmuBase::callHook(0x0048f76c, (DWORD)&ZTGameMgr::subtractCash_Detour); // from virt_meth_0x48f624
-    EmuBase::callHook(0x0049befe, (DWORD)&ZTGameMgr::subtractCash_Detour); // from meth_0x49bec7
-    EmuBase::callHook(0x004a099a, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
-    EmuBase::callHook(0x004d8eda, (DWORD)&ZTGameMgr::subtractCash_Detour); // from placeEntityOnMap
-    EmuBase::callHook(0x004deb1b, (DWORD)&ZTGameMgr::subtractCash_Detour); // from FUN_005b6710
-    EmuBase::callHook(0x004efd66, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
-    EmuBase::callHook(0x005ce004, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
-    EmuBase::callHook(0x005ce042, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
-    EmuBase::callHook(0x005ce068, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
-    EmuBase::callHook(0x00611666, (DWORD)&ZTGameMgr::subtractCash_Detour); // from FUN_006115f2
+    // // EmuBase::callHook(0x00469281, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 00469281
+    // // EmuBase::callHook(0x0046944c, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0046944c
+    // // EmuBase::callHook(0x004702e3, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 004702e3
+    // // EmuBase::callHook(0x0047c043, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0047c043
+    // // EmuBase::callHook(0x004841a3, (DWORD)&ZTGameMgr::subtractCash_Detour); // from financeChecks
+    // // EmuBase::callHook(0x00484230, (DWORD)&ZTGameMgr::subtractCash_Detour); // from financeChecks
+    // // EmuBase::callHook(0x00488e9d, (DWORD)&ZTGameMgr::subtractCash_Detour); // from fn at virt_meth_0x4da252:00488e9d
+    // // EmuBase::callHook(0x0048a021, (DWORD)&ZTGameMgr::subtractCash_Detour); // from virt_meth_0x489fcd
+    // // EmuBase::callHook(0x0048f76c, (DWORD)&ZTGameMgr::subtractCash_Detour); // from virt_meth_0x48f624
+    // // EmuBase::callHook(0x0049befe, (DWORD)&ZTGameMgr::subtractCash_Detour); // from meth_0x49bec7
+    // // EmuBase::callHook(0x004a099a, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    // // EmuBase::callHook(0x004d8eda, (DWORD)&ZTGameMgr::subtractCash_Detour); // from placeEntityOnMap
+    // // EmuBase::callHook(0x004deb1b, (DWORD)&ZTGameMgr::subtractCash_Detour); // from FUN_005b6710
+    // // EmuBase::callHook(0x004efd66, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    // // EmuBase::callHook(0x005ce004, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    // // EmuBase::callHook(0x005ce042, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    // // EmuBase::callHook(0x005ce068, (DWORD)&ZTGameMgr::subtractCash_Detour); // from removeEntityFromMap
+    // // EmuBase::callHook(0x00611666, (DWORD)&ZTGameMgr::subtractCash_Detour); // from FUN_006115f2
 
 
 }

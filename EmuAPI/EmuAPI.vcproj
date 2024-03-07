@@ -297,11 +297,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\reimp\BFGameApp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\BFGameApp.h"
+				>
+			</File>
+			<File
 				RelativePath=".\reimp\bfinternat.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\reimp\bfinternat.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\BFMap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\BFMap.h"
 				>
 			</File>
 			<File
