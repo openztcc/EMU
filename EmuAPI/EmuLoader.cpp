@@ -24,6 +24,7 @@
 #include "ZTUI.h"
 #include "BFMap.h"	
 #include "ZTWorldMgr.h"
+#include "ZTMapView.h"
 
 //------ Flags for console
 bool IsConsoleRunning = false;
@@ -35,6 +36,7 @@ bool ctrlMPressed = false;
 
 // ------ Function prototypes
 DWORD WINAPI ZooConsole(LPVOID lpParameter);
+BOOL InitializeHook();
 
 //------ Function pointers 
 DWORD updateAddress = 0x41a16b; // 0x00401644; // address of update function in game
@@ -48,7 +50,7 @@ typedef void (__thiscall *_origUpdate)(void* thisptr); // define original update
 #define fs std::filesystem
 
 //------ Global variables
-HHOOK hHook = NULL;
+HHOOK hMsgHook = NULL;
 int consoleW = 400; // console window width
 int consoleH = 200; // console window height
 EmuScriptMgr sm; // script manager object
@@ -63,11 +65,18 @@ ZooModels* zoo_models = new ZooModels();
 DWORD setAnimalRatingAddress = 0x0041D08B;
 DWORD setZooRatingAddress = 0x0041D22F;
 DWORD setGuestRatingAddress = 0x0041D15D;
+bool hasHooked = false;
 
 
 void __fastcall RunEmu(void* thisptr) { 
 
 	// main loop
+
+	if (!hasHooked) {
+		InitializeHook(); // initialize mouse hook
+
+		hasHooked = true;
+	}
 
 	if (EmuBase::DoubleKey(0x11, 0x54) == true) {
 		// BFUIMgr::shared_instance().getElement(0x3f8);
@@ -209,12 +218,38 @@ void __cdecl SetAnimalRating(int rating) {
 // 	return ogexitBuilding(thisptr, param_1);
 // }
 
+LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
+    if (nCode == HC_ACTION) {
+		MSLLHOOKSTRUCT* pMouseStruct = (MSLLHOOKSTRUCT*)lParam;
+		if (wParam == WM_MOUSEWHEEL) {
+			int wheelDelta = GET_WHEEL_DELTA_WPARAM(pMouseStruct->mouseData);
+			int* currentZoom = (int*)ZTWorldMgr::getOffset(0x14);
+			if (wheelDelta > 0 && *currentZoom < 2) {
+				// f << "Mouse wheel up!" << std::endl;
+				ZTMapView::clickZoomIn();
+			} else if (wheelDelta < 0 && *currentZoom > -2) {
+				// f << "Mouse wheel down!" << std::endl;
+				ZTMapView::clickZoomOut();
+			}
+    }
+    return CallNextHookEx(NULL, nCode, wParam, lParam);
+}
+}
+
+BOOL InitializeHook()
+{
+    // call SetWindowsHookEx here
+	HHOOK hHook = SetWindowsHookEx(WH_MOUSE_LL, LowLevelMouseProc, GetModuleHandle(NULL), 0);
+    if (hHook == NULL) {
+        // handle error
+        return false;
+    }
+    return true;
+}
 
 // ------ DllMain
 
-BOOL APIENTRY DllMain(HMODULE hModule,
-	DWORD ul_reason_for_call,
-	LPVOID lpReserved) {
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
 
 
 	// Get the thread ID of the current thread
@@ -224,11 +259,6 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	// dll attachment status
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
-		{
-		// f << "[" << timestamp << "] " << "DLL attached!\n";
-		// HANDLE thread = CreateThread(NULL, 0, &RunEmu, NULL, 0, NULL);
-		 // CloseHandle(thread);
-		}
 		//------ Find/load script file directories with script manager
 		sm.findScripts();
 		sm.storeScripts();
@@ -247,6 +277,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		DetourTransactionCommit();
 		ZTGameMgr::init();
 		ZTUI::main::init();
+		ZTMapView::init();
 		// EmuBase::callHook(0x00452ea5, (DWORD)&generateMap);
 		// BFMap::init();
 		

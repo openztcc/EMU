@@ -438,10 +438,6 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             ZTMapView::zoomMap(::atoi(tokens[1].c_str()));
             std::cout << "Map zoom level set to: " << tokens[1] << std::endl;
         }
-        else if (tokens[0] == "clickzoomout") {
-            ZTMapView::clickZoomOut();
-            std::cout << "Clicked zoom out." << std::endl;
-        }
         else if (tokens[0] == "ztgr") {
             std::cout << ZTGameMgr::shared_instance().zoo_budget << std::endl;
             std::cout << ZTGameMgr::shared_instance().num_animals << std::endl;
