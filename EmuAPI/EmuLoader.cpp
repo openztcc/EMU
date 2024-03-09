@@ -223,13 +223,25 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 		MSLLHOOKSTRUCT* pMouseStruct = (MSLLHOOKSTRUCT*)lParam;
 		if (wParam == WM_MOUSEWHEEL) {
 			int wheelDelta = GET_WHEEL_DELTA_WPARAM(pMouseStruct->mouseData);
+			bool isCtrlPressed = GetAsyncKeyState(VK_CONTROL) & 0x8000;
 			int* currentZoom = (int*)ZTWorldMgr::getOffset(0x14);
-			if (wheelDelta > 0 && *currentZoom < 2) {
+			if (isCtrlPressed) {
+				if (isCtrlPressed && wheelDelta > 0) {
 				// f << "Mouse wheel up!" << std::endl;
-				ZTMapView::clickZoomIn();
-			} else if (wheelDelta < 0 && *currentZoom > -2) {
-				// f << "Mouse wheel down!" << std::endl;
-				ZTMapView::clickZoomOut();
+				ZTMapView::rotateCW();
+				} else if (isCtrlPressed && wheelDelta < 0) {
+					// f << "Mouse wheel down!" << std::endl;
+					ZTMapView::rotateCCW();
+				} 
+				
+			} else {
+				if (wheelDelta > 0 && *currentZoom < 2) {
+					// f << "Mouse wheel up!" << std::endl;
+					ZTMapView::clickZoomIn();
+				} else if (wheelDelta < 0 && *currentZoom > -2) {
+					// f << "Mouse wheel down!" << std::endl;
+					ZTMapView::clickZoomOut();
+				}
 			}
     }
     return CallNextHookEx(NULL, nCode, wParam, lParam);

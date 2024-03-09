@@ -64,3 +64,13 @@ void ZTMapView::clickZoomIn() {
     _clickZoomOut _ogclickZoomIn = (_clickZoomOut)0x004b081b;
     _ogclickZoomIn();
 }
+
+void ZTMapView::rotateCW() {
+    _rotateCW _ogrotateCW = (_rotateCW)0x004b071a;
+    _ogrotateCW();
+}
+
+void ZTMapView::rotateCCW() {
+    _rotateCCW _ogrotateCCW = (_rotateCCW)0x00416cb7;
+    _ogrotateCCW();
+}

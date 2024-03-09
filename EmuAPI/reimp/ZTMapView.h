@@ -7,6 +7,8 @@
 
 typedef void (__thiscall *_zoomMap)(void*, int); // define original zoomMap function
 typedef void (__cdecl *_clickZoomOut)(); // define original clickZoomOut function
+typedef void (__thiscall *_rotateCW)(); // define original rotateCW function
+typedef void (__thiscall *_rotateCCW)(); // define original rotateCCW function
 
 class ZTMapView {
     public:
@@ -20,6 +22,8 @@ class ZTMapView {
     static void zoomMap(int);
     static void clickZoomOut();
     static void clickZoomIn();
+    static void rotateCW();
+    static void rotateCCW();
     void static init();
 };
 
