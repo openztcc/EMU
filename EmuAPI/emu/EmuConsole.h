@@ -24,6 +24,7 @@ public:
 	~EmuConsole();
 	void tokenize(bool&);
 	static HWND createConsole();
+	static DWORD WINAPI ZooConsole(LPVOID, bool&, bool&, bool&); 
 private:
 	std::vector<std::string>& tokens;
 	static void EnableVirtualTerminalProcessing();
