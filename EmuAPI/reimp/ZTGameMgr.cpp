@@ -25,9 +25,9 @@ void ZTGameMgr::init() {
     DetourUpdateThread(GetCurrentThread());
     DetourAttach((PVOID*)&addCashAddress, (PVOID)&ZTGameMgr::addCash_Detour);
         //------ Detour update function to run emu and sync with main game thread
-    DetourAttach((PVOID*)&setAnimalRatingAddress, (PVOID)&SetAnimalRating);
-    DetourAttach((PVOID*)&setZooRatingAddress, (PVOID)&SetZooRating);
-    DetourAttach((PVOID*)&setGuestRatingAddress, (PVOID)&SetGuestRating);
+    // DetourAttach((PVOID*)&setAnimalRatingAddress, (PVOID)&SetAnimalRating);
+    // DetourAttach((PVOID*)&setZooRatingAddress, (PVOID)&SetZooRating);
+    // DetourAttach((PVOID*)&setGuestRatingAddress, (PVOID)&SetGuestRating);
     DetourTransactionCommit();
     // DWORD _ztGameMgr = *(DWORD*)((LPVOID)0x00638048);
     // ZTGameMgr::shared_instance() = *(ZTGameMgr*)(_ztGameMgr);
@@ -155,26 +155,26 @@ typedef void (__cdecl *_setZooRating)(int); // define original setZooRating func
 typedef void (__cdecl *_setGuestRating)(int); // define original setGuestRating function
 
 
-void __cdecl SetGuestRating(int rating) {
-	_setGuestRating ogSetGuestRating = (_setGuestRating)0x0041D15D;
-	if (zoo_models->_emuGuestRatingSet == true) {
-		rating = zoo_models->_guestRating;
-	}
-	ogSetGuestRating(rating);
-}
+// void __cdecl SetGuestRating(int rating) {
+// 	_setGuestRating ogSetGuestRating = (_setGuestRating)0x0041D15D;
+// 	if (zoo_models->_emuGuestRatingSet == true) {
+// 		rating = zoo_models->_guestRating;
+// 	}
+// 	ogSetGuestRating(rating);
+// }
 
-void __cdecl SetZooRating(int rating) {
-	_setZooRating ogSetZooRating = (_setZooRating)0x0041D22F;
-	if (zoo_models->_emuZooRatingSet == true) {
-		rating = zoo_models->_zooRating;
-	}
-	ogSetZooRating(rating);
-}
+// void __cdecl SetZooRating(int rating) {
+// 	_setZooRating ogSetZooRating = (_setZooRating)0x0041D22F;
+// 	if (zoo_models->_emuZooRatingSet == true) {
+// 		rating = zoo_models->_zooRating;
+// 	}
+// 	ogSetZooRating(rating);
+// }
 
-void __cdecl SetAnimalRating(int rating) {
-	_setAnimalRating ogSetAnimalRating = (_setAnimalRating)0x0041D08B;
-	if (zoo_models->_emuAnimalRatingSet == true) {
-    	rating = zoo_models->_animalRating;
-	}
-	ogSetAnimalRating(rating);
-}
+// void __cdecl SetAnimalRating(int rating) {
+// 	_setAnimalRating ogSetAnimalRating = (_setAnimalRating)0x0041D08B;
+// 	if (zoo_models->_emuAnimalRatingSet == true) {
+//     	rating = zoo_models->_animalRating;
+// 	}
+// 	ogSetAnimalRating(rating);
+// }

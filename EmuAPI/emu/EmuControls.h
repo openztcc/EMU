@@ -10,7 +10,7 @@
 class EmuControls
 {
     public:
-    static void procControls(bool&, bool&);
+    static void procControls();
     static LRESULT CALLBACK LowLevelMouseProc(int, WPARAM, LPARAM);
     static bool InitializeHook();
 };

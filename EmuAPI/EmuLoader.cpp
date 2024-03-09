@@ -8,42 +8,29 @@
 #include <Windows.h>
 #include <sstream>
 #include <string>
-#include "EmuConsole.h"
-#include "EmuBase.h"
 #include <iomanip>
 #include <mmsystem.h>
 #include <winnt.h>
 #include <cstdio>
-#include "ZooState.h"
 #include "RegZooState.h"
-#include "EmuScriptMgr.h"
-#include <detours.h>
 #include "ZooModels.h"
 #include "ZTGameMgr.h"
 #include "BFUIMgr.h"
 #include "ZTUI.h"
 #include "BFMap.h"	
 #include "ZTWorldMgr.h"
-#include "ZTMapView.h"
-
-//------ Flags for keypresses
-bool ctrlMPressed = false;
+#include "EmuMain.h"
 
 //------ Global variables
 int consoleW = 400; // console window width
 int consoleH = 200; // console window height
-EmuScriptMgr sm; // script manager object
 
 //------ ZooModels object
 extern ZooModels* zoo_models;
-ZooModels* zoo_models = new ZooModels();
 
-bool hasHooked = false;
 // ------ DllMain
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
-
-
 	// Get the thread ID of the current thread
 	// DWORD mainThreadId = GetCurrentThreadId();
 	// f << std::endl << std::endl << "[" << timestamp << "] " << "\nMain thread ID: " << mainThreadId << "\nCurrent thread ID: " << std::setfill('0') << std::setw(8) << std::hex << B::base << std::endl;
@@ -52,9 +39,9 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
 		//------ Find/load script file directories with script manager
-		sm.findScripts();
-		sm.storeScripts();
-
+		EmuMain::shared_instance().sm.findScripts();
+		EmuMain::shared_instance().sm.storeScripts();
+		EmuMain::init();
 		ZTGameMgr::init();
 		ZTUI::main::init();
 		ZTMapView::init();

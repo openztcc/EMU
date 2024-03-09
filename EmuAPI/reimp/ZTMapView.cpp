@@ -37,7 +37,7 @@ void* ZTMapView::getMapView() {
     return (void*)0x00638068;
 }
 
-// // doesn't do anything yet
+// // // doesn't do anything yet
 // void ZTMapView::clickZoomOut() {
 //     if (ZTMapView::getMapView() != 0 && ZTWorldMgr::getWorldMgr() != 0) {
 //         int* currentZoom = (int*)ZTWorldMgr::getOffset(0x14);

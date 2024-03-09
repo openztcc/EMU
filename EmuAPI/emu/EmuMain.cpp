@@ -1,8 +1,8 @@
 #include "EmuMain.h"
-#include "EmuConsole.h"
 #include "detours.h"
+#include "EmuControls.h"
 
-#define instance EmuMain::shared_instance()
+// #define instance 
 
 //------ Function pointers 
 DWORD updateAddress = 0x41a16b; // 0x00401644; // address of update function in game
@@ -11,10 +11,13 @@ typedef void (__thiscall *_origUpdate)(void* thisptr); // define original update
 
 EmuMain::EmuMain()
 {
-	IsConsoleRunning = false;
-	CommandIsProcessing = false;
-	HasConsoleOpenedOnce = false;
-	console = new EmuConsole(tokens);
+	this->IsConsoleRunning = false;
+	this->CommandIsProcessing = false;
+	this->HasConsoleOpenedOnce = false;
+	this->ctrlMPressed = false;
+	this->hasHooked = false;
+	this->zoo_models = new ZooModels();
+	this->console = new EmuConsole(tokens);
 }
 
 void EmuMain::init()
@@ -27,39 +30,41 @@ void EmuMain::init()
 
 DWORD WINAPI EmuMain::ZooConsole()
 {
-	instance.HasConsoleOpenedOnce = true;
+	EmuMain::shared_instance().HasConsoleOpenedOnce = true;
 
 	HWND consoleWindow = EmuConsole::createConsole();
 	
-	while (instance.IsConsoleRunning)
+	while (EmuMain::shared_instance().IsConsoleRunning)
 	{
 		// ------ Tokenize the input
-		if (!instance.CommandIsProcessing)
+		if (!EmuMain::shared_instance().CommandIsProcessing)
 		{
 			std::cout << ">> ";
-			instance.CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
-			instance.console->tokenize(instance.CommandIsProcessing);
+			EmuMain::shared_instance().CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
+			EmuMain::shared_instance().console->tokenize(EmuMain::shared_instance().CommandIsProcessing);
 		}
 		Sleep(10);
 	}
 
 	// ------ Close the console window
-	instance.HasConsoleOpenedOnce = false;
-	instance.IsConsoleRunning = false;
+	EmuMain::shared_instance().HasConsoleOpenedOnce = false;
+	EmuMain::shared_instance().IsConsoleRunning = false;
 	FreeConsole();
 	Sleep(100);
 	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
 	return 1;
 }
 
-void __fastcall RunEmu(void* thisptr) { 
+void __fastcall EmuMain::RunEmu(void* thisptr) { 
 
 	// main loop
 
-	if (!hasHooked) {
-		InitializeHook(); // initialize mouse hook
+	EmuControls::procControls(); // process controls
 
-		hasHooked = true;
+	if (!EmuMain::shared_instance().hasHooked) {
+		EmuControls::InitializeHook(); // initialize mouse hook
+
+		EmuMain::shared_instance().hasHooked = true;
 	}
 
 	// only run scripts while zoo is loaded and not in main menu
@@ -67,16 +72,16 @@ void __fastcall RunEmu(void* thisptr) {
 		// f << "[" << timestamp << "] " << "Is no longer in main menu!" << std::endl;
 		if (ZooState::IsZooLoaded() == true) {
 			// f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
-			*zoo_models = sm.executeScripts();
+			*(EmuMain::shared_instance().zoo_models) = EmuMain::shared_instance().sm.executeScripts();
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 		}
 	}
 
 	//---- Process the input tokens while console is running
-	if (!instance.tokens.empty() && EmuMain::shared_instance().IsConsoleRunning == true)
+	if (!EmuMain::shared_instance().tokens.empty() && EmuMain::shared_instance().IsConsoleRunning == true)
 	{
-		instance.console->processInput(EmuMain::shared_instance().IsConsoleRunning);
-		instance.tokens.clear();
+		EmuMain::shared_instance().console->processInput(EmuMain::shared_instance().IsConsoleRunning);
+		EmuMain::shared_instance().tokens.clear();
 		EmuMain::shared_instance().CommandIsProcessing = false; // reset flag to allow another command to be tokenized
 	}
 

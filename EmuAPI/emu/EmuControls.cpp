@@ -1,7 +1,9 @@
 #include "EmuControls.h"
+#include "EmuMain.h"
 
+#define Main EmuMain::shared_instance()
 
-void EmuControls::procControls(bool &IsConsoleRunning, bool &HasConsoleOpenedOnce, bool &ctrlMPressed)
+void EmuControls::procControls()
 {
     	if (EmuBase::DoubleKey(0x11, 0x54) == true) {
 		// BFUIMgr::shared_instance().getElement(0x3f8);
@@ -22,21 +24,21 @@ void EmuControls::procControls(bool &IsConsoleRunning, bool &HasConsoleOpenedOnc
 	
 
 	//---- CTRL + J
-	if (EmuBase::DoubleKey(0x11, 0x4A) == true && IsConsoleRunning == false && HasConsoleOpenedOnce == false) {
+	if (EmuBase::DoubleKey(0x11, 0x4A) == true && Main.IsConsoleRunning == false && Main.HasConsoleOpenedOnce == false) {
 		// f << "[" << timestamp << "] " << "Opening console..." << std::endl;
-		IsConsoleRunning = true;
-		HANDLE thread = CreateThread(NULL, 0, &EmuMain::ZooConsole(), NULL, 0, NULL);
+		Main.IsConsoleRunning = true;
+		HANDLE thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&EmuMain::ZooConsole, NULL, 0, NULL);
 		// f << "[" << timestamp << "] " << "Console opened!" << std::endl;
 		CloseHandle(thread);
 	} 
 	
 	//---- CTRL + M
-	if (EmuBase::DoubleKey(0x11, 0x4D) == true && !ctrlMPressed) {
-		ctrlMPressed = true; // Set the flag
+	if (EmuBase::DoubleKey(0x11, 0x4D) == true && !Main.ctrlMPressed) {
+		Main.ctrlMPressed = true; // Set the flag
 		float mo_money = 1000000.00f;
 		ZooState::AddToZooBudget(mo_money);
 	} else if (EmuBase::DoubleKey(0x11, 0x4D) == false) {
-		ctrlMPressed = false; // Reset the flag when the key is released
+		Main.ctrlMPressed = false; // Reset the flag when the key is released
 	}
 
 }

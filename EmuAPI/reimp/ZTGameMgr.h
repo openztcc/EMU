@@ -55,7 +55,6 @@ public:
 	// virtual void update(int) {};
 	// virtual void updateSim(unsigned int) {};
 
-
     ZTGameMgr();
     ~ZTGameMgr();
     void addCash(float);
