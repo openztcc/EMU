@@ -16,7 +16,7 @@ void BFMap::init() {
 }
 
 // not working
-int __fastcall BFMap::generateMap(void* a2, int a3, int a4) {
+void BFMap::generateMap(void* a2, int a3, int a4, char a5) {
     ogGenerateMap original = (ogGenerateMap)originalGenerateMapAdd;
-    return original(a2, a3, a4);
+    return original(a2, a3, a4, a5);
 }

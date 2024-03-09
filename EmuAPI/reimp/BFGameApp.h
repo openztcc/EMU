@@ -3,7 +3,7 @@
 
 #include "EmuBase.h"
 
-typedef void (__thiscall *_incSimSpeed)(void* thisptr);
+typedef void (__thiscall *_incSimSpeed)(void*);
 
 class BFGameApp {
     public:

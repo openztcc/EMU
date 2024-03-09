@@ -2,6 +2,8 @@
 #include "ZTUI.h"
 #include "BFUIMgr.h"
 
+typedef void (__thiscall *_zoomMapWidgetCall)(void*);
+
 // ZTMapView::ZTMapView() {
 //     // constructor
 // }
@@ -12,11 +14,8 @@
 
 void ZTMapView::zoomMap(int param_2) {
     // zoom map
-    // DWORD *pZTMapView = reinterpret_cast<DWORD*>(0x00638068);
-    DWORD ptr_ZTMapView = *((DWORD*)((LPVOID)0x00638068));
-    // 004b072d
-    _zoomMap _ogzoomMap = (_zoomMap)0x004b072d;
-    _ogzoomMap((LPVOID)ptr_ZTMapView, param_2);
+    _zoomMap _ogzoomMap = (_zoomMap)0x004c85c0;
+    _ogzoomMap(getMapView(), param_2);
 }
 
 DWORD getOffset(DWORD offset)
@@ -25,22 +24,25 @@ DWORD getOffset(DWORD offset)
 }
 
 // Live version of the ZTMapView state
-DWORD ZTMapView::getMapView() {
-    return *((DWORD*)((LPVOID)0x00638068));
+void* ZTMapView::getMapView() {
+    return (void*)0x00638068;
 }
 
+// doesn't do anything yet
 void ZTMapView::clickZoomOut() {
     int* currentZoom = (int*)ZTWorldMgr::getOffset(0x14);
-    BFUIMgr* uiElem;
-
-    if (getMapView() != 0 && ZTWorldMgr::getWorldMgr() != 0) {
-        zoomMap(*currentZoom - 2);
+    void* uiElem;
+    uiElem = BFUIMgr::getElement(1023);
+    _zoomMapWidgetCall func1 = (_zoomMapWidgetCall)0x0041914B;
+    func1(uiElem);
+    if (ZTMapView::getMapView() != 0 && ZTWorldMgr::getWorldMgr() != 0) {
+        int zoom = *currentZoom - 2;
+        ZTMapView::zoomMap(zoom);
         uiElem = BFUIMgr::getElement(1007);
         if (*currentZoom == -2) {
             uiElem = BFUIMgr::getElement(1023);
-            //_timeTicker func = *reinterpret_cast<_timeTicker*>(reinterpret_cast<char*>(uiElem) + 0x6c);
-            _timeTicker _ogtimeTicker = (_timeTicker)(((DWORD)((LPVOID)uiElem)) + 0x6c);
-            _ogtimeTicker();
+            _zoomMapWidgetCall func2 = (_zoomMapWidgetCall)0x00419191;
+            func2(uiElem);
         }
     }
 

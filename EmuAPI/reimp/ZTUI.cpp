@@ -22,10 +22,10 @@ unsigned int ZTUI::gameopts::loadFile(char **filestr) {
     return _ogloadFile(filestr);
 }
 
-ZTMapView* ZTUI::general::getMapView(void) {
-    ZTMapView *ztmapview = reinterpret_cast<ZTMapView*>(0x00638068);
+void* ZTUI::general::getMapView(void) {
+    void* ztmapview = (void*)(0x00638068);
     if (ztmapview == 0) {
-        ztmapview = (ZTMapView*)BFUIMgr::getElement(7000);
+        ztmapview = (void*)BFUIMgr::getElement(7000);
     }
 
     return ztmapview;

@@ -16,13 +16,15 @@ BFUIMgr::~BFUIMgr() {
 //     return _getElementAdd(pThis, param_1);
 // }
 
-BFUIMgr* BFUIMgr::getElement(int param_1) {
+void* BFUIMgr::getElement(int param_1) {
     _getElement _oggetElement = (_getElement)0x0040157d;
-    // DWORD ptr_ZTMapView = *((DWORD*)((LPVOID)0x00638de0));
 
-    BFUIMgr *pBFUIMgr = reinterpret_cast<BFUIMgr*>((DWORD)0x00638de0);
-    //BFUIMgr *pBFUIMgr = reinterpret_cast<BFUIMgr*>(0x00638de0);
-    return _oggetElement((LPVOID)pBFUIMgr, param_1);
+    return _oggetElement(BFUIMgr::getUIMgr(), param_1);
+}
+
+int BFUIMgr::confirmDialog(void* pThis, char param_1, int param_2, int param_3, std::string param_4, char param_5, char param_6, int param_7, int param_8) {
+    _confirmDialog _ogconfirmDialog = (_confirmDialog)0x004fff2c;
+    return _ogconfirmDialog(pThis, param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8);
 }
 
 void BFUIMgr::clickSave() {
@@ -34,8 +36,8 @@ void BFUIMgr::clickSave() {
     //}
 }
 
-DWORD BFUIMgr::getUIMgr() {
-    return *((DWORD*)((LPVOID)0x00638de0));
+void* BFUIMgr::getUIMgr() {
+    return (void*)0x00638de0;;
 }
 
 DWORD BFUIMgr::getOffset(DWORD offset) {

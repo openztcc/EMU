@@ -72,13 +72,14 @@ void __fastcall RunEmu(void* thisptr) {
 	if (EmuBase::DoubleKey(0x11, 0x54) == true) {
 		// BFUIMgr::shared_instance().getElement(0x3f8);
 		// BFGameApp::incSimSpeed();
-		DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x80));
-    	DWORD* end = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x84));
-		int ids[] = {9313, 9314, NULL};
+		// DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x80));
+    	// DWORD* end = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x84));
+		// int ids[] = {6101, 6111, NULL};
 
-		std::vector<DWORD*> entities = ZTWorldMgr::getAllEntitiesOfType(begin, end, ids);
-		ZTWorldMgr::makeInvisible(entities);
+		// std::vector<DWORD*> entities = ZTWorldMgr::getAllEntitiesOfType(begin, end, ids);
+		// ZTWorldMgr::makeInvisible(entities);
 
+		BFUIMgr::confirmDialog(BFUIMgr::getUIMgr(), 153, 0, 3, "ui/sharedui/question/question", '\x01', '\0', 0, 0);
 		// std::ofstream f;
 		// f.open("getelement.log", std::ios_base::app);
 		// f << "x: " << x << std::endl;

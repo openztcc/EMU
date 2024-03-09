@@ -10,7 +10,7 @@ class ZTWorldMgr {
     ZTWorldMgr();
     ~ZTWorldMgr();
 
-    static DWORD getWorldMgr();
+    static void* getWorldMgr();
     static DWORD getOffset(DWORD);
 
     static std::vector<DWORD*> getAllEntitiesOfType(DWORD*, DWORD*, int ids[]);

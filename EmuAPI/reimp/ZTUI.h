@@ -20,7 +20,7 @@ namespace ZTUI {
 
     class general {
         public:
-        static ZTMapView* getMapView();
+        static void* getMapView();
         static void* getSelectedEntity();
     };
 

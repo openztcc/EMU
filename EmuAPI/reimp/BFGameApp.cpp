@@ -16,9 +16,8 @@ DWORD BFGameApp::instance(DWORD offset) {
 void BFGameApp::incSimSpeed() {
     // detour function for increasing simulation speed
     // ZTGameMgr::shared_instance().incSimSpeed();
-
-    DWORD _thisptr = ((DWORD)((LPVOID)0x00638148));
-    void* thisptr = (void*)(_thisptr);
+    // 0063088c
+    void* _thisptr = (void*)0x00638148;
 
     // char *cVar1 = (char*)(instance(0x442));
     // float *fVar2 = (float*)(instance(0x4e0));
@@ -28,5 +27,5 @@ void BFGameApp::incSimSpeed() {
     // }
 
     _incSimSpeed _ogincSimSpeed = (_incSimSpeed)0x00620745;
-    _ogincSimSpeed(thisptr);
+    _ogincSimSpeed(_thisptr);
 }
