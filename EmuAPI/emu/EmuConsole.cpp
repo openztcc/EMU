@@ -2,6 +2,7 @@
 #include <iomanip>
 #include "ZTGameMgr.h"
 #include "BFGameApp.h"
+#include "EmuControls.h"
 
 EmuConsole::EmuConsole(std::vector<std::string>& tokes) : tokens(tokes)
 {

@@ -1,9 +1,5 @@
 #include "EmuControls.h"
-#include "BFUIMgr.h"
-#include "EmuBase.h"
-#include "ZooState.h"
-#include "EmuConsole.h"
-#include "EmuMain.h"
+
 
 void EmuControls::procControls(bool &IsConsoleRunning, bool &HasConsoleOpenedOnce, bool &ctrlMPressed)
 {
@@ -43,4 +39,45 @@ void EmuControls::procControls(bool &IsConsoleRunning, bool &HasConsoleOpenedOnc
 		ctrlMPressed = false; // Reset the flag when the key is released
 	}
 
+}
+
+LRESULT CALLBACK EmuControls::LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
+    if (nCode == HC_ACTION) {
+		MSLLHOOKSTRUCT* pMouseStruct = (MSLLHOOKSTRUCT*)lParam;
+		if (wParam == WM_MOUSEWHEEL) {
+			int wheelDelta = GET_WHEEL_DELTA_WPARAM(pMouseStruct->mouseData);
+			bool isCtrlPressed = GetAsyncKeyState(VK_CONTROL) & 0x8000;
+			int* currentZoom = (int*)ZTWorldMgr::getOffset(0x14);
+			if (isCtrlPressed) {
+				if (isCtrlPressed && wheelDelta > 0) {
+				// f << "Mouse wheel up!" << std::endl;
+				ZTMapView::rotateCW();
+				} else if (isCtrlPressed && wheelDelta < 0) {
+					// f << "Mouse wheel down!" << std::endl;
+					ZTMapView::rotateCCW();
+				} 
+				
+			} else {
+				if (wheelDelta > 0 && *currentZoom < 2) {
+					// f << "Mouse wheel up!" << std::endl;
+					ZTMapView::clickZoomIn();
+				} else if (wheelDelta < 0 && *currentZoom > -2) {
+					// f << "Mouse wheel down!" << std::endl;
+					ZTMapView::clickZoomOut();
+				}
+			}
+    }
+    return CallNextHookEx(NULL, nCode, wParam, lParam);
+}
+}
+
+bool EmuControls::InitializeHook()
+{
+    // call SetWindowsHookEx here
+	HHOOK hHook = SetWindowsHookEx(WH_MOUSE_LL, EmuControls::LowLevelMouseProc, GetModuleHandle(NULL), 0);
+    if (hHook == NULL) {
+        // handle error
+        return false;
+    }
+    return true;
 }

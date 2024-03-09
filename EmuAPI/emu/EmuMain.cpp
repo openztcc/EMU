@@ -1,29 +1,51 @@
 #include "EmuMain.h"
 #include "EmuConsole.h"
+#include "detours.h"
 
-DWORD WINAPI EmuMain::ZooConsole(LPVOID lpParameter, EmuConsole console, bool &IsConsoleRunning, bool &CommandIsProcessing, bool &HasConsoleOpenedOnce)
+#define instance EmuMain::shared_instance()
+
+//------ Function pointers 
+DWORD updateAddress = 0x41a16b; // 0x00401644; // address of update function in game
+typedef void (__thiscall *_origUpdate)(void* thisptr); // define original update function
+
+
+EmuMain::EmuMain()
 {
-	HasConsoleOpenedOnce = true;
+	IsConsoleRunning = false;
+	CommandIsProcessing = false;
+	HasConsoleOpenedOnce = false;
+	console = new EmuConsole(tokens);
+}
+
+void EmuMain::init()
+{
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	DetourAttach((PVOID*)&updateAddress, (PVOID)&RunEmu);
+	DetourTransactionCommit();
+}
+
+DWORD WINAPI EmuMain::ZooConsole()
+{
+	instance.HasConsoleOpenedOnce = true;
 
 	HWND consoleWindow = EmuConsole::createConsole();
-
-    EmuConsole 
 	
-	while (IsConsoleRunning)
+	while (instance.IsConsoleRunning)
 	{
 		// ------ Tokenize the input
-		if (!CommandIsProcessing)
+		if (!instance.CommandIsProcessing)
 		{
 			std::cout << ">> ";
-			CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
-			console.tokenize(CommandIsProcessing);
+			instance.CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
+			instance.console->tokenize(instance.CommandIsProcessing);
 		}
 		Sleep(10);
 	}
 
 	// ------ Close the console window
-	HasConsoleOpenedOnce = false;
-	IsConsoleRunning = false;
+	instance.HasConsoleOpenedOnce = false;
+	instance.IsConsoleRunning = false;
 	FreeConsole();
 	Sleep(100);
 	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
@@ -51,11 +73,11 @@ void __fastcall RunEmu(void* thisptr) {
 	}
 
 	//---- Process the input tokens while console is running
-	if (!tokens.empty() && IsConsoleRunning == true)
+	if (!instance.tokens.empty() && EmuMain::shared_instance().IsConsoleRunning == true)
 	{
-		console.processInput(IsConsoleRunning);
-		tokens.clear();
-		CommandIsProcessing = false; // reset flag to allow another command to be tokenized
+		instance.console->processInput(EmuMain::shared_instance().IsConsoleRunning);
+		instance.tokens.clear();
+		EmuMain::shared_instance().CommandIsProcessing = false; // reset flag to allow another command to be tokenized
 	}
 
 	//---- return to original update function

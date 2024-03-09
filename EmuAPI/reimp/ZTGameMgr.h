@@ -81,8 +81,6 @@ public:
 		static ZTGameMgr instance;
 		return instance;
 	}
-
-
 }; //Size: 0x10B4 4528
 
 #endif // ZTGAMEMGR_h
