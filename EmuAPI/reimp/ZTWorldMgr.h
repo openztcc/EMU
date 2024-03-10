@@ -13,8 +13,8 @@ class ZTWorldMgr {
     static void* getWorldMgr();
     static DWORD getOffset(DWORD);
 
-    static std::vector<DWORD*> getAllEntitiesOfType(DWORD*, DWORD*, int ids[]);
-    static void makeInvisible(std::vector<DWORD*>);
+    static std::vector<DWORD*> getAllEntitiesOfType(int ids[]);
+    static void makeInvisible(std::vector<DWORD*>, bool);
 };
 
 #endif // ZTWORDLMGR_H

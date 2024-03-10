@@ -373,6 +373,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\reimp\ZTCheats.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTCheats.h"
+				>
+			</File>
+			<File
 				RelativePath=".\reimp\ZTFenceType.h"
 				>
 			</File>
@@ -386,6 +394,14 @@
 			</File>
 			<File
 				RelativePath=".\reimp\ZTGameMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTGuest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\reimp\ZTGuest.h"
 				>
 			</File>
 			<File

@@ -1,6 +1,7 @@
 #include "EmuMain.h"
 #include "detours.h"
 #include "EmuControls.h"
+#include "ZTCheats.h"
 
 // #define instance 
 
@@ -61,11 +62,13 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 
 	EmuControls::procControls(); // process controls
 
-	if (!EmuMain::shared_instance().hasHooked) {
-		EmuControls::InitializeHook(); // initialize mouse hook
+	// if (!EmuMain::shared_instance().hasHooked) {
+	// 	EmuControls::InitializeHook(); // initialize mouse hook
 
-		EmuMain::shared_instance().hasHooked = true;
-	}
+	// 	EmuMain::shared_instance().hasHooked = true;
+	// }
+
+	ZTCheats::InvisibleInvincibleCheat(); // run cheats
 
 	// only run scripts while zoo is loaded and not in main menu
 	if ((int)ZooState::object_ptr(0x0) > 0) {
@@ -81,11 +84,12 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 			}
 			*(EmuMain::shared_instance().zoo_models) = EmuMain::shared_instance().sm.executeScripts("emu_run");
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
-		} else {
-			// f << "[" << timestamp << "] " << "Zoo is not loaded!" << std::endl;
-			EmuMain::shared_instance().hasEmuRunOnce = false;
-		
-		}
+		} 
+	} 
+
+	if (ZooState::IsZooLoaded() == false) {
+		EmuMain::shared_instance().hasEmuRunOnce = false;
+
 	}
 
 	//---- Process the input tokens while console is running

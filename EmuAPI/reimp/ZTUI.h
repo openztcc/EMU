@@ -2,7 +2,6 @@
 #define ZTUI_H
 
 #include "ZTMapView.h"
-#include "BFUIMgr.h"
 
 typedef unsigned int (*_saveGame)(void); // define original saveGame function
 typedef void (*_unpauseGame)(void); // define original unpauseGame function
@@ -26,7 +25,18 @@ namespace ZTUI {
 
     class main {
         public:
-        static void setMoneyText();
+
+        main();
+        struct rgb {
+            unsigned short c;
+            unsigned short r;
+        };
+        rgb color;
+        static main &shared_instance() {
+            static main instance;
+            return instance;
+        }
+        static void setMoneyText(rgb);
         static void init();
         static void unpauseGame(); // hook
         static void pauseGame(); // hook

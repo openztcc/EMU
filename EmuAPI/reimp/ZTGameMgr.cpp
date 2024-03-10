@@ -81,17 +81,17 @@ void ZTGameMgr::init() {
 
 }
 
-void ZTGameMgr::addCash(float amount) {
-    // add cash to the game
-    this->zoo_budget += amount;
-    ZTUI::main::setMoneyText(); // update money text in the UI
-}
+// void ZTGameMgr::addCash(float amount) {
+//     // add cash to the game
+//     this->zoo_budget += amount;
+//     ZTUI::main::setMoneyText(); // update money text in the UI
+// }
 
-void ZTGameMgr::subtractCash(float amount) {
-    // subtract cash from the game
-    this->zoo_budget -= amount;
-    ZTUI::main::setMoneyText(); // update money text in the UI
-}
+// void ZTGameMgr::subtractCash(float amount) {
+//     // subtract cash from the game
+//     this->zoo_budget -= amount;
+//     ZTUI::main::setMoneyText(); // update money text in the UI
+// }
 
 // void ZTGameMgr::startMenuMusic() {
 //     // start the menu music
@@ -110,10 +110,10 @@ _FILETIME* ZTGameMgr::getDate_Detour(void* ptr, _FILETIME* date) {
     return ZTGameMgr::shared_instance().getDate(date);
 }
 
-void ZTGameMgr::subtractCash_Detour(void* ptr, float amount) {
-    // detour function for subtracting cash from the game
-    ZTGameMgr::shared_instance().subtractCash(amount);
-}
+// void ZTGameMgr::subtractCash_Detour(void* ptr, float amount) {
+//     // detour function for subtracting cash from the game
+//     ZTGameMgr::shared_instance().subtractCash(amount);
+// }
 
 void ZTGameMgr::setCash_Detour(int amount) {
     // detour function for setting cash in the game
@@ -132,10 +132,10 @@ void ZTGameMgr::setCash(int amount) {
     _ogsetCash(amount);
 }
 
-void __fastcall ZTGameMgr::addCash_Detour(void* ptr, float amount) {
-    // detour function for adding cash to the game
-    ZTGameMgr::shared_instance().addCash(amount);
-}
+// void __fastcall ZTGameMgr::addCash_Detour(void* ptr, float amount) {
+//     // detour function for adding cash to the game
+//     ZTGameMgr::shared_instance().addCash(amount);
+// }
 
 
 ZTGameMgr::~ZTGameMgr() {

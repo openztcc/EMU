@@ -4,7 +4,7 @@
 #include "BFGameApp.h"
 #include "EmuControls.h"
 #include "ZTMapView.h"
-
+#include "ZTGuest.h"
 
 EmuConsole::EmuConsole(std::vector<std::string>& tokes) : tokens(tokes)
 {
@@ -458,6 +458,10 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         else if (tokens[0] == "incspd") {
             std::cout << "Increasing sim speed..." << std::endl;
             BFGameApp::incSimSpeed();
+        }
+        else if (tokens[0] == "guestname")
+        {
+            std::cout << "The guest name is: " << ZTGuest::getSelectedGuestName() << std::endl;
         }
         else
         {

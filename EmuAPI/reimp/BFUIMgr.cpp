@@ -44,7 +44,7 @@ DWORD BFUIMgr::getOffset(DWORD offset) {
     return (*((DWORD*)((LPVOID)0x00638de0)) + offset);
 }
 
-void BFUIMgr::setControlForeColor(void* ptr, int param_1, DWORD color) {
+void BFUIMgr::setControlForeColor(void* ptr, int param_1, ZTUI::main::rgb color) {
     _setControlForeColor og_setControlForeColor = (_setControlForeColor)0x0040ee08;
 
     og_setControlForeColor(ptr, param_1, color);

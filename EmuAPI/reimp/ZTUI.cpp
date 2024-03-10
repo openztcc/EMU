@@ -5,6 +5,7 @@
 #include <ostream>
 #include "Windows.h"
 #include "detours.h"
+#include "ZooState.h"
 
 unsigned int ZTUI::gameopts::saveGame(void) {
     _saveGame _ogsaveGame = (_saveGame)0x004769ac;
@@ -45,25 +46,29 @@ void* ZTUI::general::getSelectedEntity(void) {
     return _oggetSelectedEntity();
 }
 
-void ZTUI::main::setMoneyText() {
+void ZTUI::main::setMoneyText(rgb color) {
     // set money text show in the UI
-    float money = ZTGameMgr::shared_instance().zoo_budget;
+    float money = ZooState::GetZooBudget();
 
     // void* pBFUIMgr = *(void**)0x00638de0;
     //DWORD pBFUIMgr = *(DWORD*)((LPVOID)0x00638de0);
     //DWORD bfuimgr = *((DWORD*)((LPVOID)0x00638de0));
-    BFUIMgr *pBFUIMgr = reinterpret_cast<BFUIMgr*>((DWORD)0x00638de0);
+    void *pBFUIMgr = reinterpret_cast<void*>(0x00638de0);
     // GXRGB color = {0, 0, 0}; // set color to black
 
     // float money_to_display = (float)((int)money); // round down to nearest integer
-    BFUIMgr::setControlForeColor((LPVOID)pBFUIMgr, 0x3f8, 0x001ac5ff); // set control forecolor
+    BFUIMgr::setControlForeColor(pBFUIMgr, 0x3f8, color); // set control forecolor
     bfinternat::setMoneyText(0x3f8, (int)money, '\x01'); // set money text
 }
 
 void ZTUI::main::init() {
     // initialize the UI
     // setMoneyText();
-
+    DetourTransactionBegin();
+    DetourUpdateThread(GetCurrentThread());
+    DWORD setMoneyTextAdd = 0x0040ee3d;
+    DetourAttach((PVOID*)&setMoneyTextAdd, (PVOID)&ZTUI::main::setMoneyText);
+    DetourTransactionCommit();
     // EmuBase::callHook(0x0040f02e, (DWORD)&ZTUI::main::setMoneyText_Detour); // from addCash
     // EmuBase::callHook(0x0041d38d, (DWORD)&ZTUI::main::setMoneyText_Detour); // from updateSim
     // EmuBase::callHook(0x0041ef7e, (DWORD)&ZTUI::main::setMoneyText_Detour); // from subtractCash
@@ -75,9 +80,15 @@ void ZTUI::main::init() {
     EmuBase::callHook(0x005c1d28, (DWORD)&ZTUI::gameopts::loadFile); // from ZTApp::iniInstance
 }
 
+ZTUI::main::main() {
+    // constructor
+    color.c = 0;
+    color.r = 0;
+}
+
 void ZTUI::main::setMoneyText_Detour() {
     // detour function for setting money text in the UI
-    ZTUI::main::setMoneyText();
+    ZTUI::main::setMoneyText(ZTUI::main::shared_instance().color);
 }
 
 void ZTUI::main::unpauseGame() {

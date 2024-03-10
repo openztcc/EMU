@@ -45,7 +45,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 		// ZTGameMgr::init();
 		ZTUI::main::init();
 		// ZTMapView::init();
-		// EmuBase::callHook(0x00452ea5, (DWORD)&generateMap);
 		// BFMap::init();
 		
 		break;

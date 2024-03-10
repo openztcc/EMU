@@ -10,10 +10,11 @@ DWORD ZTWorldMgr::getOffset(DWORD offset) {
     return (*(DWORD*)0x00638040) + offset;
 }
 
-std::vector<DWORD*> ZTWorldMgr::getAllEntitiesOfType(DWORD* begin, DWORD* end, int ids[]) {
+std::vector<DWORD*> ZTWorldMgr::getAllEntitiesOfType(int ids[]) {
     // store the begin and end pointers of the entity list
 
-
+    DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x80));
+    DWORD* end = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x84));
     std::vector<DWORD*> entities;
 
     // iterate through the entity list
@@ -40,10 +41,10 @@ std::vector<DWORD*> ZTWorldMgr::getAllEntitiesOfType(DWORD* begin, DWORD* end, i
     return entities;
 }
 
-void ZTWorldMgr::makeInvisible(std::vector<DWORD*> entities) {
+void ZTWorldMgr::makeInvisible(std::vector<DWORD*> entities, bool isInvisible) {
     for (size_t i = 0; i < entities.size(); i++) {
         // Correctly calculate the pointer to the visibility flag
         bool* visibilityFlag = reinterpret_cast<bool*>(reinterpret_cast<char*>(entities[i]) + 0x13f);
-        *visibilityFlag = false;
+        *visibilityFlag = isInvisible;
     }
 }

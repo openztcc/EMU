@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "ZTUI.h"
 
-typedef void (__thiscall *_setControlForeColor)(void*, int, DWORD); // define original BFUIMgrSetControlForeColor function
+typedef void (__thiscall *_setControlForeColor)(void*, int, ZTUI::main::rgb); // define original BFUIMgrSetControlForeColor function
 typedef int (__thiscall *_confirmDialog)(void*, char, int, int, std::string, char, char, int, int); // define original BFUIMgrConfirmDialog function 
 
 class BFUIMgr {
@@ -16,7 +16,7 @@ class BFUIMgr {
     static void clickSave();
     static void* getUIMgr();
     static DWORD getOffset(DWORD);
-    static void setControlForeColor(void*, int, DWORD);
+    static void setControlForeColor(void*, int, ZTUI::main::rgb);
     static int confirmDialog(void*, char, int, int, std::string, char, char, int, int);
 
 
