@@ -23,7 +23,7 @@ void ZTGameMgr::init() {
 	DWORD setGuestRatingAddress = 0x0041D15D;
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
-    DetourAttach((PVOID*)&addCashAddress, (PVOID)&ZTGameMgr::addCash_Detour);
+    // DetourAttach((PVOID*)&addCashAddress, (PVOID)&ZTGameMgr::addCash_Detour);
         //------ Detour update function to run emu and sync with main game thread
     // DetourAttach((PVOID*)&setAnimalRatingAddress, (PVOID)&SetAnimalRating);
     // DetourAttach((PVOID*)&setZooRatingAddress, (PVOID)&SetZooRating);
