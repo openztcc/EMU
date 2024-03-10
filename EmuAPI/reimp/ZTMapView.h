@@ -4,7 +4,6 @@
 #include "ZTWorldMgr.h"
 #include "EmuBase.h"
 
-
 typedef void (__thiscall *_zoomMap)(void*, int); // define original zoomMap function
 typedef void (__cdecl *_clickZoomOut)(); // define original clickZoomOut function
 typedef void (__thiscall *_rotateCW)(); // define original rotateCW function

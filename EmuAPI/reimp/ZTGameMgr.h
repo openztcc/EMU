@@ -55,7 +55,6 @@ public:
 	// virtual void update(int) {};
 	// virtual void updateSim(unsigned int) {};
 
-
     ZTGameMgr();
     ~ZTGameMgr();
     void addCash(float);
@@ -81,8 +80,6 @@ public:
 		static ZTGameMgr instance;
 		return instance;
 	}
-
-
 }; //Size: 0x10B4 4528
 
 #endif // ZTGAMEMGR_h

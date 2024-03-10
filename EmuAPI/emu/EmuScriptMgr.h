@@ -21,7 +21,7 @@ public:
     ~EmuScriptMgr();
     void findScripts();
     void storeScripts();
-    ZooModels executeScripts();
+    ZooModels executeScripts(std::string);
     
 private:
     std::vector<std::string> files;

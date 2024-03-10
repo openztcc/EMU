@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\emu\EmuMain.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\emu\EmuScriptMgr.cpp"
 				>
 			</File>
@@ -209,6 +213,18 @@
 				</File>
 				<File
 					RelativePath=".\emu\EmuConsole.h"
+					>
+				</File>
+				<File
+					RelativePath=".\emu\EmuControls.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\emu\EmuControls.h"
+					>
+				</File>
+				<File
+					RelativePath=".\emu\EmuMain.h"
 					>
 				</File>
 				<File

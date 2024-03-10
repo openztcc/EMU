@@ -18,36 +18,44 @@ void ZTGameMgr::init() {
     DWORD addCashAddress = 0x40f018; // address of addCash function in the game
     DWORD getDateAddress = 0x0040e7e0; // address of getDate function in the game
     DWORD getStartMenuMusicAddress = 0x004bded9; // address of startMenuMusic function in the game
+    DWORD setAnimalRatingAddress = 0x0041D08B;
+	DWORD setZooRatingAddress = 0x0041D22F;
+	DWORD setGuestRatingAddress = 0x0041D15D;
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
-    DetourAttach((PVOID*)&addCashAddress, (PVOID)&ZTGameMgr::addCash_Detour);
-    // DetourAttach((PVOID*)&getDateAddress, (PVOID)&ZTGameMgr::getDate_Detour);
+    // DetourAttach((PVOID*)&addCashAddress, (PVOID)&ZTGameMgr::addCash_Detour);
+        //------ Detour update function to run emu and sync with main game thread
+    // DetourAttach((PVOID*)&setAnimalRatingAddress, (PVOID)&SetAnimalRating);
+    // DetourAttach((PVOID*)&setZooRatingAddress, (PVOID)&SetZooRating);
+    // DetourAttach((PVOID*)&setGuestRatingAddress, (PVOID)&SetGuestRating);
     DetourTransactionCommit();
     // DWORD _ztGameMgr = *(DWORD*)((LPVOID)0x00638048);
     // ZTGameMgr::shared_instance() = *(ZTGameMgr*)(_ztGameMgr);
 
-    EmuBase::callHook(0x0050A245, (DWORD)&ZTGameMgr::addCash_Detour); // from removeEntityFromMap
-    EmuBase::callHook(0x00613f61, (DWORD)&ZTGameMgr::addCash_Detour); // from ZooStatus::fGrantDonation
-    EmuBase::callHook(0x0060d9d3, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 0060d8e3
-    EmuBase::callHook(0x0060cccd, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 433ae0
-    EmuBase::callHook(0x00613f61, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 433b00
-    EmuBase::callHook(0x006089fc, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at cls_0x40f018::meth_0x6089e8
-    EmuBase::callHook(0x00607299, (DWORD)&ZTGameMgr::addCash_Detour); // from georgeW
-    EmuBase::callHook(0x0060d9d3, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 0060d8e3
-    EmuBase::callHook(0x005b0f2d, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 005b0f17
-    EmuBase::callHook(0x005a1679, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTScenarioSimpleGoal::trigger03
-    EmuBase::callHook(0x004f7031, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at cls_0x41f881::meth_0x4f6e3c
-    EmuBase::callHook(0x004d920f , (DWORD)&ZTGameMgr::addCash_Detour); // from ZTMapView::placeEntityOnMap
-    EmuBase::callHook(0x004a2f97, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTGameMgr::removedZooDoo
-    EmuBase::callHook(0x00484047, (DWORD)&ZTGameMgr::addCash_Detour); // from ZooStatus::financeChecks
-    EmuBase::callHook(0x0042ec81, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTHabitat::acceptDonation
-    EmuBase::callHook(0x0042d93f, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTBuilding::removeUser
-    EmuBase::callHook(0x005a981c, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTBuilding::addUser
+    // EmuBase::callHook(0x0050A245, (DWORD)&ZTGameMgr::addCash_Detour); // from removeEntityFromMap
+    // EmuBase::callHook(0x00613f61, (DWORD)&ZTGameMgr::addCash_Detour); // from ZooStatus::fGrantDonation
+    // EmuBase::callHook(0x0060d9d3, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 0060d8e3
+    // EmuBase::callHook(0x0060cccd, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 433ae0
+    // EmuBase::callHook(0x00613f61, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 433b00
+    // EmuBase::callHook(0x006089fc, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at cls_0x40f018::meth_0x6089e8
+    // EmuBase::callHook(0x00607299, (DWORD)&ZTGameMgr::addCash_Detour); // from georgeW
+    // EmuBase::callHook(0x0060d9d3, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 0060d8e3
+    // EmuBase::callHook(0x005b0f2d, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at 005b0f17
+    // EmuBase::callHook(0x005a1679, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTScenarioSimpleGoal::trigger03
+    // EmuBase::callHook(0x004f7031, (DWORD)&ZTGameMgr::addCash_Detour); // from unknown fn at cls_0x41f881::meth_0x4f6e3c
+    // EmuBase::callHook(0x004d920f , (DWORD)&ZTGameMgr::addCash_Detour); // from ZTMapView::placeEntityOnMap
+    // EmuBase::callHook(0x004a2f97, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTGameMgr::removedZooDoo
+    // EmuBase::callHook(0x00484047, (DWORD)&ZTGameMgr::addCash_Detour); // from ZooStatus::financeChecks
+    // EmuBase::callHook(0x0042ec81, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTHabitat::acceptDonation
+    // EmuBase::callHook(0x0042d93f, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTBuilding::removeUser
+    // EmuBase::callHook(0x005a981c, (DWORD)&ZTGameMgr::addCash_Detour); // from ZTBuilding::addUser
 
-    EmuBase::callHook(0x004cb64f, (DWORD)&ZTGameMgr::setCash_Detour); // from showMapSelect
-    EmuBase::callHook(0x006163ab, (DWORD)&ZTGameMgr::setCash_Detour); // from clickCashUp
-    EmuBase::callHook(0x0061640d, (DWORD)&ZTGameMgr::setCash_Detour); // from clickCashDown
-    EmuBase::callHook(0x006165ce, (DWORD)&ZTGameMgr::setCash_Detour); // from editStartingCash
+    // EmuBase::callHook(0x004cb64f, (DWORD)&ZTGameMgr::setCash_Detour); // from showMapSelect
+    // EmuBase::callHook(0x006163ab, (DWORD)&ZTGameMgr::setCash_Detour); // from clickCashUp
+    // EmuBase::callHook(0x0061640d, (DWORD)&ZTGameMgr::setCash_Detour); // from clickCashDown
+    // EmuBase::callHook(0x006165ce, (DWORD)&ZTGameMgr::setCash_Detour); // from editStartingCash
+
+
 
     // EmuBase::callHook(0x0041f284, (DWORD)&ZTGameMgr::subtractCash_Detour); // from ZTResearchBranch::update <--- crashes, not sure why
     // EmuBase::callHook(0x0041f304, (DWORD)&ZTGameMgr::subtractCash_Detour); // from unknown fn at 0041f304 <--- crashes, not sure why
@@ -90,7 +98,6 @@ void ZTGameMgr::subtractCash(float amount) {
 //     _startMenuMusic _ogstartMenuMusic = (_startMenuMusic)0x004bded9;
 //     _ogstartMenuMusic(pZTGameMgr);
 // }
-
 
 DWORD ZTGameMgr::getZTGameMgr() {
     // get the instance of ZTGameMgr
@@ -142,3 +149,32 @@ _FILETIME* ZTGameMgr::getDate(_FILETIME* date) {
     SystemTimeToFileTime(&current_date, date);
     return date;
 }
+
+typedef void (__cdecl *_setAnimalRating)(int); // define original setAnimalRating function
+typedef void (__cdecl *_setZooRating)(int); // define original setZooRating function
+typedef void (__cdecl *_setGuestRating)(int); // define original setGuestRating function
+
+
+// void __cdecl SetGuestRating(int rating) {
+// 	_setGuestRating ogSetGuestRating = (_setGuestRating)0x0041D15D;
+// 	if (zoo_models->_emuGuestRatingSet == true) {
+// 		rating = zoo_models->_guestRating;
+// 	}
+// 	ogSetGuestRating(rating);
+// }
+
+// void __cdecl SetZooRating(int rating) {
+// 	_setZooRating ogSetZooRating = (_setZooRating)0x0041D22F;
+// 	if (zoo_models->_emuZooRatingSet == true) {
+// 		rating = zoo_models->_zooRating;
+// 	}
+// 	ogSetZooRating(rating);
+// }
+
+// void __cdecl SetAnimalRating(int rating) {
+// 	_setAnimalRating ogSetAnimalRating = (_setAnimalRating)0x0041D08B;
+// 	if (zoo_models->_emuAnimalRatingSet == true) {
+//     	rating = zoo_models->_animalRating;
+// 	}
+// 	ogSetAnimalRating(rating);
+// }
