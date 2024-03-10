@@ -28,6 +28,9 @@ class EmuMain
     //------ Flags for hooks
     bool hasHooked;
 
+    //------ Flags for script manager
+    bool hasEmuRunOnce;
+
     EmuScriptMgr sm; // script manager object
 
     std::vector<std::string> tokens; // contains tokens from console input

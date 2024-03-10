@@ -72,8 +72,18 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 		// f << "[" << timestamp << "] " << "Is no longer in main menu!" << std::endl;
 		if (ZooState::IsZooLoaded() == true) {
 			// f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
-			*(EmuMain::shared_instance().zoo_models) = EmuMain::shared_instance().sm.executeScripts();
+			if (!EmuMain::shared_instance().hasEmuRunOnce) {
+				// f << "[" << timestamp << "] " << "Running emu_run scripts..." << std::endl;
+				EmuMain::shared_instance().sm.executeScripts("emu_gawk");
+				EmuMain::shared_instance().hasEmuRunOnce = true;
+				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
+			}
+			*(EmuMain::shared_instance().zoo_models) = EmuMain::shared_instance().sm.executeScripts("emu_run");
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
+		} else {
+			// f << "[" << timestamp << "] " << "Zoo is not loaded!" << std::endl;
+			EmuMain::shared_instance().hasEmuRunOnce = false;
+		
 		}
 	}
 

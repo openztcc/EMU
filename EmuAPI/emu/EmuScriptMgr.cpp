@@ -25,7 +25,7 @@ EmuScriptMgr::~EmuScriptMgr() {
 }
 
 /// @brief Executes all emu scripts in a directory.
-ZooModels EmuScriptMgr::executeScripts() {
+ZooModels EmuScriptMgr::executeScripts(std::string script) {
     ZooModels zoo_models;
 
     for (size_t i = 0; i < scripts.size(); i++) {
@@ -42,7 +42,7 @@ ZooModels EmuScriptMgr::executeScripts() {
             if (lua_pcall(lua, 0, LUA_MULTRET, 0) == 0)
             {
                 // script is loaded, now load specific function
-                lua_getglobal(lua, "emu_run");
+                lua_getglobal(lua, script.c_str());
                 // check if we can call function
                 if (lua_isfunction(lua, -1)) {
                     if (lua_pcall(lua, 0, LUA_MULTRET, 0) == 0) {
