@@ -76,6 +76,7 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 				// f << "[" << timestamp << "] " << "Running emu_run scripts..." << std::endl;
 				EmuMain::shared_instance().sm.executeScripts("emu_gawk");
 				EmuMain::shared_instance().hasEmuRunOnce = true;
+				EmuMain::shared_instance().sm = EmuScriptMgr(); // TODO: create dumpScripts function for graceful cleanup
 				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 			}
 			*(EmuMain::shared_instance().zoo_models) = EmuMain::shared_instance().sm.executeScripts("emu_run");
