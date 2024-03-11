@@ -6,8 +6,8 @@
 class ZTSceneryType : public BFEntityType {
     public:
     char padding[4]; // 292
-    ZTSceneryType();
-    ~ZTSceneryType();
+    ZTSceneryType()  {};
+    ~ZTSceneryType() {};
 };
 
 #endif // ZTSCENERYTYPE_H

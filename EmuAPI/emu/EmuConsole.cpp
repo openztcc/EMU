@@ -5,6 +5,8 @@
 #include "EmuControls.h"
 #include "ZTMapView.h"
 #include "ZTGuest.h"
+#include "ZTBuildingType.h"
+#include "ZTUI.h"
 
 EmuConsole::EmuConsole(std::vector<std::string>& tokes) : tokens(tokes)
 {
@@ -430,7 +432,19 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         }
         else if (tokens[0] == "getent") {
             // return selected entity
-            std::cout << "The selected entity is: " << std::hex << reinterpret_cast<DWORD>(ZTUI::general::getSelectedEntity()) << std::endl;
+            void* entity = ZTUI::general::getSelectedEntity();
+            std::ios_base::fmtflags originalFlags = std::cout.flags(); // save flags
+            std::cout << "The selected entity is: " << std::hex << reinterpret_cast<DWORD>(entity) << std::endl;
+            if (tokens.size() > 1 && tokens[1] == "-b")
+            {
+                void* entityType = ZTUI::general::getSelectedEntityType();
+                ZTBuildingType building(entityType);
+                std::cout.flags(originalFlags); // reset flags
+                std::cout << "The building stats are: " << std::endl;
+                std::cout << "ncolors: " << building.ncolors() << std::endl;
+                std::cout << "cIconZoom: " << building.cIconZoom() << std::endl;
+
+            }
         }
         else if (tokens[0] == "setmapzoom") {
             if (tokens.size() < 2)
@@ -462,6 +476,16 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         else if (tokens[0] == "guestname")
         {
             std::cout << "The guest name is: " << ZTGuest::getSelectedGuestName() << std::endl;
+        }
+        else if (tokens[0] == "makesel")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "Err: Command <" << tokens[0] << "> requires an entity ID." << std::endl;
+                return;
+            } else {
+                ZTUI::general::makeSelectableByType(::atoi(tokens[1].c_str()));
+            }
         }
         else
         {

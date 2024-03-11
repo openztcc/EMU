@@ -6,6 +6,7 @@
 #include "Windows.h"
 #include "detours.h"
 #include "ZooState.h"
+#include "ZTWorldMgr.h"
 
 unsigned int ZTUI::gameopts::saveGame(void) {
     _saveGame _ogsaveGame = (_saveGame)0x004769ac;
@@ -33,17 +34,39 @@ void* ZTUI::general::getMapView(void) {
 }
 
 void* ZTUI::general::getSelectedEntity(void) {
-    // ZTMapView *pZTMapView = (ZTUI::general::getMapView());
-    // unsigned char* baseAddr = reinterpret_cast<unsigned char*>(pZTMapView);    
-    // // DWORD* addressAtOffset = reinterpret_cast<DWORD*>(baseAddr + (1084 * sizeof(DWORD)));
-    // if (pZTMapView == 0) {
-    //     return 0;
-    // } else {
-    //     return addressAtOffset;
-    // }
-
     _getSelectedEntity _oggetSelectedEntity = (_getSelectedEntity)0x00410f84;
     return _oggetSelectedEntity();
+}
+
+void* ZTUI::general::getSelectedEntityType(void) {
+    if (getSelectedEntity() == 0) {
+        return 0;
+    }
+    void* entity = getSelectedEntity();
+    void* entitytype = *(void**)((DWORD)entity + 0x128);
+    return (void*)entitytype;
+}
+
+void ZTUI::general::makeSelectableByType(int type) {
+    if (type == 0) {
+        return;
+    }
+    int id[] = {type, NULL};
+    std::vector<DWORD*> entities = ZTWorldMgr::getAllEntitiesOfType(id);
+    makeSelectable(entities);
+}
+
+void ZTUI::general::makeSelectable(std::vector<DWORD*> entities) {
+    if (entities.size() == 0) {
+        return;
+    }
+    for (size_t i = 0; i < entities.size(); i++) {
+        void* entity = (void*)entities[i];
+        void* entitytype = *(void**)((DWORD)entity + 0x128);
+        // selectable offset is 0x128
+        void* selectable = (void*)((DWORD)entitytype + 0x128);
+        *(bool*)selectable = true;
+    }
 }
 
 void ZTUI::main::setMoneyText(rgb color) {

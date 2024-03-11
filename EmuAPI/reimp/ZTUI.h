@@ -21,6 +21,9 @@ namespace ZTUI {
         public:
         static void* getMapView();
         static void* getSelectedEntity();
+        static void* getSelectedEntityType();
+        static void makeSelectableByType(int);
+        static void makeSelectable(std::vector<DWORD*>);
     };
 
     class main {
