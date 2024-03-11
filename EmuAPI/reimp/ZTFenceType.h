@@ -18,6 +18,8 @@ class ZTFenceType : public ZTSceneryType {
     int cDecayedDelta(int); // 0x174
     int cBreakSoundAtten(); // 0x178
     int cBreakSoundAtten(int); // 0x178
+    int cOpenSoundAtten(); // 0x17C
+    int cOpenSoundAtten(int); // 0x17C
     std::string cBreakSound(); // 0x184
     std::string cBreakSound(std::string); // 0x184
     std::string cOpenSound(); // 0x188
