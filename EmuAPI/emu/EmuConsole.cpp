@@ -433,17 +433,21 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         else if (tokens[0] == "getent") {
             // return selected entity
             void* entity = ZTUI::general::getSelectedEntity();
-            std::ios_base::fmtflags originalFlags = std::cout.flags(); // save flags
             std::cout << "The selected entity is: " << std::hex << reinterpret_cast<DWORD>(entity) << std::endl;
             if (tokens.size() > 1 && tokens[1] == "-b")
             {
                 void* entityType = ZTUI::general::getSelectedEntityType();
                 ZTBuildingType building(entityType);
-                std::cout.flags(originalFlags); // reset flags
-                std::cout << "The building stats are: " << std::endl;
-                std::cout << "ncolors: " << building.ncolors() << std::endl;
+                
+                std::cout << "The building stats at type: " << entityType << std::endl;
+                std::cout << std::dec << "ncolors: " << building.ncolors() << std::endl;
                 std::cout << "cIconZoom: " << building.cIconZoom() << std::endl;
-
+                std::cout << "cExpansionID: " << building.cExpansionID() << std::endl;
+                std::cout << "cMovable: " << building.cMovable() << std::endl;
+                std::cout << "walkable: " << building.walkable() << std::endl;
+                std::cout << "walkableByTall: " << building.walkableByTall() << std::endl;
+                std::cout << "cRubbleable: " << building.cRubbleable() << std::endl;
+                std::cout << "cUseNumbersInName: " << building.cUseNumbersInName() << std::endl;
             }
         }
         else if (tokens[0] == "setmapzoom") {

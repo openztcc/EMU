@@ -449,6 +449,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\reimp\ZTSceneryType.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\reimp\ZTSceneryType.h"
 				>
 			</File>
