@@ -1,3 +1,8 @@
+#ifndef BFENTITYTYPE_H
+#define BFENTITYTYPE_H
+
+#include <string>
+#include "INIReader.h"
 
 class BFEntityType {
     public:
@@ -67,3 +72,5 @@ class BFEntityType {
     protected:
     void* thisptr;
 };
+
+#endif // BFENTITYTYPE_H

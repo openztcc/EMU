@@ -115,7 +115,7 @@
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;&quot;$(ProjectDir)\resources&quot;;&quot;$(ProjectDir)\lua\&quot;;&quot;$(ProjectDir)\detours\&quot;;&quot;$(ProjectDir)\reimp\&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\emu&quot;;&quot;$(ProjectDir)\lua\include&quot;;&quot;$(ProjectDir)\resources&quot;;&quot;$(ProjectDir)\lua\&quot;;&quot;$(ProjectDir)\detours\&quot;;&quot;$(ProjectDir)\reimp\&quot;;&quot;$(ProjectDir)\simpleini\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EMUAPI_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -178,6 +178,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\reimp\BFEntityType.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\emu\EmuBase.cpp"
 				>
@@ -486,6 +490,18 @@
 			</File>
 			<File
 				RelativePath=".\reimp\ZTWorldMgr.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="simpleini"
+			>
+			<File
+				RelativePath=".\simpleini\INIReader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\simpleini\INIReader.h"
 				>
 			</File>
 		</Filter>

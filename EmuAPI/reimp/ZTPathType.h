@@ -8,8 +8,10 @@
 
 class ZTPathType : public ZTSceneryType {
     public:
-    ZTPathType();
+    ZTPathType(void* ptr) : ZTSceneryType(ptr) {};
     ~ZTPathType();
+
+    
 };
 
 #endif // ZTPATHTYPE_H
