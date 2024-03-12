@@ -5,3 +5,5 @@
 GooseTek/
 .vscode/
 Release/
+*.vcxproj.user
+*.vcxproj.filters
