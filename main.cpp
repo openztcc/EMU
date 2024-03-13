@@ -1,5 +1,6 @@
 #include <iostream>
 #include "sol/sol.hpp"
+#include "EmuScriptMgr.h"
 
 class Test {
 public: 
@@ -28,6 +29,9 @@ int main() {
 	lua.script("newtest = Test.new()");
 	lua.script("newtest:print()");
 	lua.script("newtest:print2()");
+
+	EmuScriptMgr emu;
+	emu.LoadScripts();
 
 
 	return 0;

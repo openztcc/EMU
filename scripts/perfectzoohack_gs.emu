@@ -1,0 +1,11 @@
+-- Title: Perfect Zoo Hack for ZT1
+-- Author: Goosifer
+-- Version: 1.0
+-- Description: Perpetually sets animal, guest, and zoo ratings to 100
+
+function emu_run()
+    -- perfect zoo!
+    _globalAnimalRating = 100
+    _globalGuestRating = 100
+    _globalZooRating = 100
+end

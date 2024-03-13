@@ -4,6 +4,7 @@
 #include <vector>
 #include "sol/sol.hpp"
 #include "sol/assert.hpp"
+#define _WIN32_WINNT 0x0601
 #include <cassert>
 
 class EmuScriptMgr

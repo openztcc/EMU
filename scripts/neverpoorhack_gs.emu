@@ -1,0 +1,14 @@
+-- Title: Never Poor Hack for ZT1
+-- Author: Goosifer
+-- Version: 1.0
+-- Description: Adds 1000000 to zoo budget if it is less than 100000
+
+function emu_run()
+    -- assign current budget
+    local budget = GetZooBudget()
+
+    -- if budget is less than 100000, add 500000
+    if budget < 100000 then
+        SetZooBudget(1000000)
+    end
+end

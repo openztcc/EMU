@@ -51,8 +51,11 @@ void EmuScriptMgr::ConvertToBytecode(const std::string& script)
 
 std::vector<std::string> EmuScriptMgr::FindAllFilePaths()
 {
-	std::string path = "scripts/";
+	std::string path = "scripts";
 	std::vector<std::string> paths;
+	if (!std::filesystem::is_directory(path)) {
+		std::cout << "Directory does not exist: " << path << std::endl;
+	}
 	for (const auto& entry : std::filesystem::directory_iterator(path)) {
 		paths.push_back(entry.path().string());
 	}
@@ -62,11 +65,11 @@ std::vector<std::string> EmuScriptMgr::FindAllFilePaths()
 std::vector<std::string> EmuScriptMgr::KeepScriptPathsWithExt(std::string ext)
 {
 	std::vector<std::string> paths = FindAllFilePaths();
-	std::vector<std::string> scripts;
-	for (auto& script : s_scripts) {
+	std::vector<std::string> ext_paths;
+	for (auto& script : paths) {
 		if (script.find(ext) != std::string::npos) {
-			scripts.push_back(script);
+			ext_paths.push_back(script);
 		}
 	}
-	return scripts;
+	return ext_paths;
 }
