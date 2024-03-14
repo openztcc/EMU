@@ -14,10 +14,11 @@ EmuScriptMgr::~EmuScriptMgr()
 }
 
 // Load all the scripts from the scripts directory into memory
-void EmuScriptMgr::LoadScripts()
+sol::state EmuScriptMgr::LoadScripts()
 {
 	std::vector<std::string> paths = KeepScriptPathsWithExt(".emu");
 	std::string script;
+	sol::state lua;
 	
 	for (auto& path : paths) {
 		std::ifstream file(path);
@@ -26,40 +27,34 @@ void EmuScriptMgr::LoadScripts()
 			while (std::getline(file, line)) {
 				script += line + "\n";
 			}
+			
 		}
 		else {
 			std::cout << "Failed to open file: " << path << std::endl;
 		}
 		file.close();
 		s_scripts.push_back(script);
+		lua.script(script);
 	}
+
+	return lua;
 }
 
 // Execute all the scripts in memory
 void EmuScriptMgr::ExecuteScripts(std::string lua_function)
 {
-	sol::state lua;
+	sol::state lua = LoadScripts();
 	lua.open_libraries(sol::lib::base, sol::lib::package);
 	for (auto& script : s_scripts) {
-		auto loaded_script = lua.script_file(script, [](lua_State*, sol::protected_function_result pfr) {
-			// Error handler: could log or throw if necessary
-			return pfr;
-		});
+		sol::protected_function function_driver = lua["emu_run"];
 
-		if (!loaded_script.valid()) {
-			sol::error err = loaded_script;
-			std::cout << "Failed to execute script: " << err.what() << std::endl;
-		}
-
-		sol::protected_function_result result = lua.script(script);
-		if (!result.valid()) {
-			sol::error err = result;
-			std::cout << "Failed to execute script: " << err.what() << std::endl;
-		}
-
-		sol::function script_func = lua[lua_function];
-		if (script_func.valid()) {
-			script_func();
+		if (function_driver.valid()) {
+			auto result = function_driver(script);
+			if (!result.valid()) {
+				sol::error err = result;
+				std::cout << "Failed to execute function: " << lua_function << std::endl;
+				std::cout << "Error: " << err.what() << std::endl;
+			}
 		}
 		else {
 			std::cout << "Failed to execute function: " << lua_function << std::endl;
@@ -120,6 +115,7 @@ std::vector<std::string> EmuScriptMgr::KeepScriptPathsWithExt(std::string ext)
 	return paths;
 }
 
+// Prints contents of scripts found
 void EmuScriptMgr::PrintFoundScripts()
 {
 	for (auto& script : s_scripts) {

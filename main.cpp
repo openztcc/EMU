@@ -31,9 +31,9 @@ int main() {
 	lua.script("newtest:print2()");
 
 	EmuScriptMgr emu;
-	emu.LoadScripts();
-	emu.PrintFoundScripts();
+	
 	emu.ExecuteScripts("emu_run");
+	emu.PrintFoundScripts();
 
 
 	return 0;

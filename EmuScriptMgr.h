@@ -13,7 +13,7 @@ public:
 	EmuScriptMgr();
 	~EmuScriptMgr();
 
-	void LoadScripts();
+	sol::state LoadScripts();
 	void ExecuteScripts(std::string);
 	void ConvertToBytecode(const std::string& script);
 	std::vector<std::string> FindAllFilePaths();
