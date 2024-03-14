@@ -32,6 +32,8 @@ int main() {
 
 	EmuScriptMgr emu;
 	emu.LoadScripts();
+	emu.PrintFoundScripts();
+	emu.ExecuteScripts("emu_run");
 
 
 	return 0;
