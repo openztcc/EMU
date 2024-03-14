@@ -33,7 +33,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -99,7 +99,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);$(ProjectDir)deps\lua54\lua54.lib;$(ProjectDir)deps\detours;%(AdditionalDependencies);</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);$(ProjectDir)deps\lua54\lua54.lib;$(ProjectDir)deps\detours\detours.lib;%(AdditionalDependencies);</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -136,6 +136,7 @@
     <ClCompile Include="EmuBase.cpp" />
     <ClCompile Include="EmuConsole.cpp" />
     <ClCompile Include="EmuControls.cpp" />
+    <ClCompile Include="EmuLoader.cpp" />
     <ClCompile Include="EmuMain.cpp" />
     <ClCompile Include="EmuScriptMgr.cpp" />
     <ClCompile Include="main.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="reimp\ZTSceneryType.cpp" />
     <ClCompile Include="reimp\ZTUI.cpp" />
     <ClCompile Include="reimp\ZTWorldMgr.cpp" />
+    <ClCompile Include="resources\RegZooState.cpp" />
     <ClCompile Include="resources\ZooMiniMap.cpp" />
     <ClCompile Include="resources\ZooModels.cpp" />
     <ClCompile Include="resources\ZooState.cpp" />
@@ -203,6 +205,7 @@
     <ClInclude Include="reimp\ZTUI.h" />
     <ClInclude Include="reimp\ZTUnitType.h" />
     <ClInclude Include="reimp\ZTWorldMgr.h" />
+    <ClInclude Include="resources\RegZooState.h" />
     <ClInclude Include="resources\ZooMiniMap.h" />
     <ClInclude Include="resources\ZooModels.h" />
     <ClInclude Include="resources\ZooState.h" />

@@ -4,6 +4,8 @@
 #include "ZTCheats.h"
 #include "ZooState.h"
 
+#define instance EmuMain::shared_instance()
+
 // #define instance 
 
 //------ Function pointers 
@@ -36,21 +38,21 @@ DWORD WINAPI EmuMain::ZooConsole()
 
 	HWND consoleWindow = EmuConsole::createConsole();
 
-	while (EmuMain::shared_instance().IsConsoleRunning)
+	while (instance.IsConsoleRunning)
 	{
 		// ------ Tokenize the input
-		if (!EmuMain::shared_instance().CommandIsProcessing)
+		if (!instance.CommandIsProcessing)
 		{
 			std::cout << ">> ";
-			EmuMain::shared_instance().CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
-			EmuMain::shared_instance().console->tokenize(EmuMain::shared_instance().CommandIsProcessing);
+			instance.CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
+			instance.console->tokenize(instance.CommandIsProcessing);
 		}
 		Sleep(10);
 	}
 
 	// ------ Close the console window
-	EmuMain::shared_instance().HasConsoleOpenedOnce = false;
-	EmuMain::shared_instance().IsConsoleRunning = false;
+	instance.HasConsoleOpenedOnce = false;
+	instance.IsConsoleRunning = false;
 	FreeConsole();
 	Sleep(100);
 	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
@@ -76,14 +78,13 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 		// f << "[" << timestamp << "] " << "Is no longer in main menu!" << std::endl;
 		if (ZooState::IsZooLoaded() == true) {
 			// f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
-			if (!EmuMain::shared_instance().hasEmuRunOnce) {
+			if (!instance.hasEmuRunOnce) {
 				// f << "[" << timestamp << "] " << "Running emu_run scripts..." << std::endl;
-				EmuMain::shared_instance().sm.ExecuteScripts("emu_gawk");
-				EmuMain::shared_instance().hasEmuRunOnce = true;
-				EmuMain::shared_instance().sm = EmuScriptMgr(); // TODO: create dumpScripts function for graceful cleanup
+				instance.emu_gawk.ExecuteScripts("emu_gawk");
+				instance.hasEmuRunOnce = true;
 				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 			}
-			*(EmuMain::shared_instance().zoo_models) = EmuMain::shared_instance().sm.ExecuteScripts("emu_run");
+			instance.emu_run.ExecuteScripts("emu_run");
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 		}
 	}

@@ -14,11 +14,10 @@ EmuScriptMgr::~EmuScriptMgr()
 }
 
 // Load all the scripts from the scripts directory into memory
-sol::state EmuScriptMgr::LoadScripts()
+void EmuScriptMgr::LoadScripts()
 {
 	std::vector<std::string> paths = KeepScriptPathsWithExt(".emu");
 	std::string script;
-	sol::state lua;
 	
 	for (auto& path : paths) {
 		std::ifstream file(path);
@@ -34,19 +33,16 @@ sol::state EmuScriptMgr::LoadScripts()
 		}
 		file.close();
 		s_scripts.push_back(script);
-		lua.script(script);
+		this->lua.script(script);
 	}
-
-	return lua;
 }
 
 // Execute all the scripts in memory
 void EmuScriptMgr::ExecuteScripts(std::string lua_function)
 {
-	sol::state lua = LoadScripts();
-	lua.open_libraries(sol::lib::base, sol::lib::package);
+	this->lua.open_libraries(sol::lib::base, sol::lib::package);
 	for (auto& script : s_scripts) {
-		sol::protected_function function_driver = lua["emu_run"];
+		sol::protected_function function_driver = this->lua[lua_function];
 
 		if (function_driver.valid()) {
 			auto result = function_driver(script);
@@ -73,9 +69,8 @@ void EmuScriptMgr::ExecuteScripts(std::string lua_function)
 
 void EmuScriptMgr::ConvertToBytecode(const std::string& script)
 {
-	sol::state lua;
-	lua.open_libraries(sol::lib::base, sol::lib::package);
-	sol::load_result result = lua.load_file(script);
+	this->lua.open_libraries(sol::lib::base, sol::lib::package);
+	sol::load_result result = this->lua.load_file(script);
 	assert(result.valid(), "Failed to load script: %s", script.c_str());
 	sol::protected_function target = result.get<sol::protected_function>();
 

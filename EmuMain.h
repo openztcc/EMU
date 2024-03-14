@@ -31,7 +31,8 @@ public:
     //------ Flags for script manager
     bool hasEmuRunOnce;
 
-    EmuScriptMgr sm; // script manager object
+    EmuScriptMgr emu_run; // script manager object
+    EmuScriptMgr emu_gawk;
 
     std::vector<std::string> tokens; // contains tokens from console input
     EmuConsole* console; // console object
