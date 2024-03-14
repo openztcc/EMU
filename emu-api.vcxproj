@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps;$(ProjectDir)deps\lua54;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)deps;$(ProjectDir)deps\lua54;$(ProjectDir)reimp;$(ProjectDir)resources;$(ProjectDir)deps\detours;</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -99,7 +99,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);$(ProjectDir)deps\lua54\lua54.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);$(ProjectDir)deps\lua54\lua54.lib;$(ProjectDir)deps\detours;%(AdditionalDependencies);</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -132,13 +132,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="deps\detours\detours.cpp" />
     <ClCompile Include="EmuBase.cpp" />
     <ClCompile Include="EmuConsole.cpp" />
     <ClCompile Include="EmuControls.cpp" />
+    <ClCompile Include="EmuMain.cpp" />
     <ClCompile Include="EmuScriptMgr.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="reimp\BFEntityType.cpp" />
+    <ClCompile Include="reimp\BFGameApp.cpp" />
+    <ClCompile Include="reimp\bfinternat.cpp" />
+    <ClCompile Include="reimp\BFMap.cpp" />
+    <ClCompile Include="reimp\BFUIMgr.cpp" />
+    <ClCompile Include="reimp\ZTApp.cpp" />
+    <ClCompile Include="reimp\ZTBuildingType.cpp" />
+    <ClCompile Include="reimp\ZTCheats.cpp" />
+    <ClCompile Include="reimp\ZTFenceType.cpp" />
+    <ClCompile Include="reimp\ZTGameMgr.cpp" />
+    <ClCompile Include="reimp\ZTGuest.cpp" />
+    <ClCompile Include="reimp\ZTHabitatMgr.cpp" />
+    <ClCompile Include="reimp\ZTMapView.cpp" />
+    <ClCompile Include="reimp\ZTSceneryType.cpp" />
+    <ClCompile Include="reimp\ZTUI.cpp" />
+    <ClCompile Include="reimp\ZTWorldMgr.cpp" />
+    <ClCompile Include="resources\ZooMiniMap.cpp" />
+    <ClCompile Include="resources\ZooModels.cpp" />
+    <ClCompile Include="resources\ZooState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="deps\detours\detours.h" />
     <ClInclude Include="deps\lauxlib.h" />
     <ClInclude Include="deps\lua.h" />
     <ClInclude Include="deps\lua.hpp" />
@@ -146,7 +168,44 @@
     <ClInclude Include="EmuBase.h" />
     <ClInclude Include="EmuConsole.h" />
     <ClInclude Include="EmuControls.h" />
+    <ClInclude Include="EmuMain.h" />
     <ClInclude Include="EmuScriptMgr.h" />
+    <ClInclude Include="reimp\BFEntityType.h" />
+    <ClInclude Include="reimp\BFGameApp.h" />
+    <ClInclude Include="reimp\bfinternat.h" />
+    <ClInclude Include="reimp\BFMap.h" />
+    <ClInclude Include="reimp\BFOverlayType.h" />
+    <ClInclude Include="reimp\BFUIMgr.h" />
+    <ClInclude Include="reimp\BFUnitType.h" />
+    <ClInclude Include="reimp\UIMessageQueue.h" />
+    <ClInclude Include="reimp\ZTAmbientType.h" />
+    <ClInclude Include="reimp\ZTAnimalType.h" />
+    <ClInclude Include="reimp\ZTApp.h" />
+    <ClInclude Include="reimp\ZTBuildingType.h" />
+    <ClInclude Include="reimp\ZTCheats.h" />
+    <ClInclude Include="reimp\ZTFenceType.h" />
+    <ClInclude Include="reimp\ZTFoodType.h" />
+    <ClInclude Include="reimp\ZTGameMgr.h" />
+    <ClInclude Include="reimp\ZTGuest.h" />
+    <ClInclude Include="reimp\ZTGuestType.h" />
+    <ClInclude Include="reimp\ZTGuideType.h" />
+    <ClInclude Include="reimp\ZTHabitatMgr.h" />
+    <ClInclude Include="reimp\ZTHelicopterType.h" />
+    <ClInclude Include="reimp\ZTKeeperType.h" />
+    <ClInclude Include="reimp\ZTMainType.h" />
+    <ClInclude Include="reimp\ZTMapView.h" />
+    <ClInclude Include="reimp\ZTPathType.h" />
+    <ClInclude Include="reimp\ZTRubbleType.h" />
+    <ClInclude Include="reimp\ZTSceneryType.h" />
+    <ClInclude Include="reimp\ZTStaffType.h" />
+    <ClInclude Include="reimp\ZTTankFilterType.h" />
+    <ClInclude Include="reimp\ZTTankWallType.h" />
+    <ClInclude Include="reimp\ZTUI.h" />
+    <ClInclude Include="reimp\ZTUnitType.h" />
+    <ClInclude Include="reimp\ZTWorldMgr.h" />
+    <ClInclude Include="resources\ZooMiniMap.h" />
+    <ClInclude Include="resources\ZooModels.h" />
+    <ClInclude Include="resources\ZooState.h" />
     <ClInclude Include="sol\compatibility\compat-5.3.c.h" />
     <ClInclude Include="sol\compatibility\compat-5.3.h" />
     <ClInclude Include="sol\compatibility\compat-5.4.h" />

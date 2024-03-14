@@ -1,6 +1,5 @@
 #include "EmuConsole.h"
 #include <iomanip>
-#include <string>
 #include <sstream>
 #include <iostream>
 

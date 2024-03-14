@@ -9,8 +9,6 @@
 #include <ctime>
 #include <fstream>
 
-typedef __int32 uint32_t;
-
 class EmuBase
 {
 public:

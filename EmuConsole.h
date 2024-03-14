@@ -7,8 +7,7 @@
 
 #include <windows.h>
 #include <vector>
-
-using std::string;
+#include <string>
 
 class EmuConsole
 {

@@ -2,6 +2,7 @@
 #include "detours.h"
 #include "EmuControls.h"
 #include "ZTCheats.h"
+#include "ZooState.h"
 
 // #define instance 
 
@@ -77,12 +78,12 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 			// f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
 			if (!EmuMain::shared_instance().hasEmuRunOnce) {
 				// f << "[" << timestamp << "] " << "Running emu_run scripts..." << std::endl;
-				EmuMain::shared_instance().sm.executeScripts("emu_gawk");
+				EmuMain::shared_instance().sm.ExecuteScripts("emu_gawk");
 				EmuMain::shared_instance().hasEmuRunOnce = true;
 				EmuMain::shared_instance().sm = EmuScriptMgr(); // TODO: create dumpScripts function for graceful cleanup
 				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 			}
-			*(EmuMain::shared_instance().zoo_models) = EmuMain::shared_instance().sm.executeScripts("emu_run");
+			*(EmuMain::shared_instance().zoo_models) = EmuMain::shared_instance().sm.ExecuteScripts("emu_run");
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 		}
 	}

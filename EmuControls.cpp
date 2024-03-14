@@ -1,6 +1,9 @@
 #include "EmuControls.h"
 #include "EmuMain.h"
 #include "ZTWorldMgr.h"
+#include "EmuMain.h"
+#include "ZooState.h"
+#include "BFUIMgr.h"
 
 #define Main EmuMain::shared_instance()
 
