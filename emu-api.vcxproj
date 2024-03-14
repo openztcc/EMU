@@ -132,6 +132,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EmuBase.cpp" />
+    <ClCompile Include="EmuConsole.cpp" />
+    <ClCompile Include="EmuControls.cpp" />
     <ClCompile Include="EmuScriptMgr.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -140,6 +143,9 @@
     <ClInclude Include="deps\lua.h" />
     <ClInclude Include="deps\lua.hpp" />
     <ClInclude Include="deps\lualib.h" />
+    <ClInclude Include="EmuBase.h" />
+    <ClInclude Include="EmuConsole.h" />
+    <ClInclude Include="EmuControls.h" />
     <ClInclude Include="EmuScriptMgr.h" />
     <ClInclude Include="sol\compatibility\compat-5.3.c.h" />
     <ClInclude Include="sol\compatibility\compat-5.3.h" />
