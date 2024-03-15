@@ -8,6 +8,7 @@
 #include <windows.h>
 #include <vector>
 #include <string>
+#include <corecrt_wstring.h>
 
 class EmuConsole
 {
@@ -17,6 +18,8 @@ public:
 	~EmuConsole();
 	void tokenize(bool&);
 	static HWND createConsole();
+	static void EnableVirtualTerminalProcessing();
+	static void WriteToConsole(const std::string&);
 private:
 	std::vector<std::string>& tokens;
 	std::string HelpDefinition(std::string, std::string);

@@ -16,12 +16,13 @@ typedef void(__thiscall* _origUpdate)(void* thisptr); // define original update 
 EmuMain::EmuMain()
 {
 	this->IsConsoleRunning = false;
+	this->hasEmuRunOnce = false;
 	this->CommandIsProcessing = false;
 	this->HasConsoleOpenedOnce = false;
 	this->ctrlMPressed = false;
 	this->hasHooked = false;
 	this->zoo_models = new ZooModels();
-	this->console = new EmuConsole(tokens);
+	this->console = new EmuConsole(this->tokens);
 }
 
 void EmuMain::init()
@@ -43,7 +44,7 @@ DWORD WINAPI EmuMain::ZooConsole()
 		// ------ Tokenize the input
 		if (!instance.CommandIsProcessing)
 		{
-			std::cout << ">> ";
+			instance.console->WriteToConsole(">> ");
 			instance.CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
 			instance.console->tokenize(instance.CommandIsProcessing);
 		}
