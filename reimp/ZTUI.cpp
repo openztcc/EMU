@@ -75,12 +75,21 @@ void ZTUI::general::ExportClassToLua(sol::state& lua) {
     sol::state_view _lua(L);
 
     lua.new_usertype<ZTUI::general>("general",
+        "new", sol::no_constructor,
         "getMapView", &ZTUI::general::getMapView,
         "getSelectedEntity", &ZTUI::general::getSelectedEntity,
         "getSelectedEntityType", &ZTUI::general::getSelectedEntityType,
         "makeSelectableByType", &ZTUI::general::makeSelectableByType,
-        "makeSelectable", &ZTUI::general::makeSelectable
+        "makeSelectable", &ZTUI::general::makeSelectable,
+        "IsEntityNull", &ZTUI::general::IsEntityNull
     );
+}
+
+bool ZTUI::general::IsEntityNull(void* entity) {
+    if (entity == 0) {
+        return true;
+    }
+    return false;
 }
 
 void ZTUI::main::setMoneyText(rgb color) {

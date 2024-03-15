@@ -8,7 +8,7 @@
 #include <windows.h>
 #include <vector>
 #include <string>
-#include <corecrt_wstring.h>
+#include <sol/sol.hpp>
 
 class EmuConsole
 {
@@ -20,6 +20,7 @@ public:
 	static HWND createConsole();
 	static void EnableVirtualTerminalProcessing();
 	static void WriteToConsole(const std::string&);
+	static void ExportToLua(sol::state&);
 private:
 	std::vector<std::string>& tokens;
 	std::string HelpDefinition(std::string, std::string);

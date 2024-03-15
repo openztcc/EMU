@@ -27,6 +27,8 @@ EmuMain::EmuMain()
 
 void EmuMain::init()
 {
+	instance.emu_run.InitEmuAPI();
+
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach((PVOID*)&updateAddress, (PVOID)&RunEmu);
@@ -82,7 +84,6 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 			if (!instance.hasEmuRunOnce) {
 				// f << "[" << timestamp << "] " << "Running emu_run scripts..." << std::endl;
 				instance.emu_gawk.ExecuteScripts("emu_gawk");
-				instance.emu_run.InitEmuAPI();
 				instance.hasEmuRunOnce = true;
 				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 			}

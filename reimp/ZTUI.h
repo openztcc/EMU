@@ -23,6 +23,7 @@ namespace ZTUI {
         static void* getMapView();
         static void* getSelectedEntity();
         static void* getSelectedEntityType();
+        static bool IsEntityNull(void*);
         static void makeSelectableByType(int);
         static void makeSelectable(std::vector<DWORD*>);
         static void ExportClassToLua(sol::state& lua);

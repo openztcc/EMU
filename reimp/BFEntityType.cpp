@@ -269,7 +269,7 @@ bool BFEntityType::availableAtStartup(bool input) {
 
 void BFEntityType::ExportClassToLua(sol::state& lua) {
     lua.new_usertype<BFEntityType>("BFEntityType",
-        sol::constructors<BFEntityType(void*)>(),
+        "new", sol::constructors<BFEntityType(void*)>(),
         "ncolors", sol::overload(
 			static_cast<int (BFEntityType::*)()>(&BFEntityType::ncolors),
 			static_cast<int (BFEntityType::*)(int)>(&BFEntityType::ncolors)

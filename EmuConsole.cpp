@@ -45,6 +45,16 @@ void EmuConsole::WriteToConsole(const std::string& utf8String) {
     WriteConsoleW(GetStdHandle(STD_OUTPUT_HANDLE), wstr.data(), wchars_num - 1, NULL, NULL);
 }
 
+// ---- Exports to Lua
+void EmuConsole::ExportToLua(sol::state& lua) {
+    lua_State* L = lua.lua_state();
+    sol::state_view _lua(L);
+    lua.new_usertype<EmuConsole>("EmuConsole",
+        "new", sol::no_constructor,
+        "WriteToConsole", &EmuConsole::WriteToConsole
+    );
+}
+
 HWND EmuConsole::createConsole()
 {
     HWND consoleWindow; // contains console window handle

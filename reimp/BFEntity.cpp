@@ -16,7 +16,7 @@ void BFEntity::ExportClassToLua(sol::state& lua) {
     sol::state_view _lua(L);
 
     lua.new_usertype<BFEntity>("BFEntity",
-        sol::constructors<BFEntity(void*)>(),
+        "new", sol::constructors<BFEntity(void*)>(),
         "visible", sol::overload(
 			static_cast<bool (BFEntity::*)()>(&BFEntity::visible),
 			static_cast<bool (BFEntity::*)(bool)>(&BFEntity::visible)

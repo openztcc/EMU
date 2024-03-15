@@ -7,6 +7,7 @@
 #include "ZTUI.h"
 #include "BFEntity.h"
 #include "BFEntityType.h"
+#include "EmuConsole.h"
 
 EmuScriptMgr::EmuScriptMgr()
 {
@@ -19,9 +20,11 @@ EmuScriptMgr::~EmuScriptMgr()
 // Initialize the Emu API
 void EmuScriptMgr::InitEmuAPI() 
 {
+	this->lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::io);
 	ZTUI::general::ExportClassToLua(this->lua);
 	BFEntity::ExportClassToLua(this->lua);
 	BFEntityType::ExportClassToLua(this->lua);
+	EmuConsole::ExportToLua(this->lua);
 }
 
 // Load all the scripts from the scripts directory into memory
@@ -61,10 +64,20 @@ void EmuScriptMgr::ExecuteScripts(std::string lua_function)
 				sol::error err = result;
 				std::cout << "Failed to execute function: " << lua_function << std::endl;
 				std::cout << "Error: " << err.what() << std::endl;
+
+				std::fstream file;
+				file.open("error.log", std::ios::out);
+				file << "Failed to execute function: " << lua_function << std::endl;
+				file << "Error" << err.what();
+				file.close();
 			}
 		}
 		else {
 			std::cout << "Failed to execute function: " << lua_function << std::endl;
+			std::fstream file;
+			file.open("error.log", std::ios::out);
+			file << "Failed to execute function: " << lua_function << std::endl;
+			file.close();
 		}
 	}
 
