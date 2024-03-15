@@ -4,6 +4,9 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "ZTUI.h"
+#include "BFEntity.h"
+#include "BFEntityType.h"
 
 EmuScriptMgr::EmuScriptMgr()
 {
@@ -11,6 +14,14 @@ EmuScriptMgr::EmuScriptMgr()
 
 EmuScriptMgr::~EmuScriptMgr()
 {
+}
+
+// Initialize the Emu API
+void EmuScriptMgr::InitEmuAPI() 
+{
+	ZTUI::general::ExportClassToLua(this->lua);
+	BFEntity::ExportClassToLua(this->lua);
+	BFEntityType::ExportClassToLua(this->lua);
 }
 
 // Load all the scripts from the scripts directory into memory

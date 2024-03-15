@@ -70,6 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -101,6 +104,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(CoreLibraryDependencies);$(ProjectDir)deps\lua54\lua54.lib;$(ProjectDir)deps\detours\detours.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <OutputFile>res-emu.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -140,6 +144,7 @@
     <ClCompile Include="EmuLoader.cpp" />
     <ClCompile Include="EmuMain.cpp" />
     <ClCompile Include="EmuScriptMgr.cpp" />
+    <ClCompile Include="reimp\BFEntity.cpp" />
     <ClCompile Include="reimp\BFEntityType.cpp" />
     <ClCompile Include="reimp\BFGameApp.cpp" />
     <ClCompile Include="reimp\bfinternat.cpp" />
@@ -172,6 +177,7 @@
     <ClInclude Include="EmuControls.h" />
     <ClInclude Include="EmuMain.h" />
     <ClInclude Include="EmuScriptMgr.h" />
+    <ClInclude Include="reimp\BFEntity.h" />
     <ClInclude Include="reimp\BFEntityType.h" />
     <ClInclude Include="reimp\BFGameApp.h" />
     <ClInclude Include="reimp\bfinternat.h" />

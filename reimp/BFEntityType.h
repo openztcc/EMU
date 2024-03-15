@@ -2,6 +2,7 @@
 #define BFENTITYTYPE_H
 
 #include <string>
+#include <sol/sol.hpp>
 
 class BFEntityType {
     public:
@@ -67,6 +68,7 @@ class BFEntityType {
 
     BFEntityType(void* ptr) : thisptr(ptr) {};
     ~BFEntityType() {};
+    static void ExportClassToLua(sol::state& lua);
 
     protected:
     void* thisptr;

@@ -2,6 +2,7 @@
 #define ZTUI_H
 
 #include "ZTMapView.h"
+#include <sol/sol.hpp>
 
 typedef unsigned int (*_saveGame)(void); // define original saveGame function
 typedef void (*_unpauseGame)(void); // define original unpauseGame function
@@ -24,6 +25,7 @@ namespace ZTUI {
         static void* getSelectedEntityType();
         static void makeSelectableByType(int);
         static void makeSelectable(std::vector<DWORD*>);
+        static void ExportClassToLua(sol::state& lua);
     };
 
     class main {

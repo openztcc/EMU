@@ -19,6 +19,7 @@ public:
 	std::vector<std::string> FindAllFilePaths();
 	std::vector<std::string> KeepScriptPathsWithExt(std::string);
 	void PrintFoundScripts();
+	void InitEmuAPI();
 private:
 	std::vector<std::string> s_scripts;
 	std::vector<sol::bytecode> c_scripts;

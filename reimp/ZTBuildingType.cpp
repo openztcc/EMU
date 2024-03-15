@@ -259,8 +259,7 @@ int ZTBuildingType::cEnergyChange(int value) {
     return *(int*)((DWORD)this->thisptr + 0x1CC) = value;
 }
 
-void ZTBuildingType::ExportClassToLua() {
-    sol::state lua;
+void ZTBuildingType::ExportClassToLua(sol::state& lua) {
     lua.open_libraries(sol::lib::base);
     lua_State* L = lua.lua_state();
     sol::state_view _lua(L);

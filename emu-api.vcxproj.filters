@@ -1,0 +1,612 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="deps">
+      <UniqueIdentifier>{a2ab9556-3ecd-4040-850d-049bbd8aa741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\sol">
+      <UniqueIdentifier>{506bdb13-2927-45f5-b349-bd05f83f566d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\sol\compatibility">
+      <UniqueIdentifier>{2f024887-3ed7-47cf-928e-781a3c3ee592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\lua54">
+      <UniqueIdentifier>{f10616af-8a3d-41dc-b1f4-c8ba900a930b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="emu">
+      <UniqueIdentifier>{4f6436b8-2be6-4d0b-b951-42535fd19e28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reimps">
+      <UniqueIdentifier>{eb8f1d20-8ebb-41ba-8882-304c7134269a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{267fdd44-0c0e-4e74-949d-34b1be67f118}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="deps\detours">
+      <UniqueIdentifier>{3505be66-d5a9-4f68-8a04-9820e702beb9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EmuMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EmuBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EmuConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EmuControls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EmuScriptMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\BFEntityType.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\BFGameApp.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\bfinternat.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\BFMap.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\BFUIMgr.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTApp.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTBuildingType.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTCheats.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTFenceType.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTGameMgr.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTGuest.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTHabitatMgr.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTMapView.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTSceneryType.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTUI.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTWorldMgr.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\ZooMiniMap.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\ZooModels.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\ZooState.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="deps\detours\detours.cpp">
+      <Filter>deps\detours</Filter>
+    </ClCompile>
+    <ClCompile Include="EmuLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\RegZooState.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\BFEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sol\sol\as_args.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\as_returns.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\assert.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\base_traits.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\bind_traits.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\bytecode.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\call.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\compatibility.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\config.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\coroutine.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\debug.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\demangle.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\deprecate.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\dump_handler.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\ebco.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\environment.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\epilogue.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\error.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\error_handler.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\forward.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\forward_detail.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\function.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\function_result.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\function_types.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\function_types_core.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\function_types_overloaded.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\function_types_stateful.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\function_types_stateless.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\function_types_templated.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\in_place.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\inheritance.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\lauxlib.h">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\load_result.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\lua_table.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\lua_value.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\luaconf.h">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\lualib.h">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\make_reference.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\metatable.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\object.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\object_base.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\optional.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\optional_implementation.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\overload.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\packaged_coroutine.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\pairs_iterator.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\pointer_like.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\policies.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\prologue.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\property.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\protect.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\protected_function.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\protected_function_result.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\protected_handler.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\proxy_base.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\raii.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\reference.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\resolve.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_check.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_check_get.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_check_get_qualified.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_check_get_unqualified.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_check_qualified.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_check_unqualified.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_core.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_field.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_get.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_get_qualified.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_get_unqualified.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_guard.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_iterator.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_pop.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_probe.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_proxy.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_proxy_base.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_push.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\stack_reference.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\state.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\state_handling.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\state_view.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\string_view.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\table.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\table_core.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\table_iterator.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\table_proxy.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\thread.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\tie.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\traits.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\trampoline.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\tuple.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\types.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\unicode.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\unique_usertype_traits.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\unsafe_function.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\unsafe_function_result.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\userdata.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\usertype.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\usertype_container.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\usertype_container_launch.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\usertype_core.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\usertype_proxy.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\usertype_storage.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\usertype_traits.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\variadic_args.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\variadic_results.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\version.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol\wrapper.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\compatibility\compat-5.3.c.h">
+      <Filter>deps\sol\compatibility</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\compatibility\compat-5.3.h">
+      <Filter>deps\sol\compatibility</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\compatibility\compat-5.4.h">
+      <Filter>deps\sol\compatibility</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\compatibility\lua_version.hpp">
+      <Filter>deps\sol\compatibility</Filter>
+    </ClInclude>
+    <ClInclude Include="sol\sol.hpp">
+      <Filter>deps\sol</Filter>
+    </ClInclude>
+    <ClInclude Include="deps\lauxlib.h">
+      <Filter>deps\lua54</Filter>
+    </ClInclude>
+    <ClInclude Include="deps\lua.h">
+      <Filter>deps\lua54</Filter>
+    </ClInclude>
+    <ClInclude Include="deps\lua.hpp">
+      <Filter>deps\lua54</Filter>
+    </ClInclude>
+    <ClInclude Include="deps\lualib.h">
+      <Filter>deps\lua54</Filter>
+    </ClInclude>
+    <ClInclude Include="EmuScriptMgr.h">
+      <Filter>emu</Filter>
+    </ClInclude>
+    <ClInclude Include="EmuConsole.h">
+      <Filter>emu</Filter>
+    </ClInclude>
+    <ClInclude Include="EmuBase.h">
+      <Filter>emu</Filter>
+    </ClInclude>
+    <ClInclude Include="EmuControls.h">
+      <Filter>emu</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\BFEntityType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\BFGameApp.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\bfinternat.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\BFMap.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\BFOverlayType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\BFUIMgr.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\BFUnitType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\UIMessageQueue.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTAmbientType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTAnimalType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTApp.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTBuildingType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTCheats.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTFenceType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTFoodType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTGameMgr.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTGuest.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTGuestType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTGuideType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTHabitatMgr.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTHelicopterType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTKeeperType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTMainType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTMapView.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTPathType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTRubbleType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTSceneryType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTStaffType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTTankFilterType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTTankWallType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTUI.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTUnitType.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTWorldMgr.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="EmuMain.h">
+      <Filter>emu</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\ZooMiniMap.h">
+      <Filter>resources</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\ZooModels.h">
+      <Filter>resources</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\ZooState.h">
+      <Filter>resources</Filter>
+    </ClInclude>
+    <ClInclude Include="deps\detours\detours.h">
+      <Filter>deps\detours</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\RegZooState.h">
+      <Filter>resources</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\BFEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

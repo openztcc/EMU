@@ -266,3 +266,125 @@ bool BFEntityType::availableAtStartup(bool input) {
     *(bool*)((DWORD)this->thisptr + 0x0CC) = input;
     return input;
 }
+
+void BFEntityType::ExportClassToLua(sol::state& lua) {
+    lua.new_usertype<BFEntityType>("BFEntityType",
+        sol::constructors<BFEntityType(void*)>(),
+        "ncolors", sol::overload(
+			static_cast<int (BFEntityType::*)()>(&BFEntityType::ncolors),
+			static_cast<int (BFEntityType::*)(int)>(&BFEntityType::ncolors)
+		),
+        "cIconZoom", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cIconZoom),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cIconZoom)
+        ),
+        "cExpansionID", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cExpansionID),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cExpansionID)
+        ),
+        "cMovable", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cMovable),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cMovable)
+        ),
+        "walkable", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::walkable),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::walkable)
+        ),
+        "walkableByTall", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::walkableByTall),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::walkableByTall)
+        ),
+        "cRubbleable", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cRubbleable),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cRubbleable)
+        ),
+        "cUseNumbersInName", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cUseNumbersInName),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cUseNumbersInName)
+        ),
+        "cUsesRealShadows", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cUsesRealShadows),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cUsesRealShadows)
+        ),
+        "cHasShadowImages", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cHasShadowImages),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cHasShadowImages)
+        ),
+        "cForceShadowBlack", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cForceShadowBlack),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cForceShadowBlack)
+        ),
+        "cDrawsLate", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cDrawsLate),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cDrawsLate)
+        ),
+        "cHeight", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cHeight),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cHeight)
+        ),
+        "cDepth", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cDepth),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cDepth)
+        ),
+        "cHasUnderwaterSection", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cHasUnderwaterSection),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cHasUnderwaterSection)
+        ),
+        "cIsTransient", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cIsTransient),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cIsTransient)
+        ),
+        "cUsesPlacementCube", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cUsesPlacementCube),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cUsesPlacementCube)
+        ),
+        "cShow", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cShow),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cShow)
+        ),
+        "cHitThreshold", sol::overload(
+            static_cast<int (BFEntityType::*)()>(&BFEntityType::cHitThreshold),
+            static_cast<int (BFEntityType::*)(int)>(&BFEntityType::cHitThreshold)
+        ),
+        "cAvoidEdges", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cAvoidEdges),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cAvoidEdges)
+        ),
+        "typeName", sol::overload(
+            static_cast<std::string (BFEntityType::*)()>(&BFEntityType::typeName),
+            static_cast<std::string (BFEntityType::*)(std::string)>(&BFEntityType::typeName)
+        ),
+        "codename", sol::overload(
+            static_cast<std::string (BFEntityType::*)()>(&BFEntityType::codename),
+            static_cast<std::string (BFEntityType::*)(std::string)>(&BFEntityType::codename)
+        ),
+        "cFootprintX", sol::overload(
+            static_cast<int (BFEntityType::*)()>(&BFEntityType::cFootprintX),
+            static_cast<int (BFEntityType::*)(int)>(&BFEntityType::cFootprintX)
+        ),
+        "cFootprintY", sol::overload(
+            static_cast<int (BFEntityType::*)()>(&BFEntityType::cFootprintY),
+            static_cast<int (BFEntityType::*)(int)>(&BFEntityType::cFootprintY)
+        ),
+        "cFootprintZ", sol::overload(
+            static_cast<int (BFEntityType::*)()>(&BFEntityType::cFootprintZ),
+            static_cast<int (BFEntityType::*)(int)>(&BFEntityType::cFootprintZ)
+        ),
+        "cPlacementFootprintX", sol::overload(
+            static_cast<int (BFEntityType::*)()>(&BFEntityType::cPlacementFootprintX),
+            static_cast<int (BFEntityType::*)(int)>(&BFEntityType::cPlacementFootprintX)
+        ),
+        "cPlacementFootprintY", sol::overload(
+            static_cast<int (BFEntityType::*)()>(&BFEntityType::cPlacementFootprintY),
+            static_cast<int (BFEntityType::*)(int)>(&BFEntityType::cPlacementFootprintY)
+        ),
+        "cPlacementFootprintZ", sol::overload(
+            static_cast<int (BFEntityType::*)()>(&BFEntityType::cPlacementFootprintZ),
+            static_cast<int (BFEntityType::*)(int)>(&BFEntityType::cPlacementFootprintZ)
+        ),
+        "availableAtStartup", sol::overload(
+            static_cast<bool (BFEntityType::*)()>(&BFEntityType::availableAtStartup),
+            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::availableAtStartup)
+        )
+    );
+}

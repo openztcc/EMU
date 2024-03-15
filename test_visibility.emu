@@ -1,0 +1,9 @@
+function emu_run()
+    local gen = general()
+    local entity = gen:getSelectedEntity()
+
+    if entity != 0 then 
+        local selentity = BFEntity(entity)
+        selentity:visibility(false)
+end
+

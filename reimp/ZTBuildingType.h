@@ -4,6 +4,7 @@
 #include "ZTSceneryType.h"
 
 #include <string>
+#include <sol/sol.hpp>
 
 class ZTBuildingType : public ZTSceneryType {
     public:
@@ -75,7 +76,7 @@ class ZTBuildingType : public ZTSceneryType {
     int cEnergyChange(int); // 0x1CC
     // TODO: string pointers
 
-    void ExportClassToLua();
+    void ExportClassToLua(sol::state&);
 };
 
 #endif // ZTBUILDINGTYPE_H

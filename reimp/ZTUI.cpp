@@ -69,6 +69,20 @@ void ZTUI::general::makeSelectable(std::vector<DWORD*> entities) {
     }
 }
 
+void ZTUI::general::ExportClassToLua(sol::state& lua) {
+    lua.open_libraries(sol::lib::base);
+    lua_State* L = lua.lua_state();
+    sol::state_view _lua(L);
+
+    lua.new_usertype<ZTUI::general>("general",
+        "getMapView", &ZTUI::general::getMapView,
+        "getSelectedEntity", &ZTUI::general::getSelectedEntity,
+        "getSelectedEntityType", &ZTUI::general::getSelectedEntityType,
+        "makeSelectableByType", &ZTUI::general::makeSelectableByType,
+        "makeSelectable", &ZTUI::general::makeSelectable
+    );
+}
+
 void ZTUI::main::setMoneyText(rgb color) {
     // set money text show in the UI
     float money = ZooState::GetZooBudget();
