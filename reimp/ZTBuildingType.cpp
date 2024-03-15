@@ -1,5 +1,7 @@
 #include "ZTBuildingType.h"
 #include <Windows.h> // must always be above detours.h
+#include "sol/sol.hpp"
+#include "EmuMain.h"
 
 int ZTBuildingType::cCapacity() {
     return *(int*)((DWORD)this->thisptr + 0x16C);
@@ -257,3 +259,143 @@ int ZTBuildingType::cEnergyChange(int value) {
     return *(int*)((DWORD)this->thisptr + 0x1CC) = value;
 }
 
+void ZTBuildingType::ExportClassToLua() {
+    sol::state lua;
+    lua.open_libraries(sol::lib::base);
+    lua_State* L = lua.lua_state();
+    sol::state_view _lua(L);
+
+    _lua.new_usertype<ZTBuildingType>("ZTBuildingType",
+        // Constructors
+        sol::constructors<ZTBuildingType(void*)>(),
+        "cCapacity", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cCapacity),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cCapacity)
+        ),
+        "cToySatisfaction", sol::overload(
+			static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cToySatisfaction),
+			static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cToySatisfaction)
+		),
+        "cTimeInside", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cTimeInside),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cTimeInside)
+        ),
+        "cDefaultCost", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cDefaultCost),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cDefaultCost)
+        ),
+        "cLowCost", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cLowCost),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cLowCost)
+        ),
+        "cMedCost", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cMedCost),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cMedCost)
+        ),
+        "cHighCost", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cHighCost),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cHighCost)
+        ),
+        "cPriceFactor", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cPriceFactor),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cPriceFactor)
+        ),
+        "cUpkeep", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cUpkeep),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cUpkeep)
+        ),
+        "cHideUser", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cHideUser),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cHideUser)
+        ),
+        "cSetLetterFacing", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cSetLetterFacing),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cSetLetterFacing)
+        ),
+        "cDrawUser", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cDrawUser),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cDrawUser)
+        ),
+        "cHideCostChange", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cHideCostChange),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cHideCostChange)
+        ),
+        "cHideCommerceInfo", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cHideCommerceInfo),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cHideCommerceInfo)
+        ),
+        "cHideRegularInfo", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cHideRegularInfo),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cHideRegularInfo)
+        ),
+        "cHoldsOntoUser", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cHoldsOntoUser),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cHoldsOntoUser)
+        ),
+        "cUserTracker", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cUserTracker),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cUserTracker)
+        ),
+        "cIdler", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cIdler),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cIdler)
+        ),
+        "cExhibitViewer", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cExhibitViewer),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cExhibitViewer)
+        ),
+        "cAlternatePanelTitle", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cAlternatePanelTitle),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cAlternatePanelTitle)
+        ),
+        "cDirectEntrance", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cDirectEntrance),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cDirectEntrance)
+        ),
+        "cHideBuilding", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cHideBuilding),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cHideBuilding)
+        ),
+        "cUserStaysOutside", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cUserStaysOutside),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cUserStaysOutside)
+        ),
+        "cUserTeleportsInside", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cUserTeleportsInside),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cUserTeleportsInside)
+        ),
+        "cUserUsesExit", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cUserUsesExit),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cUserUsesExit)
+        ),
+        "cUserUsesEntranceAsEmergencyExit", sol::overload(
+            static_cast<bool (ZTBuildingType::*)()>(&ZTBuildingType::cUserUsesEntranceAsEmergencyExit),
+            static_cast<bool (ZTBuildingType::*)(bool)>(&ZTBuildingType::cUserUsesEntranceAsEmergencyExit)
+        ),
+        "cAdultChange", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cAdultChange),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cAdultChange)
+        ),
+        "cChildChange", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cChildChange),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cChildChange)
+        ),
+        "cHungerChange", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cHungerChange),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cHungerChange)
+        ),
+        "cThirstChange", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cThirstChange),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cThirstChange)
+        ),
+        "cBathroomChange", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cBathroomChange),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cBathroomChange)
+        ),
+        "cEnergyChange", sol::overload(
+            static_cast<int (ZTBuildingType::*)()>(&ZTBuildingType::cEnergyChange),
+            static_cast<int (ZTBuildingType::*)(int)>(&ZTBuildingType::cEnergyChange)
+        ),
+        sol::base_classes, sol::bases<BFEntityType, ZTSceneryType>()
+    );
+}

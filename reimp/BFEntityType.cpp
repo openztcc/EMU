@@ -1,6 +1,7 @@
 #include "BFEntityType.h"
 #include <Windows.h> // must always be above detours.h
 #include <string>
+#include "sol/sol.hpp"
 
 int BFEntityType::ncolors() {
     return *(int*)((DWORD)thisptr + 0x038);
