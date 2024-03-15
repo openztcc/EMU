@@ -2,6 +2,7 @@
 #define ZTBUILDINGTYPE_H
 
 #include "ZTSceneryType.h"
+
 #include <string>
 
 class ZTBuildingType : public ZTSceneryType {
@@ -73,6 +74,8 @@ class ZTBuildingType : public ZTSceneryType {
     int cEnergyChange(); // 0x1CC
     int cEnergyChange(int); // 0x1CC
     // TODO: string pointers
+
+    void ExportClassToLua();
 };
 
 #endif // ZTBUILDINGTYPE_H
