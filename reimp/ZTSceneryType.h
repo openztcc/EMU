@@ -3,6 +3,7 @@
 
 #include "BFEntityType.h"
 #include <string>
+#include <sol/sol.hpp>
 
 
 class ZTSceneryType : public BFEntityType {
@@ -68,6 +69,7 @@ class ZTSceneryType : public BFEntityType {
     std::string cInfoImageName(std::string); //0x14C
     ZTSceneryType(void* ptr) : BFEntityType(ptr) {};
     ~ZTSceneryType() {};
+    static void ExportClassToLua(sol::state& lua);
 
 };
 

@@ -8,6 +8,7 @@
 #include "BFEntity.h"
 #include "BFEntityType.h"
 #include "EmuConsole.h"
+#include "ZTSceneryType.h"
 
 EmuScriptMgr::EmuScriptMgr()
 {
@@ -25,6 +26,7 @@ void EmuScriptMgr::InitEmuAPI()
 	BFEntity::ExportClassToLua(this->lua);
 	BFEntityType::ExportClassToLua(this->lua);
 	EmuConsole::ExportToLua(this->lua);
+	ZTSceneryType::ExportClassToLua(this->lua);
 }
 
 // Load all the scripts from the scripts directory into memory

@@ -65,14 +65,14 @@ int ZTSceneryType::cMaxFoodUnits(int input) {
     return input;
 }
 
-// bool ZTSceneryType::cDeletable() {
-//     return *(bool*)((DWORD)this->thisptr + 0x119);
-// }
+bool ZTSceneryType::cDeletable() {
+    return *(bool*)((DWORD)this->thisptr + 0x119);
+}
 
-// bool ZTSceneryType::cDeletable(bool input) {
-//     *(bool*)((DWORD)this->thisptr + 0x119) = input;
-//     return input;
-// }
+bool ZTSceneryType::cDeletable(bool input) {
+    *(bool*)((DWORD)this->thisptr + 0x119) = input;
+    return input;
+}
 
 bool ZTSceneryType::cStink() {
     return *(bool*)((DWORD)this->thisptr + 0x11C);
@@ -334,4 +334,126 @@ std::string ZTSceneryType::cInfoImageName() {
 std::string ZTSceneryType::cInfoImageName(std::string input) {
     *(std::string*)((DWORD)this->thisptr + 0x14C) = input;
     return input;
+}
+
+void ZTSceneryType::ExportClassToLua(sol::state& lua) {
+    lua.open_libraries(sol::lib::base);
+    lua_State* L = lua.lua_state();
+    sol::state_view _lua(L);
+
+    lua.new_usertype<ZTSceneryType>("ZTSceneryType",
+        "new", sol::constructors<ZTSceneryType(void*)>(),
+        "cPurchaseCost", sol::overload(
+            static_cast<int (ZTSceneryType::*)()>(&ZTSceneryType::cPurchaseCost),
+            static_cast<int (ZTSceneryType::*)(int)>(&ZTSceneryType::cPurchaseCost)
+        ),
+        "cNameID", sol::overload(
+            static_cast<int (ZTSceneryType::*)()>(&ZTSceneryType::cNameID),
+            static_cast<int (ZTSceneryType::*)(int)>(&ZTSceneryType::cNameID)
+        ),
+        "cHelpID", sol::overload(
+            static_cast<int (ZTSceneryType::*)()>(&ZTSceneryType::cHelpID),
+            static_cast<int (ZTSceneryType::*)(int)>(&ZTSceneryType::cHelpID)
+        ),
+        "cHabitat", sol::overload(
+            static_cast<int (ZTSceneryType::*)()>(&ZTSceneryType::cHabitat),
+            static_cast<int (ZTSceneryType::*)(int)>(&ZTSceneryType::cHabitat)
+        ),
+        "cLocation", sol::overload(
+            static_cast<int (ZTSceneryType::*)()>(&ZTSceneryType::cLocation),
+            static_cast<int (ZTSceneryType::*)(int)>(&ZTSceneryType::cLocation)
+        ),
+        "cEra", sol::overload(
+            static_cast<int (ZTSceneryType::*)()>(&ZTSceneryType::cEra),
+            static_cast<int (ZTSceneryType::*)(int)>(&ZTSceneryType::cEra)
+        ),
+        "cMaxFoodUnits", sol::overload(
+            static_cast<int (ZTSceneryType::*)()>(&ZTSceneryType::cMaxFoodUnits),
+            static_cast<int (ZTSceneryType::*)(int)>(&ZTSceneryType::cMaxFoodUnits)
+        ),
+        "cDeletable", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cDeletable),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cDeletable)
+        ),
+        "cStink", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cStink),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cStink)
+        ),
+        "cEstheticWeight", sol::overload(
+            static_cast<int (ZTSceneryType::*)()>(&ZTSceneryType::cEstheticWeight),
+            static_cast<int (ZTSceneryType::*)(int)>(&ZTSceneryType::cEstheticWeight)
+        ),
+        "cSelectable", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cSelectable),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cSelectable)
+        ),
+        "cFoliage", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cFoliage),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cFoliage)
+        ),
+        "cAutoRotate", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cAutoRotate),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cAutoRotate)
+        ),
+        "cLand", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cLand),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cLand)
+        ),
+        "cSwims", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cSwims),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cSwims)
+        ),
+        "cUnderwater", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cUnderwater),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cUnderwater)
+        ),
+        "cSurface", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cSurface),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cSurface)
+        ),
+        "cSubmerge", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cSubmerge),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cSubmerge)
+        ),
+        "cOnlySwims", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cOnlySwims),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cOnlySwims)
+        ),
+        "cNeedsConfirm", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cNeedsConfirm),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cNeedsConfirm)
+        ),
+        "cGawkOnlyFromFront", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cGawkOnlyFromFront),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cGawkOnlyFromFront)
+        ),
+        "cDeadOnLand", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cDeadOnLand),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cDeadOnLand)
+        ),
+        "cDeadOnFlatWater", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cDeadOnFlatWater),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cDeadOnFlatWater)
+        ),
+        "cDeadUnderwater", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cDeadUnderwater),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cDeadUnderwater)
+        ),
+        "cUsesTreeRubble", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cUsesTreeRubble),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cUsesTreeRubble)
+        ),
+        "cForcesSceneryRubble", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cForcesSceneryRubble),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cForcesSceneryRubble)
+        ),
+        "cBlocksLOS", sol::overload(
+            static_cast<bool (ZTSceneryType::*)()>(&ZTSceneryType::cBlocksLOS),
+            static_cast<bool (ZTSceneryType::*)(bool)>(&ZTSceneryType::cBlocksLOS)
+        ),
+        "cInfoImageName", sol::overload(
+            static_cast<std::string (ZTSceneryType::*)()>(&ZTSceneryType::cInfoImageName),
+            static_cast<std::string (ZTSceneryType::*)(std::string)>(&ZTSceneryType::cInfoImageName)
+        )
+    );
 }
