@@ -14,6 +14,7 @@ class ZTWorldMgr {
     static DWORD getOffset(DWORD);
 
     static std::vector<DWORD*> getAllEntitiesOfType(int ids[]);
+    static void* getEntityTypeByID(int);
     static void makeInvisible(std::vector<DWORD*>, bool);
 };
 

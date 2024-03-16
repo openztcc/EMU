@@ -70,7 +70,7 @@ class ZTSceneryType : public BFEntityType {
     ZTSceneryType(void* ptr) : BFEntityType(ptr) {};
     ~ZTSceneryType() {};
     static void ExportClassToLua(sol::state& lua);
-
+    void LoadConfiguration();
 };
 
 #endif // ZTSCENERYTYPE_H

@@ -1,6 +1,7 @@
 
 #include "ZTWorldMgr.h"
 #include "ZTMapView.h"
+#include <vector>
 
 void* ZTWorldMgr::getWorldMgr() {
     return (void*)0x00638040;
@@ -39,6 +40,33 @@ std::vector<DWORD*> ZTWorldMgr::getAllEntitiesOfType(int ids[]) {
     }
 
     return entities;
+}
+
+void* ZTWorldMgr::getEntityTypeByID(int id) {
+    DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x80));
+    DWORD* end = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x84));
+    std::vector<DWORD*> entities;
+
+    // iterate through the entity list
+    for (DWORD** current = reinterpret_cast<DWORD**>(begin); current < reinterpret_cast<DWORD**>(end); ++current) {
+        // get the first level pointer
+        DWORD* firstLevelPtr = *current;
+        if (!firstLevelPtr) continue;
+
+        // get the second level pointer
+        DWORD* secondLevelPtr = *reinterpret_cast<DWORD**>(reinterpret_cast<char*>(firstLevelPtr) + 0x128);
+        if (!secondLevelPtr) continue;
+
+        // get second level pointer's entity ID
+        int entityID = *reinterpret_cast<int*>(reinterpret_cast<char*>(secondLevelPtr) + 0x104);
+
+        if (entityID == id) {
+            // store the pointer to the entity
+            return secondLevelPtr;
+        }
+    }
+
+    return nullptr;
 }
 
 void ZTWorldMgr::makeInvisible(std::vector<DWORD*> entities, bool isInvisible) {

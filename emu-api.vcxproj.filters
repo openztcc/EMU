@@ -37,6 +37,9 @@
     <Filter Include="deps\detours">
       <UniqueIdentifier>{3505be66-d5a9-4f68-8a04-9820e702beb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="deps\simpleini">
+      <UniqueIdentifier>{008d3013-4852-4c53-8bff-26789d63d0a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EmuMain.cpp">
@@ -122,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="reimp\BFEntity.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EmuConfigMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="deps\simpleini\ConvertUTF.c">
+      <Filter>deps\simpleini</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -607,6 +616,15 @@
     </ClInclude>
     <ClInclude Include="reimp\BFEntity.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EmuConfigMgr.h">
+      <Filter>emu</Filter>
+    </ClInclude>
+    <ClInclude Include="deps\simpleini\ConvertUTF.h">
+      <Filter>deps\simpleini</Filter>
+    </ClInclude>
+    <ClInclude Include="deps\simpleini\SimpleIni.h">
+      <Filter>deps\simpleini</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

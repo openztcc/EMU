@@ -1,6 +1,6 @@
 #include "ZTSceneryType.h"
 #include <Windows.h> // must always be above detours.h
-
+#include "SimpleIni.h"
 
 int ZTSceneryType::cPurchaseCost() {
     return *(int*)((DWORD)this->thisptr + 0x100);
@@ -456,4 +456,132 @@ void ZTSceneryType::ExportClassToLua(sol::state& lua) {
             static_cast<std::string (ZTSceneryType::*)(std::string)>(&ZTSceneryType::cInfoImageName)
         )
     );
+}
+
+void ZTSceneryType::LoadConfiguration() {
+    BFEntityType::LoadConfiguration();
+    CSimpleIniA ini;
+    ini.SetUnicode();
+    std::string file = this->codename() + ".ai";
+    const char* filename = file.c_str();
+
+    SI_Error result = ini.LoadFile("0.ai");
+    if (result < 0) {
+        return;
+    }
+    const char* integers = "Characteristics/Integers";
+    const char* pVal = ini.GetValue(integers, "cPurchaseCost");
+    if (pVal) {
+        this->cPurchaseCost(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cNameID");
+    if (pVal) {
+        this->cNameID(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cHelpID");
+    if (pVal) {
+        this->cHelpID(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cHabitat");
+    if (pVal) {
+        this->cHabitat(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cLocation");
+    if (pVal) {
+        this->cLocation(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cEra");
+    if (pVal) {
+        this->cEra(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cMaxFoodUnits");
+    if (pVal) {
+        this->cMaxFoodUnits(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cDeletable");
+    if (pVal) {
+        this->cDeletable(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cStink");
+    if (pVal) {
+        this->cStink(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cEstheticWeight");
+    if (pVal) {
+        this->cEstheticWeight(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cSelectable");
+    if (pVal) {
+        this->cSelectable(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cFoliage");
+    if (pVal) {
+        this->cFoliage(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cAutoRotate");
+    if (pVal) {
+        this->cAutoRotate(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cLand");
+    if (pVal) {
+        this->cLand(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cSwims");
+    if (pVal) {
+        this->cSwims(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cUnderwater");
+    if (pVal) {
+        this->cUnderwater(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cSurface");
+    if (pVal) {
+        this->cSurface(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cSubmerge");
+    if (pVal) {
+        this->cSubmerge(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cOnlySwims");
+    if (pVal) {
+        this->cOnlySwims(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cNeedsConfirm");
+    if (pVal) {
+        this->cNeedsConfirm(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cGawkOnlyFromFront");
+    if (pVal) {
+        this->cGawkOnlyFromFront(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cDeadOnLand");
+    if (pVal) {
+        this->cDeadOnLand(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cDeadOnFlatWater");
+    if (pVal) {
+        this->cDeadOnFlatWater(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cDeadUnderwater");
+    if (pVal) {
+        this->cDeadUnderwater(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cUsesTreeRubble");
+    if (pVal) {
+        this->cUsesTreeRubble(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cForcesSceneryRubble");
+    if (pVal) {
+        this->cForcesSceneryRubble(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cBlocksLOS");
+    if (pVal) {
+        this->cBlocksLOS(atoi(pVal));
+    }
+    // const char* strings = "Characteristics/Strings";
+    // pVal = ini.GetValue(strings, "cInfoImageName");
+    // if (pVal) {
+    //     this->cInfoImageName(pVal);
+    // }
+
 }

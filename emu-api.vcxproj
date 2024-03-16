@@ -94,7 +94,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)deps;$(ProjectDir)deps\lua54;$(ProjectDir)reimp;$(ProjectDir)resources;$(ProjectDir)deps\detours;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)deps;$(ProjectDir)deps\lua54;$(ProjectDir)reimp;$(ProjectDir)resources;$(ProjectDir)deps\detours;$(ProjectDir)deps\simpleini;</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -138,7 +138,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="deps\detours\detours.cpp" />
+    <ClCompile Include="deps\simpleini\ConvertUTF.c" />
     <ClCompile Include="EmuBase.cpp" />
+    <ClCompile Include="EmuConfigMgr.cpp" />
     <ClCompile Include="EmuConsole.cpp" />
     <ClCompile Include="EmuControls.cpp" />
     <ClCompile Include="EmuLoader.cpp" />
@@ -172,7 +174,10 @@
     <ClInclude Include="deps\lua.h" />
     <ClInclude Include="deps\lua.hpp" />
     <ClInclude Include="deps\lualib.h" />
+    <ClInclude Include="deps\simpleini\ConvertUTF.h" />
+    <ClInclude Include="deps\simpleini\SimpleIni.h" />
     <ClInclude Include="EmuBase.h" />
+    <ClInclude Include="EmuConfigMgr.h" />
     <ClInclude Include="EmuConsole.h" />
     <ClInclude Include="EmuControls.h" />
     <ClInclude Include="EmuMain.h" />

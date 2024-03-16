@@ -69,6 +69,7 @@ class BFEntityType {
     BFEntityType(void* ptr) : thisptr(ptr) {};
     ~BFEntityType() {};
     static void ExportClassToLua(sol::state& lua);
+    void LoadConfiguration();
 
     protected:
     void* thisptr;

@@ -2,6 +2,7 @@
 #include <Windows.h> // must always be above detours.h
 #include <string>
 #include "sol/sol.hpp"
+#include "SimpleIni.h"
 
 int BFEntityType::ncolors() {
     return *(int*)((DWORD)thisptr + 0x038);
@@ -387,4 +388,130 @@ void BFEntityType::ExportClassToLua(sol::state& lua) {
             static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::availableAtStartup)
         )
     );
+}
+
+void BFEntityType::LoadConfiguration() {
+    CSimpleIniA ini;
+    ini.SetUnicode();
+    std::string file = this->codename() + ".ai";
+    const char* filename = file.c_str();
+    ini.LoadFile("0.ai");
+    const char* integers = "Characteristics/Integers";
+    const char* pVal = ini.GetValue(integers, "ncolors");
+    if (pVal) {
+        this->ncolors(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cIconZoom");
+    if (pVal) {
+        this->cIconZoom(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cExpansionID");
+    if (pVal) {
+        this->cExpansionID(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cMovable");
+    if (pVal) {
+        this->cMovable(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "walkable");
+    if (pVal) {
+        this->walkable(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "walkableByTall");
+    if (pVal) {
+        this->walkableByTall(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cRubbleable");
+    if (pVal) {
+        this->cRubbleable(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cUseNumbersInName");
+    if (pVal) {
+        this->cUseNumbersInName(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cUsesRealShadows");
+    if (pVal) {
+        this->cUsesRealShadows(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cHasShadowImages");
+    if (pVal) {
+        this->cHasShadowImages(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cForceShadowBlack");
+    if (pVal) {
+        this->cForceShadowBlack(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cDrawsLate");
+    if (pVal) {
+        this->cDrawsLate(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cHeight");
+    if (pVal) {
+        this->cHeight(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cDepth");
+    if (pVal) {
+        this->cDepth(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cHasUnderwaterSection");
+    if (pVal) {
+        this->cHasUnderwaterSection(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cIsTransient");
+    if (pVal) {
+        this->cIsTransient(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cUsesPlacementCube");
+    if (pVal) {
+        this->cUsesPlacementCube(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cShow");
+    if (pVal) {
+        this->cShow(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cHitThreshold");
+    if (pVal) {
+        this->cHitThreshold(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cAvoidEdges");
+    if (pVal) {
+        this->cAvoidEdges(atoi(pVal));
+    }
+    const char* strings = "Configuration/Strings";
+    pVal = ini.GetValue(strings, "typeName");
+    if (pVal) {
+        this->typeName(pVal);
+    }
+    pVal = ini.GetValue(strings, "codename");
+    if (pVal) {
+        this->codename(pVal);
+    }
+    pVal = ini.GetValue(integers, "cFootprintX");
+    if (pVal) {
+        this->cFootprintX(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cFootprintY");
+    if (pVal) {
+        this->cFootprintY(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cFootprintZ");
+    if (pVal) {
+        this->cFootprintZ(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cPlacementFootprintX");
+    if (pVal) {
+        this->cPlacementFootprintX(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cPlacementFootprintY");
+    if (pVal) {
+        this->cPlacementFootprintY(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "cPlacementFootprintZ");
+    if (pVal) {
+        this->cPlacementFootprintZ(atoi(pVal));
+    }
+    pVal = ini.GetValue(integers, "availableAtStartup");
+    if (pVal) {
+        this->availableAtStartup(atoi(pVal));
+    }
 }

@@ -4,6 +4,9 @@
 #include <iostream>
 #include "ZooState.h"
 #include "stdio.h"
+#include "SimpleIni.h"
+#include "ZTUI.h"
+#include "ZTSceneryType.h"
 
 //#include "ZTGameMgr.h"
 //#include "BFGameApp.h"
@@ -450,6 +453,47 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             {
                 
                 WriteToConsole("Err: Command <" + tokens[0] + "> requires a boolean.\n");
+            }
+        }
+        else if (tokens[0] == "loadconfig")
+        {
+            void* entity = 0;
+            if (tokens.size() < 2)
+            {
+                
+                WriteToConsole("Err: Command <" + tokens[0] + "> requires a filename.\n");
+                return;
+            }
+            if (tokens[1] == "-s")
+            {
+                entity = ZTUI::general::getSelectedEntity();
+                if (entity == 0)
+                {
+                    
+                    WriteToConsole("Err: No entity selected.\n");
+                    return;
+                }
+            } else if (tokens[1] == "-id")
+            {
+                entity = ZTWorldMgr::getEntityTypeByID(::atoi(tokens[2].c_str()));
+                if (entity == 0)
+                {
+                    
+                    WriteToConsole("Err: Entity with ID <" + tokens[2] + "> not found.\n");
+                    return;
+                }
+                ZTSceneryType sceneryType(entity);
+                sceneryType.LoadConfiguration();
+                WriteToConsole("Loading configuration file for entity with codename: " + sceneryType.codename() + "\n");
+                WriteToConsole("Configuration file loaded.\n");
+
+            }
+            else
+            {
+                
+                WriteToConsole("Err: Command <" + tokens[0] + "> requires a subcommand.\n");
+                WriteToConsole("Usage: -s (selected entity), -id (entity by id)\n");
+                return;
             }
         }
         else
