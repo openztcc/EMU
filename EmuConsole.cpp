@@ -496,6 +496,76 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
                 return;
             }
         }
+        else if (tokens[0] == "enttype")
+        {
+            if (tokens.size() < 2)
+            {
+                
+                WriteToConsole("Err: Command <" + tokens[0] + "> requires a subcommand.\n");
+                WriteToConsole("-id (entity by id)\n");
+                return;
+            }
+            if (tokens[1] == "-id")
+            {
+                void* entity = ZTWorldMgr::getEntityTypeByID(::atoi(tokens[2].c_str()));
+                if (entity == 0)
+                {
+                    
+                    WriteToConsole("Err: Entity with ID <" + tokens[2] + "> not found.\n");
+                    return;
+                }
+                std::string entitytype_str = EmuBase::ptrToHexStr(entity);
+                WriteToConsole("Entity type: " +  entitytype_str + "\n");
+            }
+            else
+            {
+                
+                WriteToConsole("Err: Command <" + tokens[0] + "> requires a subcommand.\n");
+                WriteToConsole("-id (entity by id)\n");
+                return;
+            }
+        }
+        else if (tokens[0] == "selent")
+        {
+            void* entity = ZTUI::general::getSelectedEntity();
+            
+            if (entity == 0)
+            {
+                
+                WriteToConsole("Err: No entity selected.\n");
+                return;
+            }
+            std::string entity_str = EmuBase::ptrToHexStr(entity);
+            WriteToConsole("Selected entity: " + entity_str + "\n");
+            if (tokens.size() > 1 && tokens[1] == "-b")
+            {
+                void* entityType = ZTUI::general::getSelectedEntityType();
+                std::string entityType_str = EmuBase::ptrToHexStr(entityType);
+                WriteToConsole("Selected entity type: " + entityType_str + "\n");
+            }
+        }
+        else if (tokens[0] == "actkh")
+        {
+            void* bell = ZTWorldMgr::getEntityTypeByID(5970);
+            void* ramp = ZTWorldMgr::getEntityTypeByID(5971);
+            void* ball = ZTWorldMgr::getEntityTypeByID(5969);
+            void* hoop = ZTWorldMgr::getEntityTypeByID(5968);
+            if (bell == 0 || ramp == 0 || ball == 0 || hoop == 0)
+            {
+                
+                WriteToConsole("Err: One or more of the required entities not found.\n");
+                return;
+            }
+            BFEntityType bellType(bell);
+            BFEntityType rampType(ramp);
+            BFEntityType ballType(ball);
+            BFEntityType hoopType(hoop);
+            bellType.availableAtStartup(true);
+            rampType.availableAtStartup(true);
+            ballType.availableAtStartup(true);
+            hoopType.availableAtStartup(true);
+            WriteToConsole("All toys by Khaydar are now available at startup.\n");
+        }
         else
         {
             

@@ -11,6 +11,7 @@ DWORD ZTWorldMgr::getOffset(DWORD offset) {
     return (*(DWORD*)0x00638040) + offset;
 }
 
+// gets only entity types whose entities are currently loaded in the game
 std::vector<DWORD*> ZTWorldMgr::getAllEntitiesOfType(int ids[]) {
     // store the begin and end pointers of the entity list
 
@@ -42,10 +43,10 @@ std::vector<DWORD*> ZTWorldMgr::getAllEntitiesOfType(int ids[]) {
     return entities;
 }
 
+// gets ALL entity types loaded in the game
 void* ZTWorldMgr::getEntityTypeByID(int id) {
-    DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x80));
-    DWORD* end = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x84));
-    std::vector<DWORD*> entities;
+    DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x98));
+    DWORD* end = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x9C));
 
     // iterate through the entity list
     for (DWORD** current = reinterpret_cast<DWORD**>(begin); current < reinterpret_cast<DWORD**>(end); ++current) {
@@ -53,16 +54,12 @@ void* ZTWorldMgr::getEntityTypeByID(int id) {
         DWORD* firstLevelPtr = *current;
         if (!firstLevelPtr) continue;
 
-        // get the second level pointer
-        DWORD* secondLevelPtr = *reinterpret_cast<DWORD**>(reinterpret_cast<char*>(firstLevelPtr) + 0x128);
-        if (!secondLevelPtr) continue;
-
         // get second level pointer's entity ID
-        int entityID = *reinterpret_cast<int*>(reinterpret_cast<char*>(secondLevelPtr) + 0x104);
+        int entityID = *reinterpret_cast<int*>(reinterpret_cast<char*>(firstLevelPtr) + 0x104);
 
         if (entityID == id) {
             // store the pointer to the entity
-            return secondLevelPtr;
+            return firstLevelPtr;
         }
     }
 
@@ -75,4 +72,13 @@ void ZTWorldMgr::makeInvisible(std::vector<DWORD*> entities, bool isInvisible) {
         bool* visibilityFlag = reinterpret_cast<bool*>(reinterpret_cast<char*>(entities[i]) + 0x13f);
         *visibilityFlag = isInvisible;
     }
+}
+
+void ZTWorldMgr::ExportClassToLua(sol::state_view& lua) {
+    lua.new_usertype<ZTWorldMgr>("ZTWorldMgr",
+        "new", sol::no_constructor,
+        "getAllEntitiesOfType", &ZTWorldMgr::getAllEntitiesOfType,
+        "getEntityTypeByID", &ZTWorldMgr::getEntityTypeByID,
+        "makeInvisible", &ZTWorldMgr::makeInvisible
+    );
 }
