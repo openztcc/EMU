@@ -74,7 +74,7 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 	// 	EmuMain::shared_instance().hasHooked = true;
 	// }
 
-	ZTCheats::InvisibleInvincibleCheat(); // run cheats
+	// ZTCheats::InvisibleInvincibleCheat(); // run cheats
 
 	// only run scripts while zoo is loaded and not in main menu
 	if ((int)ZooState::object_ptr(0x0) > 0) {

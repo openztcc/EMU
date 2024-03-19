@@ -626,5 +626,11 @@
     <ClInclude Include="deps\simpleini\SimpleIni.h">
       <Filter>deps\simpleini</Filter>
     </ClInclude>
+    <ClInclude Include="reimp\BFUnit.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTUnit.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

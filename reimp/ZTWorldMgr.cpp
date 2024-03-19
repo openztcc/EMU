@@ -12,7 +12,7 @@ DWORD ZTWorldMgr::getOffset(DWORD offset) {
 }
 
 // gets only entity types whose entities are currently loaded in the game
-std::vector<DWORD*> ZTWorldMgr::getAllEntitiesOfType(int ids[]) {
+std::vector<DWORD*> ZTWorldMgr::GetAllEntitiesOfType(std::vector<int> ids) {
     // store the begin and end pointers of the entity list
 
     DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x80));
@@ -32,7 +32,7 @@ std::vector<DWORD*> ZTWorldMgr::getAllEntitiesOfType(int ids[]) {
         // get second level pointer's entity ID
         int entityID = *reinterpret_cast<int*>(reinterpret_cast<char*>(secondLevelPtr) + 0x104);
 
-        for (size_t i = 0; ids[i] != NULL; i++) {
+        for (size_t i = 0; i < ids.size(); i++) {
             if (entityID == ids[i]) {
                 // store the pointer to the entity
                 entities.push_back(firstLevelPtr);
@@ -56,17 +56,18 @@ void* ZTWorldMgr::getEntityTypeByID(int id) {
 
         // get second level pointer's entity ID
         int entityID = *reinterpret_cast<int*>(reinterpret_cast<char*>(firstLevelPtr) + 0x104);
+        int animalID = *reinterpret_cast<int*>(reinterpret_cast<char*>(firstLevelPtr) + 0x130);
 
-        if (entityID == id) {
+        if (entityID == id || animalID == id) {
             // store the pointer to the entity
             return firstLevelPtr;
-        }
+        } 
     }
 
     return nullptr;
 }
 
-void ZTWorldMgr::makeInvisible(std::vector<DWORD*> entities, bool isInvisible) {
+void ZTWorldMgr::MakeInvisible(std::vector<DWORD*> entities, bool isInvisible) {
     for (size_t i = 0; i < entities.size(); i++) {
         // Correctly calculate the pointer to the visibility flag
         bool* visibilityFlag = reinterpret_cast<bool*>(reinterpret_cast<char*>(entities[i]) + 0x13f);
@@ -77,8 +78,8 @@ void ZTWorldMgr::makeInvisible(std::vector<DWORD*> entities, bool isInvisible) {
 void ZTWorldMgr::ExportClassToLua(sol::state_view& lua) {
     lua.new_usertype<ZTWorldMgr>("ZTWorldMgr",
         "new", sol::no_constructor,
-        "getAllEntitiesOfType", &ZTWorldMgr::getAllEntitiesOfType,
+        "GetAllEntitiesOfType", &ZTWorldMgr::GetAllEntitiesOfType,
         "getEntityTypeByID", &ZTWorldMgr::getEntityTypeByID,
-        "makeInvisible", &ZTWorldMgr::makeInvisible
+        "MakeInvisible", &ZTWorldMgr::MakeInvisible
     );
 }

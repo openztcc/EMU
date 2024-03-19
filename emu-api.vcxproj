@@ -189,6 +189,7 @@
     <ClInclude Include="reimp\BFMap.h" />
     <ClInclude Include="reimp\BFOverlayType.h" />
     <ClInclude Include="reimp\BFUIMgr.h" />
+    <ClInclude Include="reimp\BFUnit.h" />
     <ClInclude Include="reimp\BFUnitType.h" />
     <ClInclude Include="reimp\UIMessageQueue.h" />
     <ClInclude Include="reimp\ZTAmbientType.h" />
@@ -214,6 +215,7 @@
     <ClInclude Include="reimp\ZTTankFilterType.h" />
     <ClInclude Include="reimp\ZTTankWallType.h" />
     <ClInclude Include="reimp\ZTUI.h" />
+    <ClInclude Include="reimp\ZTUnit.h" />
     <ClInclude Include="reimp\ZTUnitType.h" />
     <ClInclude Include="reimp\ZTWorldMgr.h" />
     <ClInclude Include="resources\RegZooState.h" />

@@ -51,8 +51,9 @@ void ZTUI::general::makeSelectableByType(int type) {
     if (type == 0) {
         return;
     }
-    int id[] = {type, NULL};
-    std::vector<DWORD*> entities = ZTWorldMgr::getAllEntitiesOfType(id);
+    std::vector<int> id;
+    id.push_back(type);
+    std::vector<DWORD*> entities = ZTWorldMgr::GetAllEntitiesOfType(id);
     makeSelectable(entities);
 }
 

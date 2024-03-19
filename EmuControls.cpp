@@ -14,10 +14,10 @@ void EmuControls::procControls()
 		// BFUIMgr::shared_instance().getElement(0x3f8);
 		//BFGameApp::incSimSpeed();
 
-		int ids[] = { 9313, 9314, NULL };
+		std::vector<int> ids = { 9313, 9314 };
 
-		std::vector<DWORD*> entities = ZTWorldMgr::getAllEntitiesOfType(ids);
-		ZTWorldMgr::makeInvisible(entities, true);
+		std::vector<DWORD*> entities = ZTWorldMgr::GetAllEntitiesOfType(ids);
+		ZTWorldMgr::MakeInvisible(entities, true);
 
 		// BFUIMgr::confirmDialog(BFUIMgr::getUIMgr(), 153, 0, 3, "ui/sharedui/question/question", '\x01', '\0', 0, 0);
 		// std::ofstream f;

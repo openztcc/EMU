@@ -10,6 +10,7 @@
 #include "EmuConsole.h"
 #include "ZTSceneryType.h"
 #include "ZTWorldMgr.h"
+#include "ZTGuest.h"
 
 EmuScriptMgr::EmuScriptMgr()
 {
@@ -29,6 +30,7 @@ void EmuScriptMgr::InitEmuAPI()
 	EmuConsole::ExportToLua(this->lua);
 	ZTSceneryType::ExportClassToLua(this->lua);
 	ZTWorldMgr::ExportClassToLua(this->lua);
+	ZTGuest::ExportClassToLua(this->lua);
 }
 
 // Load all the scripts from the scripts directory into memory

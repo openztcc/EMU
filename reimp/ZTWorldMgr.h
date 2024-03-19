@@ -14,9 +14,9 @@ class ZTWorldMgr {
     static void* getWorldMgr();
     static DWORD getOffset(DWORD);
 
-    static std::vector<DWORD*> getAllEntitiesOfType(int ids[]);
+    static std::vector<DWORD*> GetAllEntitiesOfType(std::vector<int>);
     static void* getEntityTypeByID(int);
-    static void makeInvisible(std::vector<DWORD*>, bool);
+    static void MakeInvisible(std::vector<DWORD*>, bool);
     static void ExportClassToLua(sol::state_view&);
 };
 
