@@ -9,7 +9,7 @@
 
 typedef __int32 int32_t;
 typedef void (__thiscall *_addCash)(void* thisptr, float amount); // define original addCash function
-typedef void (__cdecl *_setCash)(int); // define original setCash function
+typedef void (__cdecl *_setCash)(void*, float); // define original setCash function
 typedef void (__fastcall *_startMenuMusic)(void*); // define original startMenuMusic function
 
 struct GXRGB {
@@ -48,7 +48,11 @@ public:
 	// char pad_0494[384]; //0x0494
 	// float number_of_guests[12]; //0x0614
 	// char pad_0644[2928]; //0x0644 TODO: subtract current date
-	// SYSTEMTIME current_date; //0x1194 (8 bytes)
+	static SYSTEMTIME getDate(); //0x1194 (8 bytes)
+	static std::string retStrDate();
+	static int getMonth();
+	static int getDay();
+	static int getYear();
 	// virtual ~ZTGameMgr();
 	// virtual void setNewGameDefaults(void*, char) {};
 	// virtual void save(char**) {};
@@ -61,7 +65,7 @@ public:
 	static void* instance();
 	static DWORD instance(DWORD);
     static void addCash(float);
-	static void setCash(int);
+	static void setCash(float);
 	static void subtractCash(float);
 	_FILETIME* getDate(_FILETIME* date);
 	void startMenuMusic(); // 0x004bded9

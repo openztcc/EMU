@@ -22,6 +22,8 @@ EmuMain::EmuMain()
 	this->ctrlMPressed = false;
 	this->hasHooked = false;
 	this->console = new EmuConsole(this->tokens);
+	this->cached_month = ZTGameMgr::getMonth();
+	this->vanishGuardCheck = false;
 }
 
 void EmuMain::init()
@@ -36,7 +38,7 @@ void EmuMain::init()
 
 DWORD WINAPI EmuMain::ZooConsole()
 {
-	EmuMain::shared_instance().HasConsoleOpenedOnce = true;
+	singleton.HasConsoleOpenedOnce = true;
 
 	HWND consoleWindow = EmuConsole::createConsole();
 
@@ -102,6 +104,23 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 		EmuMain::shared_instance().console->processInput(EmuMain::shared_instance().IsConsoleRunning);
 		EmuMain::shared_instance().tokens.clear();
 		EmuMain::shared_instance().CommandIsProcessing = false; // reset flag to allow another command to be tokenized
+	}
+
+	//---- vanishGuard check: reinforce fences every 4 months
+	if (singleton.vanishGuardCheck)
+	{
+		// if the current month is different from the cached month, increment the month count
+		if (singleton.cached_month != ZTGameMgr::getMonth() && singleton.monthCount < 4)
+		{
+			singleton.cached_month = ZTGameMgr::getMonth();
+			singleton.monthCount++;
+		}
+		// if the month count is 4, reinforce the fences and reset the month count
+		else if (singleton.monthCount == 4)
+		{
+			ZTWorldMgr::ReinforceFences();
+			singleton.monthCount = 0;
+		}
 	}
 
 	//---- return to original update function

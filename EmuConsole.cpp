@@ -215,7 +215,28 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
         //     }
 
         // }
-        if (tokens[0] == "setzoorating")
+        if (tokens[0] == "addcash")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "Err: Command <" << tokens[0] << "> requires an amount." << std::endl;
+                return;
+            }
+            // ----- Adds cash to the zoo budget
+            ZTGameMgr::addCash(::atof(tokens[1].c_str()));
+        }
+        else if (tokens[0] == "setcash")
+        {
+            if (tokens.size() < 2)
+            {
+                std::cout << "Err: Command <" << tokens[0] << "> requires an amount." << std::endl;
+                return;
+            }
+            // ----- Adds cash to the zoo budget
+            ZTGameMgr::setCash(::atoi(tokens[1].c_str()));
+
+        }
+        else if (tokens[0] == "setzoorating")
         {
             if (tokens.size() < 2)
             {
@@ -356,6 +377,22 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
                 std::string entityType_str = EmuBase::ptrToHexStr(entityType);
                 WriteToConsole("Selected entity type: " + entityType_str + "\n");
             }
+        }
+        else if (tokens[0] == "date")
+        {
+            std::string date = ZTGameMgr::retStrDate();
+            WriteToConsole("Current date: " + date + "\n");
+
+        }
+        else if (tokens[0] == "month")
+        {
+            int month = ZTGameMgr::getMonth();
+            WriteToConsole("Current month: " + std::to_string(month) + "\n");
+        }
+        else if (tokens[0] == "day")
+        {
+            int day = ZTGameMgr::getDay();
+            WriteToConsole("Current day: " + std::to_string(day) + "\n");
         }
         else
         {

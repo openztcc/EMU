@@ -40,16 +40,23 @@ void ZTGameMgr::addCash(float amount) {
     // add cash to the game
     // this->zoo_budget += amount;
     // ZTUI::main::setMoneyText(); // update money text in the UI
-    _addCash _ogaddCash = (_addCash)0x0040f018;
-    _ogaddCash(ZTGameMgr::instance(), amount);
+    // _addCash _ogaddCash = (_addCash)0x0040f018;
+    // _ogaddCash(ZTGameMgr::instance(), amount);
+
+    float* p = ((float*)instance(0x0C));
+    *p = (float)(*p + amount);
 }
 
-void ZTGameMgr::setCash(int amount) {
+void ZTGameMgr::setCash(float amount) {
     // set cash in the game
     // this->zoo_budget = amount;
     // ZTUI::main::setMoneyText(); // update money text in the UI
-    float new_amount = (float)amount - ZTGameMgr::getCash();
-    ZTGameMgr::addCash(new_amount);
+    // DWORD address = 0x00638ff8;
+    // void* p = reinterpret_cast<void*>(address);
+    // _setCash _ogsetCash = (_setCash)0x005b0f17;
+    // _ogsetCash(p, amount);
+
+    ZTGameMgr::addCash(amount - ZTGameMgr::getCash());
 }
 
 float ZTGameMgr::getCash() {
@@ -63,7 +70,34 @@ void ZTGameMgr::subtractCash(float amount) {
     // subtract cash from the game
     // this->zoo_budget -= amount;
     // ZTUI::main::setMoneyText(); // update money text in the UI
+    // ZTGameMgr::addCash(-amount);
     ZTGameMgr::addCash(-amount);
+}
+
+SYSTEMTIME ZTGameMgr::getDate() {
+    SYSTEMTIME* p = ((SYSTEMTIME*)instance(0x1194));
+    return *p;
+}
+
+std::string ZTGameMgr::retStrDate() {
+    SYSTEMTIME* p = ((SYSTEMTIME*)instance(0x1194));
+    std::string date = std::to_string(p->wYear) + "-" + std::to_string(p->wMonth) + "-" + std::to_string(p->wDay);
+    return date;
+}
+
+int ZTGameMgr::getMonth() {
+    SYSTEMTIME* p = ((SYSTEMTIME*)instance(0x1194));
+    return p->wMonth;
+}
+
+int ZTGameMgr::getDay() {
+    SYSTEMTIME* p = ((SYSTEMTIME*)instance(0x1194));
+    return p->wDay;
+}
+
+int ZTGameMgr::getYear() {
+    SYSTEMTIME* p = ((SYSTEMTIME*)instance(0x1194));
+    return p->wYear;
 }
 
 // void ZTGameMgr::subtractCash(float amount) {
@@ -90,9 +124,9 @@ void ZTGameMgr::subtractCash(float amount) {
 //     return date;
 // }
 
-typedef void (__cdecl *_setAnimalRating)(int); // define original setAnimalRating function
-typedef void (__cdecl *_setZooRating)(int); // define original setZooRating function
-typedef void (__cdecl *_setGuestRating)(int); // define original setGuestRating function
+// typedef void (__cdecl *_setAnimalRating)(int); // define original setAnimalRating function
+// typedef void (__cdecl *_setZooRating)(int); // define original setZooRating function
+// typedef void (__cdecl *_setGuestRating)(int); // define original setGuestRating function
 
 
 // void __cdecl SetGuestRating(int rating) {

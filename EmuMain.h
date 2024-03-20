@@ -34,6 +34,9 @@ public:
 
     std::vector<std::string> tokens; // contains tokens from console input
     EmuConsole* console; // console object
+    int cached_month;
+    int monthCount;
+    bool vanishGuardCheck;
 
     static EmuMain& shared_instance() {
         static EmuMain instance;

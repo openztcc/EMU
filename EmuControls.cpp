@@ -17,7 +17,7 @@ void EmuControls::procControls()
 		std::vector<int> ids = { 9313, 9314 };
 
 		std::vector<void*> entities = ZTWorldMgr::GetAllEntitiesOfType(ids);
-		ZTWorldMgr::SetVanishGuard(entities, true);
+		ZTWorldMgr::SetVanishGuard(entities, ids, true);
 
 		// BFUIMgr::confirmDialog(BFUIMgr::getUIMgr(), 153, 0, 3, "ui/sharedui/question/question", '\x01', '\0', 0, 0);
 		// std::ofstream f;
@@ -33,14 +33,14 @@ void EmuControls::procControls()
 		Main.IsConsoleRunning = true;
 		HANDLE thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&EmuMain::ZooConsole, NULL, 0, NULL);
 		// f << "[" << timestamp << "] " << "Console opened!" << std::endl;
-		if (thread != NULL)
-		{
-			// Wait for the thread to finish
-			WaitForSingleObject(thread, INFINITE);
-			// Close the thread handle
-			CloseHandle(thread);
-		}
-		//CloseHandle(thread);
+		// if (thread != NULL)
+		// {
+		// 	// Wait for the thread to finish
+		// 	WaitForSingleObject(thread, INFINITE);
+		// 	// Close the thread handle
+		// 	CloseHandle(thread);
+		// }
+		CloseHandle(thread);
 	}
 
 	//---- CTRL + M

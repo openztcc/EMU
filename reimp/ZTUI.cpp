@@ -102,20 +102,20 @@ void ZTUI::main::setMoneyText(rgb color) {
 void ZTUI::main::init() {
     // initialize the UI
     // setMoneyText();
-    DetourTransactionBegin();
-    DetourUpdateThread(GetCurrentThread());
-    DWORD setMoneyTextAdd = 0x0040ee3d;
-    DetourAttach((PVOID*)&setMoneyTextAdd, (PVOID)&ZTUI::main::setMoneyText);
-    DetourTransactionCommit();
+    // DetourTransactionBegin();
+    // DetourUpdateThread(GetCurrentThread());
+    // DWORD setMoneyTextAdd = 0x0040ee3d;
+    // DetourAttach((PVOID*)&setMoneyTextAdd, (PVOID)&ZTUI::main::setMoneyText);
+    // DetourTransactionCommit();
     // EmuBase::callHook(0x0040f02e, (DWORD)&ZTUI::main::setMoneyText_Detour); // from addCash
     // EmuBase::callHook(0x0041d38d, (DWORD)&ZTUI::main::setMoneyText_Detour); // from updateSim
     // EmuBase::callHook(0x0041ef7e, (DWORD)&ZTUI::main::setMoneyText_Detour); // from subtractCash
     // EmuBase::callHook(0x00519c1c, (DWORD)&ZTUI::main::setMoneyText_Detour); // from init
 
-    EmuBase::callHook(0x00485d9c, (DWORD)&ZTUI::gameopts::loadFile); // from clickContinue
-    EmuBase::callHook(0x004c9a13, (DWORD)&ZTUI::gameopts::loadFile); // from beginScenario
-    EmuBase::callHook(0x004cc462, (DWORD)&ZTUI::gameopts::loadFile); // from loadGame
-    EmuBase::callHook(0x005c1d28, (DWORD)&ZTUI::gameopts::loadFile); // from ZTApp::iniInstance
+    // EmuBase::callHook(0x00485d9c, (DWORD)&ZTUI::gameopts::loadFile); // from clickContinue
+    // EmuBase::callHook(0x004c9a13, (DWORD)&ZTUI::gameopts::loadFile); // from beginScenario
+    // EmuBase::callHook(0x004cc462, (DWORD)&ZTUI::gameopts::loadFile); // from loadGame
+    // EmuBase::callHook(0x005c1d28, (DWORD)&ZTUI::gameopts::loadFile); // from ZTApp::iniInstance
 }
 
 ZTUI::main::main() {
