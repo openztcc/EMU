@@ -11,6 +11,7 @@
 #include "ZTGuest.h"
 #include "ZTTankWallType.h"
 #include "ZTFoodType.h"
+#include "ZTGameMgr.h"
 
 EmuScriptMgr::EmuScriptMgr()
 {
@@ -34,6 +35,7 @@ void EmuScriptMgr::InitEmuAPI()
 	ZTFenceType::ExportClassToLua(this->lua);
 	ZTTankWallType::ExportClassToLua(this->lua);
 	ZTFoodType::ExportClassToLua(this->lua);
+	ZTGameMgr::ExportClassToLua(this->lua);
 }
 
 // Load all the scripts from the scripts directory into memory
