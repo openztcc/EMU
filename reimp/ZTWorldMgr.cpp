@@ -13,12 +13,12 @@ DWORD ZTWorldMgr::getOffset(DWORD offset) {
 }
 
 // gets only entity types whose entities are currently loaded in the game
-std::vector<DWORD*> ZTWorldMgr::GetAllEntitiesOfType(std::vector<int> ids) {
+std::vector<void*> ZTWorldMgr::GetAllEntitiesOfType(std::vector<int> ids) {
     // store the begin and end pointers of the entity list
 
     DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x80));
     DWORD* end = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x84));
-    std::vector<DWORD*> entities;
+    std::vector<void*> entities;
 
     // iterate through the entity list
     for (DWORD** current = reinterpret_cast<DWORD**>(begin); current < reinterpret_cast<DWORD**>(end); ++current) {
@@ -36,7 +36,7 @@ std::vector<DWORD*> ZTWorldMgr::GetAllEntitiesOfType(std::vector<int> ids) {
         for (size_t i = 0; i < ids.size(); i++) {
             if (entityID == ids[i]) {
                 // store the pointer to the entity
-                entities.push_back(firstLevelPtr);
+                entities.push_back(reinterpret_cast<void*>(firstLevelPtr));
             }
         }
     }
@@ -76,7 +76,7 @@ void* ZTWorldMgr::getEntityTypeByID(int id) {
 }
 
 //  
-void ZTWorldMgr::SetVanishGuard(std::vector<DWORD*> entities, bool isInvisible) {
+void ZTWorldMgr::SetVanishGuard(std::vector<void*> entities, bool isInvisible) {
     for (size_t i = 0; i < entities.size(); i++) {
         // Correctly calculate the pointer to the visibility flag
         bool* visibilityFlag = reinterpret_cast<bool*>(reinterpret_cast<char*>(entities[i]) + 0x13f);

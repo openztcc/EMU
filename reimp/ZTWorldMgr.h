@@ -16,9 +16,9 @@ class ZTWorldMgr {
     static bool isEntityNull(void*);
 
 
-    static std::vector<DWORD*> GetAllEntitiesOfType(std::vector<int>);
+    static std::vector<void*> GetAllEntitiesOfType(std::vector<int>);
     static void* getEntityTypeByID(int);
-    static void SetVanishGuard(std::vector<DWORD*>, bool);
+    static void SetVanishGuard(std::vector<void*>, bool);
     static void ExportClassToLua(sol::state_view&);
 
 };
