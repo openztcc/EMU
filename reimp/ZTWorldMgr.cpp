@@ -6,7 +6,7 @@
 #include "ZTGameMgr.h"
 #include "EmuMain.h"
 #include "ZTFenceType.h"
-#include "BFEntity.h"
+#include "ZTFence.h"
 
 #define instance ZTWorldMgr::instance()
 
@@ -90,30 +90,27 @@ void* ZTWorldMgr::getEntityType(void* entity) {
 }
 
 //  
-void ZTWorldMgr::SetVanishGuard(std::vector<void*> entities, std::vector<int> ids, bool isInvisible) {
-    if (entities.size() == 0) {
-        return;
-    }
-    if (ids.size() == 0) {
+void ZTWorldMgr::SetVanishGuard(std::vector<void*> entities, std::vector<int> ids, bool visible) {
+    if (entities.size() == 0 || ids.size() == 0) {
         return;
     }
     
     for (size_t x = 0; x < ids.size(); x++) {
-        if (isInvisible) {
+        if (!visible) {
             void* type = ZTWorldMgr::getEntityTypeByID(ids[x]);
             ZTFenceType fence_type(type);
 
             // save the entity type properties
-            instance.cached_cDecayedDelta = fence_type.cDecayedDelta();
-            instance.cached_cDecayedLife = fence_type.cDecayedLife();
-            instance.cached_cHeight = fence_type.cHeight();
-            instance.cached_cIndestructable = fence_type.cIndestructable();
-            instance.cached_cIsClimbable = fence_type.cIsClimbable();
-            instance.cached_cIsJumpable = fence_type.cIsJumpable();
-            instance.cached_cLife = fence_type.cLife();
-            instance.cached_cSeeThrough = fence_type.cSeeThrough();
-            instance.cached_cStrength = fence_type.cStrength();
 
+            instance.cached_FenceType.cDecayedDelta = fence_type.cDecayedDelta();
+            instance.cached_FenceType.cDecayedLife = fence_type.cDecayedLife();
+            instance.cached_FenceType.cHeight = fence_type.cHeight();
+            instance.cached_FenceType.cIndestructable = fence_type.cIndestructable();
+            instance.cached_FenceType.cIsClimbable = fence_type.cIsClimbable();
+            instance.cached_FenceType.cIsJumpable = fence_type.cIsJumpable();
+            instance.cached_FenceType.cLife = fence_type.cLife();
+            instance.cached_FenceType.cSeeThrough = fence_type.cSeeThrough();
+            instance.cached_FenceType.cStrength = fence_type.cStrength();
 
             // set entity type properties
             fence_type.cStrength(500);
@@ -132,25 +129,27 @@ void ZTWorldMgr::SetVanishGuard(std::vector<void*> entities, std::vector<int> id
             ZTFenceType fence_type(type);
 
             // restore the entity type properties
-            fence_type.cDecayedDelta(instance.cached_cDecayedDelta);
-            fence_type.cDecayedLife(instance.cached_cDecayedLife);
-            fence_type.cHeight(instance.cached_cHeight);
-            fence_type.cIndestructable(instance.cached_cIndestructable);
-            fence_type.cIsClimbable(instance.cached_cIsClimbable);
-            fence_type.cIsJumpable(instance.cached_cIsJumpable);
-            fence_type.cLife(instance.cached_cLife);
-            fence_type.cSeeThrough(instance.cached_cSeeThrough);
-            fence_type.cStrength(instance.cached_cStrength);
+            fence_type.cDecayedDelta(instance.cached_FenceType.cDecayedDelta);
+            fence_type.cDecayedLife(instance.cached_FenceType.cDecayedLife);
+            fence_type.cHeight(instance.cached_FenceType.cHeight);
+            fence_type.cIndestructable(instance.cached_FenceType.cIndestructable);
+            fence_type.cIsClimbable(instance.cached_FenceType.cIsClimbable);
+            fence_type.cIsJumpable(instance.cached_FenceType.cIsJumpable);
+            fence_type.cLife(instance.cached_FenceType.cLife);
+            fence_type.cSeeThrough(instance.cached_FenceType.cSeeThrough);
+            fence_type.cStrength(instance.cached_FenceType.cStrength);
         }
     }
 
     for (size_t i = 0; i < entities.size(); i++) {
         // set the entity to be invisible
-        BFEntity fence(entities[i]);
-        fence.visible(isInvisible);
+        ZTFence fence(entities[i]);
+        fence.visible(visible);
+        fence.cLife(12);
+        fence.cStrength(500);
     }
 
-    if (isInvisible) {
+    if (!visible) {
         EmuMain::shared_instance().vanishGuardCheck = true;
         instance.cached_entities = entities;
     } else {
@@ -163,17 +162,8 @@ void ZTWorldMgr::ReinforceFences() {
     int size = instance.cached_entities.size();
     for (int i = 0; i < size; i++) {
         void* entity = instance.cached_entities[i];
-        void* type = ZTWorldMgr::getEntityType(entity);
-        ZTFenceType fence(type);
-        
-        fence.cDecayedDelta(20);
-        fence.cDecayedLife(1);
-        fence.cHeight(5);
-        fence.cIndestructable(true);
-        fence.cIsClimbable(false);
-        fence.cIsJumpable(false);
+        ZTFence fence(entity);
         fence.cLife(12);
-        fence.cSeeThrough(true);
         fence.cStrength(500);
     }
 }

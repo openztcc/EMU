@@ -394,6 +394,17 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
             int day = ZTGameMgr::getDay();
             WriteToConsole("Current day: " + std::to_string(day) + "\n");
         }
+        else if (tokens[0] == "makesel")
+        {
+            if (tokens.size() < 2)
+            {
+                
+                WriteToConsole("Err: Command <" + tokens[0] + "> requires a subcommand.\n");
+                WriteToConsole("-id (entity by id)\n");
+                return;
+            }
+            ZTUI::general::makeSelectableByType(::atoi(tokens[1].c_str()));
+        }
         else
         {
             

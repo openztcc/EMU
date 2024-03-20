@@ -22,14 +22,13 @@ EmuMain::EmuMain()
 	this->ctrlMPressed = false;
 	this->hasHooked = false;
 	this->console = new EmuConsole(this->tokens);
-	this->cached_month = ZTGameMgr::getMonth();
+	this->cached_month = 0;
 	this->vanishGuardCheck = false;
 }
 
 void EmuMain::init()
 {
 	singleton.emu_run.InitEmuAPI();
-
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach((PVOID*)&updateAddress, (PVOID)&RunEmu);
@@ -85,6 +84,7 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 			if (!singleton.hasEmuRunOnce) {
 				// f << "[" << timestamp << "] " << "Running emu_run scripts..." << std::endl;
 				singleton.emu_gawk.ExecuteScripts("emu_gawk");
+				singleton.cached_month = ZTGameMgr::getMonth();
 				singleton.hasEmuRunOnce = true;
 				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 			}
@@ -106,7 +106,7 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 		EmuMain::shared_instance().CommandIsProcessing = false; // reset flag to allow another command to be tokenized
 	}
 
-	//---- vanishGuard check: reinforce fences every 4 months
+	// ---- vanishGuard check: reinforce fences every 4 months
 	if (singleton.vanishGuardCheck)
 	{
 		// if the current month is different from the cached month, increment the month count

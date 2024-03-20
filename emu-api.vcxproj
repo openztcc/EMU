@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)</OutDir>
+    <OutDir>$(ProjectDir)\Release\</OutDir>
     <TargetName>res-emu</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -105,7 +105,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(CoreLibraryDependencies);$(ProjectDir)deps\lua54\lua54.lib;$(ProjectDir)deps\detours\detours.lib;%(AdditionalDependencies);</AdditionalDependencies>
-      <OutputFile>res-emu.dll</OutputFile>
+      <OutputFile>$(ProjectDir)\Release\res-emu.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -156,6 +156,7 @@
     <ClCompile Include="reimp\ZTApp.cpp" />
     <ClCompile Include="reimp\ZTBuildingType.cpp" />
     <ClCompile Include="reimp\ZTCheats.cpp" />
+    <ClCompile Include="reimp\ZTFence.cpp" />
     <ClCompile Include="reimp\ZTFenceType.cpp" />
     <ClCompile Include="reimp\ZTFoodType.cpp" />
     <ClCompile Include="reimp\ZTGameMgr.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="reimp\ZTApp.h" />
     <ClInclude Include="reimp\ZTBuildingType.h" />
     <ClInclude Include="reimp\ZTCheats.h" />
+    <ClInclude Include="reimp\ZTFence.h" />
     <ClInclude Include="reimp\ZTFenceType.h" />
     <ClInclude Include="reimp\ZTFoodType.h" />
     <ClInclude Include="reimp\ZTGameMgr.h" />
@@ -210,6 +212,7 @@
     <ClInclude Include="reimp\ZTMapView.h" />
     <ClInclude Include="reimp\ZTPathType.h" />
     <ClInclude Include="reimp\ZTRubbleType.h" />
+    <ClInclude Include="reimp\ZTScenery.h" />
     <ClInclude Include="reimp\ZTSceneryType.h" />
     <ClInclude Include="reimp\ZTStaffType.h" />
     <ClInclude Include="reimp\ZTTankFilterType.h" />

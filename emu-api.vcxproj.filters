@@ -129,6 +129,9 @@
     <ClCompile Include="reimp\ZTTankWallType.cpp">
       <Filter>reimps</Filter>
     </ClCompile>
+    <ClCompile Include="reimp\ZTFence.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sol\sol\as_args.hpp">
@@ -618,6 +621,12 @@
       <Filter>reimps</Filter>
     </ClInclude>
     <ClInclude Include="reimp\BFEntity.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTFence.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTScenery.h">
       <Filter>reimps</Filter>
     </ClInclude>
   </ItemGroup>

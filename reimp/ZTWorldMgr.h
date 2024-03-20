@@ -5,6 +5,18 @@
 #include <vector>
 #include <sol/sol.hpp>
 
+struct cache {
+    int cHeight;
+    bool cSeeThrough;
+    bool cIsJumpable;
+    bool cIsClimbable;
+    bool cIndestructable;
+    int cLife;
+    int cStrength;
+    int cDecayedLife;
+    int cDecayedDelta;
+};
+
 class ZTWorldMgr {
     public:
     // char padding[536];
@@ -29,15 +41,7 @@ class ZTWorldMgr {
     }
 
     int cached_month;
-    int cached_cHeight;
-    bool cached_cSeeThrough;
-    bool cached_cIsJumpable;
-    bool cached_cIsClimbable;
-    bool cached_cIndestructable;
-    int cached_cLife;
-    int cached_cStrength;
-    int cached_cDecayedLife;
-    int cached_cDecayedDelta;
+    cache cached_FenceType;
 
     std::vector<void*> cached_entities;
 };
