@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)</OutDir>
+    <TargetName>res-emu</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -156,17 +157,16 @@
     <ClCompile Include="reimp\ZTBuildingType.cpp" />
     <ClCompile Include="reimp\ZTCheats.cpp" />
     <ClCompile Include="reimp\ZTFenceType.cpp" />
+    <ClCompile Include="reimp\ZTFoodType.cpp" />
     <ClCompile Include="reimp\ZTGameMgr.cpp" />
     <ClCompile Include="reimp\ZTGuest.cpp" />
     <ClCompile Include="reimp\ZTHabitatMgr.cpp" />
     <ClCompile Include="reimp\ZTMapView.cpp" />
     <ClCompile Include="reimp\ZTSceneryType.cpp" />
+    <ClCompile Include="reimp\ZTTankWallType.cpp" />
     <ClCompile Include="reimp\ZTUI.cpp" />
     <ClCompile Include="reimp\ZTWorldMgr.cpp" />
-    <ClCompile Include="resources\RegZooState.cpp" />
     <ClCompile Include="resources\ZooMiniMap.cpp" />
-    <ClCompile Include="resources\ZooModels.cpp" />
-    <ClCompile Include="resources\ZooState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="deps\detours\detours.h" />
@@ -218,10 +218,7 @@
     <ClInclude Include="reimp\ZTUnit.h" />
     <ClInclude Include="reimp\ZTUnitType.h" />
     <ClInclude Include="reimp\ZTWorldMgr.h" />
-    <ClInclude Include="resources\RegZooState.h" />
     <ClInclude Include="resources\ZooMiniMap.h" />
-    <ClInclude Include="resources\ZooModels.h" />
-    <ClInclude Include="resources\ZooState.h" />
     <ClInclude Include="sol\compatibility\compat-5.3.c.h" />
     <ClInclude Include="sol\compatibility\compat-5.3.h" />
     <ClInclude Include="sol\compatibility\compat-5.4.h" />

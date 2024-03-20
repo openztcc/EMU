@@ -39,7 +39,6 @@ class ZTFenceType : public ZTSceneryType {
     bool cNoDrawWater(bool); // 0x199
     ZTFenceType(void* ptr) : ZTSceneryType(ptr) {};
     static void ExportClassToLua(sol::state_view&);
-    ~ZTFenceType();
 };
 
 #endif // ZTFENCETYPE_H

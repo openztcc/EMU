@@ -2,8 +2,8 @@
 #include "EmuMain.h"
 #include "ZTWorldMgr.h"
 #include "EmuMain.h"
-#include "ZooState.h"
 #include "BFUIMgr.h"
+#include "ZTGameMgr.h"
 
 #define Main EmuMain::shared_instance()
 
@@ -17,7 +17,7 @@ void EmuControls::procControls()
 		std::vector<int> ids = { 9313, 9314 };
 
 		std::vector<DWORD*> entities = ZTWorldMgr::GetAllEntitiesOfType(ids);
-		ZTWorldMgr::MakeInvisible(entities, true);
+		ZTWorldMgr::SetVanishGuard(entities, true);
 
 		// BFUIMgr::confirmDialog(BFUIMgr::getUIMgr(), 153, 0, 3, "ui/sharedui/question/question", '\x01', '\0', 0, 0);
 		// std::ofstream f;
@@ -40,7 +40,7 @@ void EmuControls::procControls()
 	if (EmuBase::DoubleKey(0x11, 0x4D) == true && !Main.ctrlMPressed) {
 		Main.ctrlMPressed = true; // Set the flag
 		float mo_money = 1000000.00f;
-		ZooState::AddToZooBudget(mo_money);
+		ZTGameMgr::addCash(mo_money);
 	}
 	else if (EmuBase::DoubleKey(0x11, 0x4D) == false) {
 		Main.ctrlMPressed = false; // Reset the flag when the key is released

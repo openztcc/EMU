@@ -60,9 +60,9 @@ public:
     // ~ZTGameMgr();
 	static void* instance();
 	static DWORD instance(DWORD);
-    void addCash(float);
-	void setCash(int);
-	void subtractCash(float);
+    static void addCash(float);
+	static void setCash(int);
+	static void subtractCash(float);
 	_FILETIME* getDate(_FILETIME* date);
 	void startMenuMusic(); // 0x004bded9
 	void startMenuMusicFade(int); // 0x004cc59d
@@ -70,7 +70,7 @@ public:
 	void setNewGameDefaults(void*, char); // 0x0058f39c
 	void stop(int); // 0x004fa123
 
-    void freezeGameState(bool);
+    static void freezeGameState(bool);
     static bool isZooLoaded();
     static void pauseGame(bool);
     static bool isGamePaused();

@@ -108,22 +108,10 @@
     <ClCompile Include="resources\ZooMiniMap.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="resources\ZooModels.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="resources\ZooState.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
     <ClCompile Include="deps\detours\detours.cpp">
       <Filter>deps\detours</Filter>
     </ClCompile>
     <ClCompile Include="EmuLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="resources\RegZooState.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="reimp\BFEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EmuConfigMgr.cpp">
@@ -131,6 +119,15 @@
     </ClCompile>
     <ClCompile Include="deps\simpleini\ConvertUTF.c">
       <Filter>deps\simpleini</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTFoodType.cpp">
+      <Filter>emu</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\BFEntity.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTTankWallType.cpp">
+      <Filter>reimps</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -602,20 +599,8 @@
     <ClInclude Include="resources\ZooMiniMap.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="resources\ZooModels.h">
-      <Filter>resources</Filter>
-    </ClInclude>
-    <ClInclude Include="resources\ZooState.h">
-      <Filter>resources</Filter>
-    </ClInclude>
     <ClInclude Include="deps\detours\detours.h">
       <Filter>deps\detours</Filter>
-    </ClInclude>
-    <ClInclude Include="resources\RegZooState.h">
-      <Filter>resources</Filter>
-    </ClInclude>
-    <ClInclude Include="reimp\BFEntity.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EmuConfigMgr.h">
       <Filter>emu</Filter>
@@ -630,6 +615,9 @@
       <Filter>reimps</Filter>
     </ClInclude>
     <ClInclude Include="reimp\ZTUnit.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\BFEntity.h">
       <Filter>reimps</Filter>
     </ClInclude>
   </ItemGroup>

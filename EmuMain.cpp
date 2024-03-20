@@ -2,9 +2,9 @@
 #include "detours.h"
 #include "EmuControls.h"
 #include "ZTCheats.h"
-#include "ZooState.h"
+#include "ZTGameMgr.h"
 
-#define instance EmuMain::shared_instance()
+#define singleton EmuMain::shared_instance()
 
 // #define instance 
 
@@ -21,13 +21,12 @@ EmuMain::EmuMain()
 	this->HasConsoleOpenedOnce = false;
 	this->ctrlMPressed = false;
 	this->hasHooked = false;
-	this->zoo_models = new ZooModels();
 	this->console = new EmuConsole(this->tokens);
 }
 
 void EmuMain::init()
 {
-	instance.emu_run.InitEmuAPI();
+	singleton.emu_run.InitEmuAPI();
 
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
@@ -41,21 +40,21 @@ DWORD WINAPI EmuMain::ZooConsole()
 
 	HWND consoleWindow = EmuConsole::createConsole();
 
-	while (instance.IsConsoleRunning)
+	while (singleton.IsConsoleRunning)
 	{
 		// ------ Tokenize the input
-		if (!instance.CommandIsProcessing)
+		if (!singleton.CommandIsProcessing)
 		{
-			instance.console->WriteToConsole(">> ");
-			instance.CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
-			instance.console->tokenize(instance.CommandIsProcessing);
+			singleton.console->WriteToConsole(">> ");
+			singleton.CommandIsProcessing = true; // set flag to true to avoid multiple commands being processed at once
+			singleton.console->tokenize(singleton.CommandIsProcessing);
 		}
 		Sleep(10);
 	}
 
 	// ------ Close the console window
-	instance.HasConsoleOpenedOnce = false;
-	instance.IsConsoleRunning = false;
+	singleton.HasConsoleOpenedOnce = false;
+	singleton.IsConsoleRunning = false;
 	FreeConsole();
 	Sleep(100);
 	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
@@ -77,22 +76,22 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 	// ZTCheats::InvisibleInvincibleCheat(); // run cheats
 
 	// only run scripts while zoo is loaded and not in main menu
-	if ((int)ZooState::object_ptr(0x0) > 0) {
+	if ((int)ZTGameMgr::instance(0x0) > 0) {
 		// f << "[" << timestamp << "] " << "Is no longer in main menu!" << std::endl;
-		if (ZooState::IsZooLoaded() == true) {
+		if (ZTGameMgr::isZooLoaded() == true) {
 			// f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
-			if (!instance.hasEmuRunOnce) {
+			if (!singleton.hasEmuRunOnce) {
 				// f << "[" << timestamp << "] " << "Running emu_run scripts..." << std::endl;
-				instance.emu_gawk.ExecuteScripts("emu_gawk");
-				instance.hasEmuRunOnce = true;
+				singleton.emu_gawk.ExecuteScripts("emu_gawk");
+				singleton.hasEmuRunOnce = true;
 				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 			}
-			instance.emu_run.ExecuteScripts("emu_run");
+			singleton.emu_run.ExecuteScripts("emu_run");
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 		}
 	}
 
-	if (ZooState::IsZooLoaded() == false) {
+	if (ZTGameMgr::isZooLoaded() == false) {
 		EmuMain::shared_instance().hasEmuRunOnce = false;
 
 	}

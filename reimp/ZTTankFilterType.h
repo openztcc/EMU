@@ -2,12 +2,14 @@
 #define ZTTANKFILTERTYPE_H
 
 #include "ZTSceneryType.h"
+#include <sol/sol.hpp>
 
 class ZTTankFilterType : public ZTSceneryType {
     public:
-    char padding[72]; // 368
-    ZTTankFilterType();
-    ~ZTTankFilterType();
+    
+    ZTTankFilterType(void* ptr) : ZTSceneryType(ptr) {};
+    static void ExportClassToLua(sol::state_view&);
+    ~ZTTankFilterType() {};
 };
 
 #endif // ZTTANKFILTERTYPE_H

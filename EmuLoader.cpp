@@ -12,8 +12,6 @@
 #include <mmsystem.h>
 #include <winnt.h>
 #include <cstdio>
-#include "RegZooState.h"
-#include "ZooModels.h"
 #include "ZTGameMgr.h"
 #include "BFUIMgr.h"
 #include "ZTUI.h"
@@ -24,9 +22,6 @@
 //------ Global variables
 int consoleW = 400; // console window width
 int consoleH = 200; // console window height
-
-//------ ZooModels object
-extern ZooModels* zoo_models;
 
 // ------ DllMain
 

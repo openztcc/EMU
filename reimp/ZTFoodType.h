@@ -10,7 +10,7 @@ class ZTFoodType : public ZTSceneryType {
     int cKeeperFoodType(int); // 0x168
     ZTFoodType(void* ptr) : ZTSceneryType(ptr) {};
     static void ExportClassToLua(sol::state_view&);
-    ~ZTFoodType();
+    ~ZTFoodType() {};
 };
 
 #endif // ZTFOODTYPE_H

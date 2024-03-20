@@ -20,7 +20,7 @@ bool ZTTankWallType::cPortalCloseSoundAtten(bool input) {
 }
 
 void ZTTankWallType::ExportClassToLua(sol::state_view& lua) {
-    lua.new_usertype<ZTFenceType>("ZTTankWallType",
+    lua.new_usertype<ZTTankWallType>("ZTTankWallType",
         sol::constructors<ZTTankWallType(void*)>(),
         "cPortalOpenSoundAtten", sol::overload(
             sol::resolve<bool()>(static_cast<bool(ZTTankWallType::*)()>(&ZTTankWallType::cPortalOpenSoundAtten)),

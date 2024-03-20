@@ -2,6 +2,7 @@
 #include "ZTWorldMgr.h"
 #include "ZTMapView.h"
 #include <vector>
+#include "ZTUI.h"
 
 void* ZTWorldMgr::getWorldMgr() {
     return (void*)0x00638040;
@@ -43,6 +44,13 @@ std::vector<DWORD*> ZTWorldMgr::GetAllEntitiesOfType(std::vector<int> ids) {
     return entities;
 }
 
+bool ZTWorldMgr::isEntityNull(void* entity) {
+    if (entity == 0) {
+        return true;
+    }
+    return false;
+}
+
 // gets ALL entity types loaded in the game
 void* ZTWorldMgr::getEntityTypeByID(int id) {
     DWORD* begin = *reinterpret_cast<DWORD**>(ZTWorldMgr::getOffset(0x98));
@@ -77,10 +85,11 @@ void ZTWorldMgr::SetVanishGuard(std::vector<DWORD*> entities, bool isInvisible) 
 }
 
 void ZTWorldMgr::ExportClassToLua(sol::state_view& lua) {
-    lua.new_usertype<ZTWorldMgr>("ZTWorldMgr",
+    lua.new_usertype<ZTWorldMgr>("ztWorldMgr",
         "new", sol::no_constructor,
-        "GetAllEntitiesOfType", &ZTWorldMgr::GetAllEntitiesOfType,
+        "getAllEntitiesOfType", &ZTWorldMgr::GetAllEntitiesOfType,
         "getEntityTypeByID", &ZTWorldMgr::getEntityTypeByID,
-        "SetVanishGuard", &ZTWorldMgr::SetVanishGuard
+        "setVanishGuard", &ZTWorldMgr::SetVanishGuard,
+        "isEntityNull", &ZTWorldMgr::isEntityNull
     );
 }

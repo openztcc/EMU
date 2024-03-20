@@ -320,12 +320,12 @@ void BFEntityType::ExportClassToLua(sol::state& lua) {
             static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cDrawsLate)
         ),
         "cHeight", sol::overload(
-            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cHeight),
-            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cHeight)
+            static_cast<int (BFEntityType::*)()>(&BFEntityType::cHeight),
+            static_cast<int (BFEntityType::*)(int)>(&BFEntityType::cHeight)
         ),
         "cDepth", sol::overload(
-            static_cast<bool (BFEntityType::*)()>(&BFEntityType::cDepth),
-            static_cast<bool (BFEntityType::*)(bool)>(&BFEntityType::cDepth)
+            static_cast<int (BFEntityType::*)()>(&BFEntityType::cDepth),
+            static_cast<int (BFEntityType::*)(int)>(&BFEntityType::cDepth)
         ),
         "cHasUnderwaterSection", sol::overload(
             static_cast<bool (BFEntityType::*)()>(&BFEntityType::cHasUnderwaterSection),

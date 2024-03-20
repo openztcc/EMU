@@ -5,8 +5,8 @@
 #include <ostream>
 #include "Windows.h"
 #include "detours.h"
-#include "ZooState.h"
 #include "ZTWorldMgr.h"
+#include "ZTGameMgr.h"
 
 unsigned int ZTUI::gameopts::saveGame(void) {
     _saveGame _ogsaveGame = (_saveGame)0x004769ac;
@@ -75,27 +75,18 @@ void ZTUI::general::ExportClassToLua(sol::state& lua) {
     lua_State* L = lua.lua_state();
     sol::state_view _lua(L);
 
-    lua.new_usertype<ZTUI::general>("general",
+    lua.new_usertype<ZTUI::general>("ztUIGeneral",
         "new", sol::no_constructor,
-        "getMapView", &ZTUI::general::getMapView,
         "getSelectedEntity", &ZTUI::general::getSelectedEntity,
         "getSelectedEntityType", &ZTUI::general::getSelectedEntityType,
         "makeSelectableByType", &ZTUI::general::makeSelectableByType,
-        "makeSelectable", &ZTUI::general::makeSelectable,
-        "IsEntityNull", &ZTUI::general::IsEntityNull
+        "makeSelectable", &ZTUI::general::makeSelectable
     );
-}
-
-bool ZTUI::general::IsEntityNull(void* entity) {
-    if (entity == 0) {
-        return true;
-    }
-    return false;
 }
 
 void ZTUI::main::setMoneyText(rgb color) {
     // set money text show in the UI
-    float money = ZooState::GetZooBudget();
+    float money = ZTGameMgr::getCash();
 
     // void* pBFUIMgr = *(void**)0x00638de0;
     //DWORD pBFUIMgr = *(DWORD*)((LPVOID)0x00638de0);

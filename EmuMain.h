@@ -2,7 +2,6 @@
 #define EMUMAIN_H
 
 #include "EmuScriptMgr.h"
-#include "ZooModels.h"
 #include "windows.h"
 #include "EmuConsole.h"
 
@@ -15,7 +14,6 @@ public:
     EmuMain();
 
     LPVOID lpParameter;
-    ZooModels* zoo_models;
 
     //------ Flags for console
     bool IsConsoleRunning;

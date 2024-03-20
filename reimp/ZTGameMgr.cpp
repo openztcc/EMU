@@ -52,6 +52,13 @@ void ZTGameMgr::setCash(int amount) {
     ZTGameMgr::addCash(new_amount);
 }
 
+float ZTGameMgr::getCash() {
+    // get cash from the game
+    // return this->zoo_budget;
+    float* p = ((float*)instance(0x0C));
+    return *p;
+}
+
 void ZTGameMgr::subtractCash(float amount) {
     // subtract cash from the game
     // this->zoo_budget -= amount;
@@ -111,11 +118,6 @@ typedef void (__cdecl *_setGuestRating)(int); // define original setGuestRating 
 // 	}
 // 	ogSetAnimalRating(rating);
 // }
-
-DWORD ZTGameMgr::instance(DWORD offset)
-{
-    return (*((DWORD*)((LPVOID)0x638048)) + offset);
-}
 
 /// @brief Pause the game.
 /// @param input 
@@ -335,6 +337,7 @@ void ZTGameMgr::ExportClassToLua(sol::state_view& lua)
         "new", sol::no_constructor,
         "addCash", &ZTGameMgr::addCash,
         "setCash", &ZTGameMgr::setCash,
+        "getCash", &ZTGameMgr::getCash,
         "subtractCash", &ZTGameMgr::subtractCash,
         "pauseGame", &ZTGameMgr::pauseGame,
         "isGamePaused", &ZTGameMgr::isGamePaused,

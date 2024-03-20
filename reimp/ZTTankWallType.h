@@ -11,7 +11,7 @@ class ZTTankWallType : public ZTFenceType {
     bool cPortalCloseSoundAtten(bool); // 0x1C0
     ZTTankWallType(void* ptr) : ZTFenceType(ptr) {};
     static void ExportClassToLua(sol::state_view&);
-    ~ZTTankWallType();
+    ~ZTTankWallType() {};
 };
 
 #endif // ZTTANKWALLTYPE_H
