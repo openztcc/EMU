@@ -5,8 +5,12 @@
 
 class ZTTankWallType : public ZTFenceType {
     public:
-    char padding[652]; // 976
-    ZTTankWallType();
+    bool cPortalOpenSoundAtten(); // 0x1BC
+    bool cPortalOpenSoundAtten(bool); // 0x1BC
+    bool cPortalCloseSoundAtten(); // 0x1C0
+    bool cPortalCloseSoundAtten(bool); // 0x1C0
+    ZTTankWallType(void* ptr) : ZTFenceType(ptr) {};
+    static void ExportClassToLua(sol::state_view&);
     ~ZTTankWallType();
 };
 

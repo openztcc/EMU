@@ -42,6 +42,7 @@ void EmuConsole::EnableVirtualTerminalProcessing() {
 
 // ---- Writes to console
 void EmuConsole::WriteToConsole(const std::string& utf8String) {
+    std::string nlUtf8String = "\n" + utf8String + "\n>> ";
     int wchars_num = MultiByteToWideChar(CP_UTF8, 0, utf8String.c_str(), -1, NULL, 0);
     std::vector<wchar_t> wstr(wchars_num);
     MultiByteToWideChar(CP_UTF8, 0, utf8String.c_str(), -1, &wstr[0], wchars_num);

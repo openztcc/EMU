@@ -2,6 +2,7 @@
 #define ZTFENCETYPE_H
 
 #include "ZTSceneryType.h"
+#include <sol/sol.hpp>
 
 class ZTFenceType : public ZTSceneryType {
     public:
@@ -37,6 +38,7 @@ class ZTFenceType : public ZTSceneryType {
     bool cNoDrawWater(); // 0x199
     bool cNoDrawWater(bool); // 0x199
     ZTFenceType(void* ptr) : ZTSceneryType(ptr) {};
+    static void ExportClassToLua(sol::state_view&);
     ~ZTFenceType();
 };
 

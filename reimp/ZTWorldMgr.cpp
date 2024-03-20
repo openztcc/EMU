@@ -67,7 +67,8 @@ void* ZTWorldMgr::getEntityTypeByID(int id) {
     return nullptr;
 }
 
-void ZTWorldMgr::MakeInvisible(std::vector<DWORD*> entities, bool isInvisible) {
+//  
+void ZTWorldMgr::SetVanishGuard(std::vector<DWORD*> entities, bool isInvisible) {
     for (size_t i = 0; i < entities.size(); i++) {
         // Correctly calculate the pointer to the visibility flag
         bool* visibilityFlag = reinterpret_cast<bool*>(reinterpret_cast<char*>(entities[i]) + 0x13f);
@@ -80,6 +81,6 @@ void ZTWorldMgr::ExportClassToLua(sol::state_view& lua) {
         "new", sol::no_constructor,
         "GetAllEntitiesOfType", &ZTWorldMgr::GetAllEntitiesOfType,
         "getEntityTypeByID", &ZTWorldMgr::getEntityTypeByID,
-        "MakeInvisible", &ZTWorldMgr::MakeInvisible
+        "SetVanishGuard", &ZTWorldMgr::SetVanishGuard
     );
 }

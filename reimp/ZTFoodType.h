@@ -2,12 +2,14 @@
 #define ZTFOODTYPE_H
 
 #include "ZTSceneryType.h"
-
-// no difference in byte space between ZTSceneryType and ZTFoodType
+#include <sol/sol.hpp>
 
 class ZTFoodType : public ZTSceneryType {
     public:
-    ZTFoodType();
+    int cKeeperFoodType(); // 0x168
+    int cKeeperFoodType(int); // 0x168
+    ZTFoodType(void* ptr) : ZTSceneryType(ptr) {};
+    static void ExportClassToLua(sol::state_view&);
     ~ZTFoodType();
 };
 

@@ -16,7 +16,7 @@ class ZTWorldMgr {
 
     static std::vector<DWORD*> GetAllEntitiesOfType(std::vector<int>);
     static void* getEntityTypeByID(int);
-    static void MakeInvisible(std::vector<DWORD*>, bool);
+    static void SetVanishGuard(std::vector<DWORD*>, bool);
     static void ExportClassToLua(sol::state_view&);
 };
 

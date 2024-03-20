@@ -112,21 +112,21 @@ bool BFEntityType::cDrawsLate(bool input) {
     return input;
 }
 
-bool BFEntityType::cHeight() {
-    return *(bool*)((DWORD)this->thisptr + 0x064);
+int BFEntityType::cHeight() {
+    return *(int*)((DWORD)this->thisptr + 0x064);
 }
 
-bool BFEntityType::cHeight(bool input) {
-    *(bool*)((DWORD)this->thisptr + 0x064) = input;
+int BFEntityType::cHeight(int input) {
+    *(int*)((DWORD)this->thisptr + 0x064) = input;
     return input;
 }
 
-bool BFEntityType::cDepth() {
-    return *(bool*)((DWORD)this->thisptr + 0x068);
+int BFEntityType::cDepth() {
+    return *(int*)((DWORD)this->thisptr + 0x068);
 }
 
-bool BFEntityType::cDepth(bool input) {
-    *(bool*)((DWORD)this->thisptr + 0x068) = input;
+int BFEntityType::cDepth(int input) {
+    *(int*)((DWORD)this->thisptr + 0x068) = input;
     return input;
 }
 

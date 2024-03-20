@@ -31,10 +31,10 @@ class BFEntityType {
     bool cForceShadowBlack(bool); // 0x05E
     bool cDrawsLate(); // 0x060 <--- might need double checking, not available in canopies
     bool cDrawsLate(bool); // 0x060
-    bool cHeight(); // 0x064
-    bool cHeight(bool); // 0x064
-    bool cDepth(); // 0x068
-    bool cDepth(bool); // 0x068
+    int cHeight(); // 0x064
+    int cHeight(int); // 0x064
+    int cDepth(); // 0x068
+    int cDepth(int); // 0x068
     bool cHasUnderwaterSection(); // 0x06C
     bool cHasUnderwaterSection(bool); // 0x06C
     bool cIsTransient(); // 0x06D

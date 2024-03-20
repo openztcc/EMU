@@ -6,11 +6,11 @@
 #include <vector>
 #include "ZTUI.h"
 #include "BFEntity.h"
-#include "BFEntityType.h"
 #include "EmuConsole.h"
-#include "ZTSceneryType.h"
 #include "ZTWorldMgr.h"
 #include "ZTGuest.h"
+#include "ZTTankWallType.h"
+#include "ZTFoodType.h"
 
 EmuScriptMgr::EmuScriptMgr()
 {
@@ -31,6 +31,9 @@ void EmuScriptMgr::InitEmuAPI()
 	ZTSceneryType::ExportClassToLua(this->lua);
 	ZTWorldMgr::ExportClassToLua(this->lua);
 	ZTGuest::ExportClassToLua(this->lua);
+	ZTFenceType::ExportClassToLua(this->lua);
+	ZTTankWallType::ExportClassToLua(this->lua);
+	ZTFoodType::ExportClassToLua(this->lua);
 }
 
 // Load all the scripts from the scripts directory into memory

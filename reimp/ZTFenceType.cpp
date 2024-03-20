@@ -136,3 +136,55 @@ bool ZTFenceType::cNoDrawWater(bool input) {
     *(bool*)((DWORD)this->thisptr + 0x199) = input;
     return input;
 }
+
+void ZTFenceType::ExportClassToLua(sol::state_view& lua)
+{
+    lua.new_usertype<ZTFenceType>("ZTFenceType",
+        sol::constructors<ZTFenceType(void*)>(),
+        "cIsShowFence", sol::overload(
+            sol::resolve<bool()>(static_cast<bool(ZTFenceType::*)()>(&ZTFenceType::cIsShowFence)),
+            sol::resolve<bool(bool)>(static_cast<bool(ZTFenceType::*)(bool)>(&ZTFenceType::cIsShowFence))
+        ),
+        "cStrength", sol::overload(
+            sol::resolve<int()>(static_cast<int(ZTFenceType::*)()>(&ZTFenceType::cStrength)),
+            sol::resolve<int(int)>(static_cast<int(ZTFenceType::*)(int)>(&ZTFenceType::cStrength))
+        ),
+        "cLife", sol::overload(
+            sol::resolve<int()>(static_cast<int(ZTFenceType::*)()>(&ZTFenceType::cLife)),
+            sol::resolve<int(int)>(static_cast<int(ZTFenceType::*)(int)>(&ZTFenceType::cLife))
+        ),
+        "cDecayedLife", sol::overload(
+            sol::resolve<int()>(static_cast<int(ZTFenceType::*)()>(&ZTFenceType::cDecayedLife)),
+            sol::resolve<int(int)>(static_cast<int(ZTFenceType::*)(int)>(&ZTFenceType::cDecayedLife))
+        ),
+        "cDecayedDelta", sol::overload(
+            sol::resolve<int()>(static_cast<int(ZTFenceType::*)()>(&ZTFenceType::cDecayedDelta)),
+            sol::resolve<int(int)>(static_cast<int(ZTFenceType::*)(int)>(&ZTFenceType::cDecayedDelta))
+        ),
+        "cBreakSoundAtten", sol::overload(
+            sol::resolve<int()>(static_cast<int(ZTFenceType::*)()>(&ZTFenceType::cBreakSoundAtten)),
+            sol::resolve<int(int)>(static_cast<int(ZTFenceType::*)(int)>(&ZTFenceType::cBreakSoundAtten))
+        ),
+        "cOpenSoundAtten", sol::overload(
+            sol::resolve<int()>(static_cast<int(ZTFenceType::*)()>(&ZTFenceType::cOpenSoundAtten)),
+            sol::resolve<int(int)>(static_cast<int(ZTFenceType::*)(int)>(&ZTFenceType::cOpenSoundAtten))
+        ),
+        "cBreakSound", sol::overload(
+            sol::resolve<std::string()>(static_cast<std::string(ZTFenceType::*)()>(&ZTFenceType::cBreakSound)),
+            sol::resolve<std::string(std::string)>(static_cast<std::string(ZTFenceType::*)(std::string)>(&ZTFenceType::cBreakSound))
+        ),
+        "cOpenSound", sol::overload(
+            sol::resolve<std::string()>(static_cast<std::string(ZTFenceType::*)()>(&ZTFenceType::cOpenSound)),
+            sol::resolve<std::string(std::string)>(static_cast<std::string(ZTFenceType::*)(std::string)>(&ZTFenceType::cOpenSound))
+        ),
+        "cSeeThrough", sol::overload(
+            sol::resolve<bool()>(static_cast<bool(ZTFenceType::*)()>(&ZTFenceType::cSeeThrough)),
+            sol::resolve<bool(bool)>(static_cast<bool(ZTFenceType::*)(bool)>(&ZTFenceType::cSeeThrough))
+        ),
+        "cIsJumpable", sol::overload(
+            sol::resolve<bool()>(static_cast<bool(ZTFenceType::*)()>(&ZTFenceType::cIsJumpable)),
+            sol::resolve<bool(bool)>(static_cast<bool(ZTFenceType::*)(bool)>(&ZTFenceType::cIsJumpable))
+        ),
+        sol::base_classes, sol::bases<BFEntityType, ZTSceneryType>()
+    );
+}
