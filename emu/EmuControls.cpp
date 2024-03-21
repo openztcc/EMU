@@ -9,22 +9,22 @@
 
 void EmuControls::procControls()
 {
-	if (EmuBase::DoubleKey(0x11, 0x54) == true)
-	{
-		// BFUIMgr::shared_instance().getElement(0x3f8);
-		//BFGameApp::incSimSpeed();
+	// if (EmuBase::DoubleKey(0x11, 0x54) == true)
+	// {
+	// 	// BFUIMgr::shared_instance().getElement(0x3f8);
+	// 	//BFGameApp::incSimSpeed();
 
-		std::vector<int> ids = { 9313, 9314 };
+	// 	std::vector<int> ids = { 9313, 9314 };
 
-		std::vector<void*> entities = ZTWorldMgr::GetAllEntitiesOfType(ids);
-		ZTWorldMgr::SetVanishGuard(entities, ids, true);
+	// 	std::vector<void*> entities = ZTWorldMgr::GetAllEntitiesOfType(ids);
+	// 	ZTWorldMgr::SetVanishGuard(entities, ids, true);
 
-		// BFUIMgr::confirmDialog(BFUIMgr::getUIMgr(), 153, 0, 3, "ui/sharedui/question/question", '\x01', '\0', 0, 0);
-		// std::ofstream f;
-		// f.open("getelement.log", std::ios_base::app);
-		// f << "x: " << x << std::endl;
-		// f.close();
-	}
+	// 	// BFUIMgr::confirmDialog(BFUIMgr::getUIMgr(), 153, 0, 3, "ui/sharedui/question/question", '\x01', '\0', 0, 0);
+	// 	// std::ofstream f;
+	// 	// f.open("getelement.log", std::ios_base::app);
+	// 	// f << "x: " << x << std::endl;
+	// 	// f.close();
+	// }
 
 
 	//---- CTRL + J
