@@ -1,7 +1,10 @@
-*.sln
 *.ncb
 *.suo
 .vs/
 GooseTek/
 .vscode/
 Release/
+Debug/
+*.vcxproj.user
+*.pdb
+*.dll

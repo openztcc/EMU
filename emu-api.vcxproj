@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{e2e6db61-31aa-4b38-be64-7f75ff1161b4}</ProjectGuid>
+    <RootNamespace>emuapi</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)\Release\</OutDir>
+    <TargetName>res-emu</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)deps;$(ProjectDir)deps\lua54;$(ProjectDir)reimp;$(ProjectDir)resources;$(ProjectDir)deps\detours;$(ProjectDir)deps\simpleini;$(ProjectDir)emu;</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);$(ProjectDir)deps\lua54\lua54.lib;$(ProjectDir)deps\detours\detours.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <OutputFile>$(ProjectDir)\Release\res-emu.dll</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="deps\detours\detours.cpp" />
+    <ClCompile Include="deps\simpleini\ConvertUTF.c" />
+    <ClCompile Include="emu\EmuBase.cpp" />
+    <ClCompile Include="emu\EmuConfigMgr.cpp" />
+    <ClCompile Include="emu\EmuConsole.cpp" />
+    <ClCompile Include="emu\EmuControls.cpp" />
+    <ClCompile Include="emu\EmuLoader.cpp" />
+    <ClCompile Include="emu\EmuMain.cpp" />
+    <ClCompile Include="emu\EmuScriptMgr.cpp" />
+    <ClCompile Include="reimp\BFEntity.cpp" />
+    <ClCompile Include="reimp\BFEntityType.cpp" />
+    <ClCompile Include="reimp\BFGameApp.cpp" />
+    <ClCompile Include="reimp\bfinternat.cpp" />
+    <ClCompile Include="reimp\BFMap.cpp" />
+    <ClCompile Include="reimp\BFUIMgr.cpp" />
+    <ClCompile Include="reimp\ZTApp.cpp" />
+    <ClCompile Include="reimp\ZTBuildingType.cpp" />
+    <ClCompile Include="reimp\ZTCheats.cpp" />
+    <ClCompile Include="reimp\ZTFence.cpp" />
+    <ClCompile Include="reimp\ZTFenceType.cpp" />
+    <ClCompile Include="reimp\ZTFoodType.cpp" />
+    <ClCompile Include="reimp\ZTGameMgr.cpp" />
+    <ClCompile Include="reimp\ZTGuest.cpp" />
+    <ClCompile Include="reimp\ZTHabitatMgr.cpp" />
+    <ClCompile Include="reimp\ZTMapView.cpp" />
+    <ClCompile Include="reimp\ZTSceneryType.cpp" />
+    <ClCompile Include="reimp\ZTTankWallType.cpp" />
+    <ClCompile Include="reimp\ZTUI.cpp" />
+    <ClCompile Include="reimp\ZTWorldMgr.cpp" />
+    <ClCompile Include="resources\ZooMiniMap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="deps\detours\detours.h" />
+    <ClInclude Include="deps\lauxlib.h" />
+    <ClInclude Include="deps\lua.h" />
+    <ClInclude Include="deps\lua.hpp" />
+    <ClInclude Include="deps\lualib.h" />
+    <ClInclude Include="deps\simpleini\ConvertUTF.h" />
+    <ClInclude Include="deps\simpleini\SimpleIni.h" />
+    <ClInclude Include="EmuBase.h" />
+    <ClInclude Include="EmuConfigMgr.h" />
+    <ClInclude Include="EmuConsole.h" />
+    <ClInclude Include="EmuControls.h" />
+    <ClInclude Include="EmuMain.h" />
+    <ClInclude Include="EmuScriptMgr.h" />
+    <ClInclude Include="reimp\BFEntity.h" />
+    <ClInclude Include="reimp\BFEntityType.h" />
+    <ClInclude Include="reimp\BFGameApp.h" />
+    <ClInclude Include="reimp\bfinternat.h" />
+    <ClInclude Include="reimp\BFMap.h" />
+    <ClInclude Include="reimp\BFOverlayType.h" />
+    <ClInclude Include="reimp\BFUIMgr.h" />
+    <ClInclude Include="reimp\BFUnit.h" />
+    <ClInclude Include="reimp\BFUnitType.h" />
+    <ClInclude Include="reimp\UIMessageQueue.h" />
+    <ClInclude Include="reimp\ZTAmbientType.h" />
+    <ClInclude Include="reimp\ZTAnimalType.h" />
+    <ClInclude Include="reimp\ZTApp.h" />
+    <ClInclude Include="reimp\ZTBuildingType.h" />
+    <ClInclude Include="reimp\ZTCheats.h" />
+    <ClInclude Include="reimp\ZTFence.h" />
+    <ClInclude Include="reimp\ZTFenceType.h" />
+    <ClInclude Include="reimp\ZTFoodType.h" />
+    <ClInclude Include="reimp\ZTGameMgr.h" />
+    <ClInclude Include="reimp\ZTGuest.h" />
+    <ClInclude Include="reimp\ZTGuestType.h" />
+    <ClInclude Include="reimp\ZTGuideType.h" />
+    <ClInclude Include="reimp\ZTHabitatMgr.h" />
+    <ClInclude Include="reimp\ZTHelicopterType.h" />
+    <ClInclude Include="reimp\ZTKeeperType.h" />
+    <ClInclude Include="reimp\ZTMainType.h" />
+    <ClInclude Include="reimp\ZTMapView.h" />
+    <ClInclude Include="reimp\ZTPathType.h" />
+    <ClInclude Include="reimp\ZTRubbleType.h" />
+    <ClInclude Include="reimp\ZTScenery.h" />
+    <ClInclude Include="reimp\ZTSceneryType.h" />
+    <ClInclude Include="reimp\ZTStaffType.h" />
+    <ClInclude Include="reimp\ZTTankFilterType.h" />
+    <ClInclude Include="reimp\ZTTankWallType.h" />
+    <ClInclude Include="reimp\ZTUI.h" />
+    <ClInclude Include="reimp\ZTUnit.h" />
+    <ClInclude Include="reimp\ZTUnitType.h" />
+    <ClInclude Include="reimp\ZTWorldMgr.h" />
+    <ClInclude Include="resources\ZooMiniMap.h" />
+    <ClInclude Include="sol\compatibility\compat-5.3.c.h" />
+    <ClInclude Include="sol\compatibility\compat-5.3.h" />
+    <ClInclude Include="sol\compatibility\compat-5.4.h" />
+    <ClInclude Include="sol\compatibility\lua_version.hpp" />
+    <ClInclude Include="sol\sol.hpp" />
+    <ClInclude Include="sol\sol\assert.hpp" />
+    <ClInclude Include="sol\sol\as_args.hpp" />
+    <ClInclude Include="sol\sol\as_returns.hpp" />
+    <ClInclude Include="sol\sol\base_traits.hpp" />
+    <ClInclude Include="sol\sol\bind_traits.hpp" />
+    <ClInclude Include="sol\sol\bytecode.hpp" />
+    <ClInclude Include="sol\sol\call.hpp" />
+    <ClInclude Include="sol\sol\compatibility.hpp" />
+    <ClInclude Include="sol\sol\config.hpp" />
+    <ClInclude Include="sol\sol\coroutine.hpp" />
+    <ClInclude Include="sol\sol\debug.hpp" />
+    <ClInclude Include="sol\sol\demangle.hpp" />
+    <ClInclude Include="sol\sol\deprecate.hpp" />
+    <ClInclude Include="sol\sol\dump_handler.hpp" />
+    <ClInclude Include="sol\sol\ebco.hpp" />
+    <ClInclude Include="sol\sol\environment.hpp" />
+    <ClInclude Include="sol\sol\epilogue.hpp" />
+    <ClInclude Include="sol\sol\error.hpp" />
+    <ClInclude Include="sol\sol\error_handler.hpp" />
+    <ClInclude Include="sol\sol\forward.hpp" />
+    <ClInclude Include="sol\sol\forward_detail.hpp" />
+    <ClInclude Include="sol\sol\function.hpp" />
+    <ClInclude Include="sol\sol\function_result.hpp" />
+    <ClInclude Include="sol\sol\function_types.hpp" />
+    <ClInclude Include="sol\sol\function_types_core.hpp" />
+    <ClInclude Include="sol\sol\function_types_overloaded.hpp" />
+    <ClInclude Include="sol\sol\function_types_stateful.hpp" />
+    <ClInclude Include="sol\sol\function_types_stateless.hpp" />
+    <ClInclude Include="sol\sol\function_types_templated.hpp" />
+    <ClInclude Include="sol\sol\inheritance.hpp" />
+    <ClInclude Include="sol\sol\in_place.hpp" />
+    <ClInclude Include="sol\sol\lauxlib.h" />
+    <ClInclude Include="sol\sol\load_result.hpp" />
+    <ClInclude Include="sol\sol\luaconf.h" />
+    <ClInclude Include="sol\sol\lualib.h" />
+    <ClInclude Include="sol\sol\lua_table.hpp" />
+    <ClInclude Include="sol\sol\lua_value.hpp" />
+    <ClInclude Include="sol\sol\make_reference.hpp" />
+    <ClInclude Include="sol\sol\metatable.hpp" />
+    <ClInclude Include="sol\sol\object.hpp" />
+    <ClInclude Include="sol\sol\object_base.hpp" />
+    <ClInclude Include="sol\sol\optional.hpp" />
+    <ClInclude Include="sol\sol\optional_implementation.hpp" />
+    <ClInclude Include="sol\sol\overload.hpp" />
+    <ClInclude Include="sol\sol\packaged_coroutine.hpp" />
+    <ClInclude Include="sol\sol\pairs_iterator.hpp" />
+    <ClInclude Include="sol\sol\pointer_like.hpp" />
+    <ClInclude Include="sol\sol\policies.hpp" />
+    <ClInclude Include="sol\sol\prologue.hpp" />
+    <ClInclude Include="sol\sol\property.hpp" />
+    <ClInclude Include="sol\sol\protect.hpp" />
+    <ClInclude Include="sol\sol\protected_function.hpp" />
+    <ClInclude Include="sol\sol\protected_function_result.hpp" />
+    <ClInclude Include="sol\sol\protected_handler.hpp" />
+    <ClInclude Include="sol\sol\proxy_base.hpp" />
+    <ClInclude Include="sol\sol\raii.hpp" />
+    <ClInclude Include="sol\sol\reference.hpp" />
+    <ClInclude Include="sol\sol\resolve.hpp" />
+    <ClInclude Include="sol\sol\stack.hpp" />
+    <ClInclude Include="sol\sol\stack_check.hpp" />
+    <ClInclude Include="sol\sol\stack_check_get.hpp" />
+    <ClInclude Include="sol\sol\stack_check_get_qualified.hpp" />
+    <ClInclude Include="sol\sol\stack_check_get_unqualified.hpp" />
+    <ClInclude Include="sol\sol\stack_check_qualified.hpp" />
+    <ClInclude Include="sol\sol\stack_check_unqualified.hpp" />
+    <ClInclude Include="sol\sol\stack_core.hpp" />
+    <ClInclude Include="sol\sol\stack_field.hpp" />
+    <ClInclude Include="sol\sol\stack_get.hpp" />
+    <ClInclude Include="sol\sol\stack_get_qualified.hpp" />
+    <ClInclude Include="sol\sol\stack_get_unqualified.hpp" />
+    <ClInclude Include="sol\sol\stack_guard.hpp" />
+    <ClInclude Include="sol\sol\stack_iterator.hpp" />
+    <ClInclude Include="sol\sol\stack_pop.hpp" />
+    <ClInclude Include="sol\sol\stack_probe.hpp" />
+    <ClInclude Include="sol\sol\stack_proxy.hpp" />
+    <ClInclude Include="sol\sol\stack_proxy_base.hpp" />
+    <ClInclude Include="sol\sol\stack_push.hpp" />
+    <ClInclude Include="sol\sol\stack_reference.hpp" />
+    <ClInclude Include="sol\sol\state.hpp" />
+    <ClInclude Include="sol\sol\state_handling.hpp" />
+    <ClInclude Include="sol\sol\state_view.hpp" />
+    <ClInclude Include="sol\sol\string_view.hpp" />
+    <ClInclude Include="sol\sol\table.hpp" />
+    <ClInclude Include="sol\sol\table_core.hpp" />
+    <ClInclude Include="sol\sol\table_iterator.hpp" />
+    <ClInclude Include="sol\sol\table_proxy.hpp" />
+    <ClInclude Include="sol\sol\thread.hpp" />
+    <ClInclude Include="sol\sol\tie.hpp" />
+    <ClInclude Include="sol\sol\traits.hpp" />
+    <ClInclude Include="sol\sol\trampoline.hpp" />
+    <ClInclude Include="sol\sol\tuple.hpp" />
+    <ClInclude Include="sol\sol\types.hpp" />
+    <ClInclude Include="sol\sol\unicode.hpp" />
+    <ClInclude Include="sol\sol\unique_usertype_traits.hpp" />
+    <ClInclude Include="sol\sol\unsafe_function.hpp" />
+    <ClInclude Include="sol\sol\unsafe_function_result.hpp" />
+    <ClInclude Include="sol\sol\userdata.hpp" />
+    <ClInclude Include="sol\sol\usertype.hpp" />
+    <ClInclude Include="sol\sol\usertype_container.hpp" />
+    <ClInclude Include="sol\sol\usertype_container_launch.hpp" />
+    <ClInclude Include="sol\sol\usertype_core.hpp" />
+    <ClInclude Include="sol\sol\usertype_proxy.hpp" />
+    <ClInclude Include="sol\sol\usertype_storage.hpp" />
+    <ClInclude Include="sol\sol\usertype_traits.hpp" />
+    <ClInclude Include="sol\sol\variadic_args.hpp" />
+    <ClInclude Include="sol\sol\variadic_results.hpp" />
+    <ClInclude Include="sol\sol\version.hpp" />
+    <ClInclude Include="sol\sol\wrapper.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
