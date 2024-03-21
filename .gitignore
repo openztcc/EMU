@@ -1,4 +1,3 @@
-*.sln
 *.ncb
 *.suo
 .vs/
@@ -7,6 +6,5 @@ GooseTek/
 Release/
 Debug/
 *.vcxproj.user
-*.vcxproj.filters
 *.pdb
 *.dll

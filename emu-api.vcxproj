@@ -95,7 +95,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)deps;$(ProjectDir)deps\lua54;$(ProjectDir)reimp;$(ProjectDir)resources;$(ProjectDir)deps\detours;$(ProjectDir)deps\simpleini;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)deps;$(ProjectDir)deps\lua54;$(ProjectDir)reimp;$(ProjectDir)resources;$(ProjectDir)deps\detours;$(ProjectDir)deps\simpleini;$(ProjectDir)emu;</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -140,13 +140,13 @@
   <ItemGroup>
     <ClCompile Include="deps\detours\detours.cpp" />
     <ClCompile Include="deps\simpleini\ConvertUTF.c" />
-    <ClCompile Include="EmuBase.cpp" />
-    <ClCompile Include="EmuConfigMgr.cpp" />
-    <ClCompile Include="EmuConsole.cpp" />
-    <ClCompile Include="EmuControls.cpp" />
-    <ClCompile Include="EmuLoader.cpp" />
-    <ClCompile Include="EmuMain.cpp" />
-    <ClCompile Include="EmuScriptMgr.cpp" />
+    <ClCompile Include="emu\EmuBase.cpp" />
+    <ClCompile Include="emu\EmuConfigMgr.cpp" />
+    <ClCompile Include="emu\EmuConsole.cpp" />
+    <ClCompile Include="emu\EmuControls.cpp" />
+    <ClCompile Include="emu\EmuLoader.cpp" />
+    <ClCompile Include="emu\EmuMain.cpp" />
+    <ClCompile Include="emu\EmuScriptMgr.cpp" />
     <ClCompile Include="reimp\BFEntity.cpp" />
     <ClCompile Include="reimp\BFEntityType.cpp" />
     <ClCompile Include="reimp\BFGameApp.cpp" />
