@@ -31,9 +31,11 @@ class ZTWorldMgr {
     static std::vector<void*> GetAllEntitiesOfType(std::vector<int>);
     static void* getEntityTypeByID(int);
     static void* getEntityType(void*);
+    static void* trimReturnedEntitiesByID(std::vector<void*>, int);
     static void SetVanishGuard(std::vector<void*>, std::vector<int>, bool);
     static void ExportClassToLua(sol::state_view&);
     static void ReinforceFences();
+    static bool entityNotCodename(void*, std::string);
 
     static ZTWorldMgr& instance() {
         static ZTWorldMgr instance;

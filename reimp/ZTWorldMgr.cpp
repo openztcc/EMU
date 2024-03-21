@@ -94,8 +94,10 @@ void ZTWorldMgr::SetVanishGuard(std::vector<void*> entities, std::vector<int> id
     if (entities.size() == 0 || ids.size() == 0) {
         return;
     }
-    
+
+        
     for (size_t x = 0; x < ids.size(); x++) {
+        // -- set entity type properties
         if (!visible) {
             void* type = ZTWorldMgr::getEntityTypeByID(ids[x]);
             ZTFenceType fence_type(type);
@@ -143,10 +145,18 @@ void ZTWorldMgr::SetVanishGuard(std::vector<void*> entities, std::vector<int> id
 
     for (size_t i = 0; i < entities.size(); i++) {
         // set the entity to be invisible
+        void* type = ZTWorldMgr::getEntityType(entities[i]);
+        ZTFenceType fence_type(type);
+        if (fence_type.codename() != "stickfen")
+        {
+            entities.erase(entities.begin() + i);
+            continue;
+        }
         ZTFence fence(entities[i]);
         fence.visible(visible);
         fence.cLife(12);
         fence.cStrength(500);
+        
     }
 
     if (!visible) {
@@ -176,4 +186,17 @@ void ZTWorldMgr::ExportClassToLua(sol::state_view& lua) {
         "setVanishGuard", &ZTWorldMgr::SetVanishGuard,
         "isEntityNull", &ZTWorldMgr::isEntityNull
     );
+}
+
+void* ZTWorldMgr::trimReturnedEntitiesByID(std::vector<void*> entities, int id) {
+    for (size_t i = 0; i < entities.size(); i++) {
+        void* type = ZTWorldMgr::getEntityType(entities[i]);
+        //  look through associated entity types to find the one with the matching ID
+        void* secondLevelPtr = *reinterpret_cast<void**>((DWORD)type + 0x128);
+        int entityID = *reinterpret_cast<int*>((DWORD)secondLevelPtr + 0x104);
+        if (entityID == id) {
+            return entities[i];
+        }
+    }
+    return nullptr;
 }

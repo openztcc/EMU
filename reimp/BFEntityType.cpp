@@ -194,14 +194,20 @@ std::string BFEntityType::typeName(std::string input) {
 }
 
 std::string BFEntityType::codename() {
-    return *(std::string*)((DWORD)this->thisptr + 0x0A4);
+    char* startOfName = *reinterpret_cast<char**>(reinterpret_cast<DWORD>(thisptr) + 0x098);
+    char* endOfName = *reinterpret_cast<char**>(reinterpret_cast<DWORD>(thisptr) + 0x09C);
+
+    size_t nameLength = endOfName - startOfName;
+    std::string name(startOfName, nameLength);
+
+    return name;
 }
 
+// TODO: test this
 std::string BFEntityType::codename(std::string input) {
-    *(std::string*)((DWORD)this->thisptr + 0x0A4) = input;
+    *(std::string*)((DWORD)this->thisptr + 0x098) = input;
     return input;
 }
-
 
 int BFEntityType::cFootprintX() {
     return *(int*)((DWORD)this->thisptr + 0x0B4);

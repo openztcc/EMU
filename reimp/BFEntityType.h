@@ -47,10 +47,10 @@ class BFEntityType {
     int cHitThreshold(int); // 0x070
     bool cAvoidEdges(); // 0x074
     bool cAvoidEdges(bool); // 0x074
-    std::string typeName(); // 0x098
-    std::string typeName(std::string); // 0x098
-    std::string codename(); // 0x0A4
-    std::string codename(std::string); // 0x0A4
+    std::string typeName(); // 0x0A4
+    std::string typeName(std::string); // 0x0A4
+    std::string codename(); // 0x098, 0x09C
+    std::string codename(std::string); // 0x098, 0x09C
     int cFootprintX(); //0x0B4
     int cFootprintX(int); //0x0B4
     int cFootprintY(); //0x0B8
