@@ -12,6 +12,7 @@
 #include "ZTTankWallType.h"
 #include "ZTFoodType.h"
 #include "ZTGameMgr.h"
+#include "ZTAnimal.h"
 
 EmuScriptMgr::EmuScriptMgr()
 {
@@ -36,6 +37,7 @@ void EmuScriptMgr::InitEmuAPI()
 	ZTTankWallType::ExportClassToLua(this->lua);
 	ZTFoodType::ExportClassToLua(this->lua);
 	ZTGameMgr::ExportClassToLua(this->lua);
+	ZTAnimal::ExportClassToLua(this->lua);
 }
 
 // Load all the scripts from the scripts directory into memory
@@ -58,48 +60,35 @@ void EmuScriptMgr::LoadScripts()
 		}
 		file.close();
 		s_scripts.push_back(script);
-		this->lua.script(script);
+		LoadScript(script);
 	}
 }
 
-// Execute all the scripts in memory
-void EmuScriptMgr::ExecuteScripts(std::string lua_function)
-{
-	this->lua.open_libraries(sol::lib::base, sol::lib::package);
-	for (auto& script : s_scripts) {
-		sol::protected_function function_driver = this->lua[lua_function];
+void EmuScriptMgr::LoadScript(const std::string& script) {
+	// Load the script into the Lua state
+	lua.script(script);
 
-		if (function_driver.valid()) {
-			auto result = function_driver(script);
+	// Increment the function counter for naming
+	++s_counter;
+
+	// Rename 'run_fun' to a number
+	std::string newFunctionName = std::to_string(s_counter);
+	lua[newFunctionName] = lua["emu_run"];
+	lua["emu_run"] = sol::nil; // Remove the original 'run_fun' to avoid conflicts
+}
+
+void EmuScriptMgr::ExecuteScripts() {
+	for (int i = 1; i <= s_counter; ++i) {
+		std::string functionName = std::to_string(i);
+		sol::protected_function func = lua[functionName];
+		if (func.valid()) {
+			auto result = func();
 			if (!result.valid()) {
 				sol::error err = result;
-				std::cout << "Failed to execute function: " << lua_function << std::endl;
-				std::cout << "Error: " << err.what() << std::endl;
-
-				std::fstream file;
-				file.open("error.log", std::ios::out);
-				file << "Failed to execute function: " << lua_function << std::endl;
-				file << "Error" << err.what();
-				file.close();
+				std::cerr << "Error executing function " << functionName << ": " << err.what() << std::endl;
 			}
 		}
-		else {
-			std::cout << "Failed to execute function: " << lua_function << std::endl;
-			std::fstream file;
-			file.open("error.log", std::ios::out);
-			file << "Failed to execute function: " << lua_function << std::endl;
-			file.close();
-		}
 	}
-
-	//sol::function script_func = lua[lua_function];
-	//if (script_func.valid()) {
-	//	script_func();
-	//}
-	//else {
-	//	std::cout << "Failed to execute function: " << lua_function << std::endl;
-	//}
-
 }
 
 void EmuScriptMgr::ConvertToBytecode(const std::string& script)

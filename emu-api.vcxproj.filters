@@ -42,21 +42,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EmuMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EmuBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EmuConsole.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EmuControls.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EmuScriptMgr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="reimp\BFEntityType.cpp">
       <Filter>reimps</Filter>
     </ClCompile>
@@ -111,12 +96,6 @@
     <ClCompile Include="deps\detours\detours.cpp">
       <Filter>deps\detours</Filter>
     </ClCompile>
-    <ClCompile Include="EmuLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EmuConfigMgr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="deps\simpleini\ConvertUTF.c">
       <Filter>deps\simpleini</Filter>
     </ClCompile>
@@ -130,6 +109,30 @@
       <Filter>reimps</Filter>
     </ClCompile>
     <ClCompile Include="reimp\ZTFence.cpp">
+      <Filter>reimps</Filter>
+    </ClCompile>
+    <ClCompile Include="emu\EmuBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="emu\EmuConfigMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="emu\EmuConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="emu\EmuControls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="emu\EmuLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="emu\EmuMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="emu\EmuScriptMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reimp\ZTAnimal.cpp">
       <Filter>reimps</Filter>
     </ClCompile>
   </ItemGroup>
@@ -627,6 +630,9 @@
       <Filter>reimps</Filter>
     </ClInclude>
     <ClInclude Include="reimp\ZTScenery.h">
+      <Filter>reimps</Filter>
+    </ClInclude>
+    <ClInclude Include="reimp\ZTAnimal.h">
       <Filter>reimps</Filter>
     </ClInclude>
   </ItemGroup>

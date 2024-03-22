@@ -7,6 +7,7 @@
 #include "ZTUI.h"
 #include "ZTSceneryType.h"
 #include "ZTGameMgr.h"
+#include "ZTAnimal.h"
 
 //#include "ZTGameMgr.h"
 //#include "BFGameApp.h"
@@ -404,6 +405,18 @@ void EmuConsole::processInput(bool& IsConsoleRunning)
                 return;
             }
             ZTUI::general::makeSelectableByType(::atoi(tokens[1].c_str()));
+        }
+        else if (tokens[0] == "hatch")
+        {
+            void* entity = ZTUI::general::getSelectedEntity();
+            if (entity == 0)
+            {
+                
+                WriteToConsole("Err: No entity selected.\n");
+                return;
+            }
+            ZTAnimal animal(entity);
+            animal.hatchEgg();
         }
         else
         {

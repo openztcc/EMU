@@ -153,6 +153,7 @@
     <ClCompile Include="reimp\bfinternat.cpp" />
     <ClCompile Include="reimp\BFMap.cpp" />
     <ClCompile Include="reimp\BFUIMgr.cpp" />
+    <ClCompile Include="reimp\ZTAnimal.cpp" />
     <ClCompile Include="reimp\ZTApp.cpp" />
     <ClCompile Include="reimp\ZTBuildingType.cpp" />
     <ClCompile Include="reimp\ZTCheats.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="reimp\BFUnitType.h" />
     <ClInclude Include="reimp\UIMessageQueue.h" />
     <ClInclude Include="reimp\ZTAmbientType.h" />
+    <ClInclude Include="reimp\ZTAnimal.h" />
     <ClInclude Include="reimp\ZTAnimalType.h" />
     <ClInclude Include="reimp\ZTApp.h" />
     <ClInclude Include="reimp\ZTBuildingType.h" />

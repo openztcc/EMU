@@ -83,12 +83,12 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 			// f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
 			if (!singleton.hasEmuRunOnce) {
 				// f << "[" << timestamp << "] " << "Running emu_run scripts..." << std::endl;
-				singleton.emu_gawk.ExecuteScripts("emu_gawk");
+				// singleton.emu_gawk.ExecuteScripts("emu_gawk");
 				singleton.cached_month = ZTGameMgr::getMonth();
 				singleton.hasEmuRunOnce = true;
 				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 			}
-			singleton.emu_run.ExecuteScripts("emu_run");
+			singleton.emu_run.ExecuteScripts();
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 		}
 	}
