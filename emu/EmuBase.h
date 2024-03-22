@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <ctime>
 #include <fstream>
+#include "sol/sol.hpp"
 
 class EmuBase
 {
@@ -36,6 +37,7 @@ public:
 	static HANDLE handle;
 	static DWORD base;
 	static DWORD thread;
+	static void ExportClassToLua(sol::state_view&);
 
 	// Windows Mgmt
 

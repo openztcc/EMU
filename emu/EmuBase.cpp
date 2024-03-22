@@ -26,6 +26,16 @@ DWORD EmuBase::getModuleBaseAddress()
 	return base;
 }
 
+void EmuBase::ExportClassToLua(sol::state_view& lua)
+{
+	lua.new_usertype<EmuBase>("emuBase",
+		sol::no_constructor,
+		"singleKey", &EmuBase::SingleKey,
+		"doubleKey", &EmuBase::DoubleKey,
+		"tripleKey", &EmuBase::TripleKey
+	);
+}
+
 /// <summary>
 /// Returns
 /// </summary>

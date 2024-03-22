@@ -38,6 +38,7 @@ void EmuScriptMgr::InitEmuAPI()
 	ZTFoodType::ExportClassToLua(this->lua);
 	ZTGameMgr::ExportClassToLua(this->lua);
 	ZTAnimal::ExportClassToLua(this->lua);
+	EmuBase::ExportClassToLua(this->lua);
 }
 
 // Load all the scripts from the scripts directory into memory
