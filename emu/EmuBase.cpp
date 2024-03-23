@@ -1,5 +1,6 @@
 #include "EmuBase.h"
 #include <sstream>
+#include <iomanip>
 
 DWORD EmuBase::id = GetCurrentProcessId();
 HANDLE EmuBase::handle = EmuBase::__getZooHandle(EmuBase::id);
@@ -30,11 +31,10 @@ DWORD EmuBase::getModuleBaseAddress()
 /// Returns
 /// </summary>
 /// <param name="s">: input 32 bit float</param>
-std::string EmuBase::ptrToHexStr(void* ptr)
-{
-	std::stringstream ss;
-	ss << std::hex << reinterpret_cast<DWORD>(ptr);
-	return ss.str();
+std::string EmuBase::ptrToHexStr(void* ptr) {
+    std::stringstream ss;
+    ss << std::hex << std::setw(8) << std::setfill('0') << reinterpret_cast<DWORD>(ptr);
+    return ss.str();
 }
 
 /// <summary>

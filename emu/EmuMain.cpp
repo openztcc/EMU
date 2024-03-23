@@ -29,10 +29,12 @@ EmuMain::EmuMain()
 void EmuMain::init()
 {
 	singleton.emu_run.InitEmuAPI();
+	singleton.emu_gawk.InitEmuAPI();
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach((PVOID*)&updateAddress, (PVOID)&RunEmu);
 	DetourTransactionCommit();
+	singleton.hasEmuRunOnce = false;
 }
 
 DWORD WINAPI EmuMain::ZooConsole()
@@ -81,14 +83,15 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 		// f << "[" << timestamp << "] " << "Is no longer in main menu!" << std::endl;
 		if (ZTGameMgr::isZooLoaded() == true) {
 			// f << "[" << timestamp << "] " << "Zoo is loaded!" << std::endl;
-			if (!singleton.hasEmuRunOnce) {
+			if (singleton.hasEmuRunOnce == false) {
 				// f << "[" << timestamp << "] " << "Running emu_run scripts..." << std::endl;
-				// singleton.emu_gawk.ExecuteScripts("emu_gawk");
+				singleton.emu_gawk.ExecuteScripts();
+				singleton.emu_gawk.TransferTableState(singleton.emu_run.lua, "emu");
 				singleton.cached_month = ZTGameMgr::getMonth();
 				singleton.hasEmuRunOnce = true;
 				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 			}
-			singleton.emu_run.ExecuteGameScripts();
+			singleton.emu_run.ExecuteScripts();
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 		}
 	}

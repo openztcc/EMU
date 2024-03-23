@@ -42,8 +42,15 @@ void EmuScriptMgr::InitEmuAPI()
 	ZTFence::ExportClassToLua(this->lua);
 }
 
+// Initialize global variables, tables, etc
+void EmuScriptMgr::InitGlobalState()
+{
+	this->lua["emu"] = this->lua.create_table();
+} 
+
 // Load all the scripts from the scripts directory into memory
-void EmuScriptMgr::LoadGameScripts()
+// name is the name of the function to be called in the script
+void EmuScriptMgr::LoadScripts(std::string name)
 {
 	std::vector<std::string> paths = KeepScriptPathsWithExt(".emu");
 	std::string script;
@@ -62,11 +69,11 @@ void EmuScriptMgr::LoadGameScripts()
 		}
 		file.close();
 		s_scripts.push_back(script);
-		LoadSGameScript(script);
+		LoadScript(script, name);
 	}
 }
 
-void EmuScriptMgr::LoadSGameScript(const std::string& script) {
+void EmuScriptMgr::LoadScript(const std::string& script, std::string name) {
 	// Load the script into the Lua state
 	lua.script(script);
 
@@ -75,11 +82,11 @@ void EmuScriptMgr::LoadSGameScript(const std::string& script) {
 
 	// Rename 'run_fun' to a number
 	std::string newFunctionName = std::to_string(s_counter);
-	lua[newFunctionName] = lua["emu_run"];
-	lua["emu_run"] = sol::nil; // Remove the original 'run_fun' to avoid conflicts
+	lua[newFunctionName] = lua[name];
+	lua[name] = sol::nil; // Remove the original 'run_fun' to avoid conflicts
 }
 
-void EmuScriptMgr::ExecuteGameScripts() {
+void EmuScriptMgr::ExecuteScripts() {
 	for (int i = 1; i <= s_counter; ++i) {
 		std::string functionName = std::to_string(i);
 		sol::protected_function func = lua[functionName];
@@ -142,4 +149,27 @@ void EmuScriptMgr::PrintFoundScripts()
 	for (auto& script : s_scripts) {
 		std::cout << script << std::endl;
 	}
+}
+
+// Transfer the state of one table to another lua state
+void EmuScriptMgr::TransferTableState(sol::state& to, std::string name)
+{
+	// does table exist in the from table?
+	sol::optional<sol::table> opt = this->lua[name];
+	if (opt == sol::nullopt) {
+		std::cout << "Table does not exist in the from table!" << std::endl;
+		return;
+	}
+
+	// create a new table
+	sol::table curr_table = opt.value();
+	sol::table new_table = to.create_table(name);
+
+	// iterate through the table and copy the contents to the new state
+	curr_table.for_each([&new_table](const sol::object& key, const sol::object& value) {
+		new_table[key] = value;
+	});
+
+	// set the new table to the global table
+	to[name] = new_table;
 }
