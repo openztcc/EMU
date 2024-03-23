@@ -26,16 +26,6 @@ DWORD EmuBase::getModuleBaseAddress()
 	return base;
 }
 
-void EmuBase::ExportClassToLua(sol::state_view& lua)
-{
-	lua.new_usertype<EmuBase>("emuBase",
-		sol::no_constructor,
-		"singleKey", &EmuBase::SingleKey,
-		"doubleKey", &EmuBase::DoubleKey,
-		"tripleKey", &EmuBase::TripleKey
-	);
-}
-
 /// <summary>
 /// Returns
 /// </summary>
@@ -172,4 +162,14 @@ void EmuBase::logToFile(std::string log, std::ios::openmode mode)
 	const char* cstr = log.c_str();
 	f << "[" << __TIMESTAMP__ << "] " << cstr << std::endl;
 	f.close();
+}
+
+void EmuBase::ExportClassToLua(sol::state_view& lua)
+{
+	lua.new_usertype<EmuBase>("emuBase",
+		sol::no_constructor,
+		"singleKey", &EmuBase::SingleKey,
+		"doubleKey", &EmuBase::DoubleKey,
+		"tripleKey", &EmuBase::TripleKey
+	);
 }

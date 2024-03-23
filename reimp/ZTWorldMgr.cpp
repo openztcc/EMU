@@ -154,8 +154,7 @@ void ZTWorldMgr::SetVanishGuard(std::vector<void*> entities, std::vector<int> id
         }
         ZTFence fence(entities[i]);
         fence.visible(visible);
-        fence.cLife(12);
-        fence.cStrength(500);
+        fence.setHealthy();
         
     }
 
@@ -173,8 +172,7 @@ void ZTWorldMgr::ReinforceFences() {
     for (int i = 0; i < size; i++) {
         void* entity = instance.cached_entities[i];
         ZTFence fence(entity);
-        fence.cLife(12);
-        fence.cStrength(500);
+        fence.setHealthy();
     }
 }
 

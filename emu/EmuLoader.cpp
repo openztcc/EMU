@@ -34,7 +34,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
 		//------ Find/load scrpt file directories with script manager
-		EmuMain::shared_instance().emu_run.LoadScripts();
+		EmuMain::shared_instance().emu_run.LoadGameScripts();
 		// EmuMain::shared_instance().emu_gawk.LoadScripts();
 		EmuMain::init();
 		// ZTGameMgr::init();

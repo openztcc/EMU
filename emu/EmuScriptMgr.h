@@ -13,9 +13,9 @@ public:
 	EmuScriptMgr();
 	~EmuScriptMgr();
 
-	void LoadScripts();
-	void LoadScript(const std::string& script);
-	void ExecuteScripts();
+	void LoadGameScripts();
+	void LoadSGameScript(const std::string& script);
+	void ExecuteGameScripts();
 	void ConvertToBytecode(const std::string& script);
 	std::vector<std::string> FindAllFilePaths();
 	std::vector<std::string> KeepScriptPathsWithExt(std::string);

@@ -98,6 +98,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)deps;$(ProjectDir)deps\lua54;$(ProjectDir)reimp;$(ProjectDir)resources;$(ProjectDir)deps\detours;$(ProjectDir)deps\simpleini;$(ProjectDir)emu;</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

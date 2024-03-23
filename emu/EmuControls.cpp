@@ -43,15 +43,15 @@ void EmuControls::procControls()
 		CloseHandle(thread);
 	}
 
-	//---- CTRL + M
-	if (EmuBase::DoubleKey(0x11, 0x4D) == true && !Main.ctrlMPressed) {
-		Main.ctrlMPressed = true; // Set the flag
-		float mo_money = 1000000.00f;
-		ZTGameMgr::addCash(mo_money);
-	}
-	else if (EmuBase::DoubleKey(0x11, 0x4D) == false) {
-		Main.ctrlMPressed = false; // Reset the flag when the key is released
-	}
+// 	---- CTRL + M
+// 	if (EmuBase::DoubleKey(0x11, 0x4D) == true && !Main.ctrlMPressed) {
+// 		Main.ctrlMPressed = true; // Set the flag
+// 		float mo_money = 1000000.00f;
+// 		ZTGameMgr::addCash(mo_money);
+// 	}
+// 	else if (EmuBase::DoubleKey(0x11, 0x4D) == false) {
+// 		Main.ctrlMPressed = false; // Reset the flag when the key is released
+// 	}
 
 }
 

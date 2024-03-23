@@ -88,7 +88,7 @@ void __fastcall EmuMain::RunEmu(void* thisptr) {
 				singleton.hasEmuRunOnce = true;
 				// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 			}
-			singleton.emu_run.ExecuteScripts();
+			singleton.emu_run.ExecuteGameScripts();
 			// f << "[" << timestamp << "] " << "Scripts executed!" << std::endl;
 		}
 	}

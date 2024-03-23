@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 #include "ZTUI.h"
-#include "BFEntity.h"
 #include "EmuConsole.h"
 #include "ZTWorldMgr.h"
 #include "ZTGuest.h"
@@ -13,6 +12,7 @@
 #include "ZTFoodType.h"
 #include "ZTGameMgr.h"
 #include "ZTAnimal.h"
+#include "ZTFence.h"
 
 EmuScriptMgr::EmuScriptMgr()
 {
@@ -39,10 +39,11 @@ void EmuScriptMgr::InitEmuAPI()
 	ZTGameMgr::ExportClassToLua(this->lua);
 	ZTAnimal::ExportClassToLua(this->lua);
 	EmuBase::ExportClassToLua(this->lua);
+	ZTFence::ExportClassToLua(this->lua);
 }
 
 // Load all the scripts from the scripts directory into memory
-void EmuScriptMgr::LoadScripts()
+void EmuScriptMgr::LoadGameScripts()
 {
 	std::vector<std::string> paths = KeepScriptPathsWithExt(".emu");
 	std::string script;
@@ -61,11 +62,11 @@ void EmuScriptMgr::LoadScripts()
 		}
 		file.close();
 		s_scripts.push_back(script);
-		LoadScript(script);
+		LoadSGameScript(script);
 	}
 }
 
-void EmuScriptMgr::LoadScript(const std::string& script) {
+void EmuScriptMgr::LoadSGameScript(const std::string& script) {
 	// Load the script into the Lua state
 	lua.script(script);
 
@@ -78,7 +79,7 @@ void EmuScriptMgr::LoadScript(const std::string& script) {
 	lua["emu_run"] = sol::nil; // Remove the original 'run_fun' to avoid conflicts
 }
 
-void EmuScriptMgr::ExecuteScripts() {
+void EmuScriptMgr::ExecuteGameScripts() {
 	for (int i = 1; i <= s_counter; ++i) {
 		std::string functionName = std::to_string(i);
 		sol::protected_function func = lua[functionName];
